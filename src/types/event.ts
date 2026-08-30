@@ -8,8 +8,10 @@ export type EventSourceType = 'verified_admin' | 'devpost' | 'unstop' | 'mlh' | 
 
 export interface EventOrganizer {
   name: string;
-  verified: boolean;
+  verified?: boolean;
   website?: string;
+  slug?: string;
+  contactUrl?: string;
 }
 
 export interface PrizeBreakdown {
@@ -50,7 +52,9 @@ export interface Event {
   lastSyncedAt: string;
   startDate: string;
   endDate: string;
+  registrationOpen?: string;
   registrationDeadline: string;
+  submissionDeadline?: string;
   isClosingSoon?: boolean;
   prizePool: {
     totalValue: string;
@@ -69,7 +73,7 @@ export interface Event {
   timelineMilestones?: Milestone[];
   rules?: string[];
   winners?: Winner[];
-  isMockData: boolean;
+  isMockData?: boolean;
 }
 
 export interface EventFilterState {
