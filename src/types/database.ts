@@ -1,0 +1,30 @@
+export interface DbEventRow {
+  id: string;
+  slug: string;
+  title: string;
+  description?: string | null;
+  organizer?: string | null;
+  event_type: string;
+  status: string;
+  theme?: string | null;
+  start_date?: string | null;
+  end_date?: string | null;
+  registration_open?: boolean | null;
+  registration_deadline?: string | null;
+  submission_deadline?: string | null;
+  mode?: string | null;
+  location?: string | null;
+  eligibility?: string | null;
+  team_min?: number | null;
+  team_max?: number | null;
+  skills?: string[] | string | null;
+  categories?: string[] | string | null;
+  prizes?: any | null;
+  registration_url?: string | null;
+  source_name?: string | null;
+  source_url?: string | null;
+  image_url?: string | null;
+  last_verified_at?: string | null;
+  created_at: string;
+  updated_at?: string | null;
+}

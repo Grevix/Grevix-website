@@ -1,0 +1,1366 @@
+GREViX
+Community Management & Collaboration Platform
+GROW  •  BUILD  •  IMPACT
+Project Report
+Product Requirements and Technical Requirements Documentation
+Prepared by the Grevix Development Team
+GitHub Organization: github.com/Grevix
+Document Version: 0.1 (Draft)
+Date: [To be filled]
+Table of Contents
+1. Project Overview
+Grevix is a private technology and coding community that currently has around seven members, with the number expected to grow to twenty-five or more members in the near term. This document describes the plan for the Grevix community website, which is being built from scratch by a team of five developers over an eleven-day development window.
+The website is meant to represent the Grevix community online, showcase the projects being built by members, list events and opportunities relevant to the community, and give members a shared place to collaborate. In the long run, Grevix may grow into a larger developer ecosystem that supports learning, project collaboration, opportunity discovery and AI-assisted recommendations, but the current scope is limited to establishing the core community platform.
+Item
+Detail
+Project name
+Grevix — Community Management & Collaboration Platform
+Community
+Grevix
+Tagline
+GROW • BUILD • IMPACT
+Development team size
+5 developers
+Current community size
+Approximately 7 members
+Expected near-term community size
+25+ members
+Development timeframe
+Approximately 11 days
+GitHub organization
+github.com/Grevix
+Table 1: Project summary
+2. Problem Statement
+At present the Grevix community does not have a dedicated online presence. Member information, ongoing projects, event details and opportunities are shared informally, which makes it difficult to keep track of who is doing what, what events are coming up, and what opportunities are available to members. As the community grows past its current size, this informal approach will not scale.
+There is no central place where a member can see the community's active projects, check upcoming hackathons or workshops, or find internships and job opportunities relevant to their skills. New members also have no simple way to introduce themselves, list their skills, and connect with existing projects.
+2.1 Problem Impact
+Community activity and member contributions are not visible or trackable.
+Event and hackathon information has to be manually shared and is often missed.
+Opportunities such as internships and referrals are not centrally tracked.
+New members have no structured way to discover projects or find their place in the community.
+There is no shared record of achievements, certifications or project history.
+3. Vision and Mission
+3.1 Vision
+For Grevix to grow into a self-sustaining developer community where members can build real projects together, learn from one another, and discover opportunities that help them grow professionally.
+3.2 Mission
+To build a single platform where Grevix members can manage their profiles, showcase their projects, discover events and opportunities, and collaborate with other members. Features such as AI-based recommendations will be added later, where they can reduce manual work or make information easier to find, rather than as a starting point.
+3.3 Community Values
+Building real, working projects rather than only discussing ideas.
+Helping other members learn and grow.
+Being transparent about progress, including unfinished or in-progress work.
+Encouraging participation in hackathons, competitions and open-source contribution.
+4. Goals and Objectives
+4.1 Goals
+Give Grevix a proper public-facing website that represents the community.
+Provide members with a way to manage their own profiles and projects.
+Centralize information about events, hackathons and opportunities.
+Lay the technical foundation for future collaboration and AI-based features.
+4.2 Objectives
+Launch a working version of the website within the eleven-day development period.
+Support at least the core pages (Home, About, Projects, Events, Community, Opportunities, Resources, Blog, Contact) in the first release.
+Implement member authentication using GitHub OAuth through Supabase Auth.
+Set up a database schema that can support future features without major rework.
+5. Target Users
+The primary users of the Grevix platform are the members of the Grevix community itself, along with prospective members who may want to join in the future. Three broad user types are considered for the initial version.
+5.1 User Personas
+Persona
+Description
+Primary Needs
+Grevix Member
+An existing community member who contributes to projects and participates in events.
+Manage profile, list skills and projects, view events and opportunities.
+Prospective Member
+A student or developer who has not yet joined Grevix but is browsing the public site.
+Understand what Grevix does, view public projects, find a way to join.
+Admin / Core Team
+A member responsible for managing content such as events, blog posts and member approvals.
+Publish content, moderate submissions, manage community data.
+Table 2: Target user personas
+5.2 User Needs
+Members need a simple way to create and update a profile that reflects their skills and work.
+Members need to discover events, hackathons and opportunities without relying on manual sharing.
+Prospective members need enough public information to understand the community before joining.
+Admins need a way to manage content without directly editing the database.
+6. Product Scope
+Given the eleven-day development window and a five-member team, the scope for the first version of Grevix is deliberately limited to the core community website and the foundational data model. Advanced features such as AI-based team formation and skill-gap analysis are documented in this report as future scope, not as part of the current build.
+6.1 In Scope (Current Build)
+Public pages: Home, About, Projects, Events, Community, Opportunities, Resources, Blog, Contact.
+Member authentication using GitHub OAuth via Supabase Auth.
+Member dashboard and basic profile management.
+Admin dashboard for managing events, projects and blog posts.
+Manual admin submission for events and opportunities; external API integration where feasible within the timeframe.
+6.2 Out of Scope (Current Build)
+Fully automated AI-based team formation and skill-gap analysis.
+Real-time chat or Discord-like communication features.
+Mobile application.
+Large-scale analytics dashboards.
+7. Website Structure
+The website will be organized as multiple pages accessed through a navigation bar, rather than a single long scrolling page. This keeps each section focused and makes it easier to add features to individual pages later without affecting the rest of the site.
+7.1 Public Navigation
+Home
+About
+Projects
+Events
+Community
+Opportunities
+Resources
+Blog
+Contact
+7.2 Authenticated Member Navigation
+Dashboard (in addition to the public navigation above)
+7.3 Administrator Navigation
+Admin Dashboard (in addition to member navigation)
+Home
+↓
+About  /  Projects  /  Events  /  Community  /  Opportunities  /  Resources  /  Blog  /  Contact
+↓
+Dashboard (authenticated members)
+↓
+Admin Dashboard (administrators)
+Figure 1: Grevix website navigation and sitemap
+8. Feature Overview
+The sections below describe the planned content and functionality of each page, followed by a broader overview of the community management features that the platform is intended to support over time.
+8.1 Home Page
+The Home page introduces Grevix to both members and visitors. It is the first page most users will see and is intended to summarize what the community is about and guide the visitor toward exploring further.
+Grevix logo and tagline (GROW • BUILD • IMPACT)
+Short mission statement
+"Who are we?" and "What do we build?" sections
+Reasons to join the community
+Primary call to action: Explore Projects
+Secondary call to action: Join / Contribute
+Featured projects section
+Link to the GitHub organization
+Community statistics (placeholders until real data is available)
+Featured events
+Recent achievements
+Latest community updates
+Note: Numeric statistics such as active members, projects, contributors and repositories are not yet available and are represented as placeholders ([Number of active members], [Number of projects], [Number of contributors], [Number of repositories]) until real data can be pulled from the database or GitHub.
+8.2 About Page
+Introduction to Grevix
+Mission and vision
+Community values
+What Grevix builds
+Why the community exists
+How members benefit from joining
+Long-term vision for the platform
+8.3 Projects Page
+The Projects page lists projects built within the Grevix community, currently Vera and Rivox, with room for future projects to be added as they are started.
+Each project entry is expected to contain the following fields:
+Project name and description
+Problem being solved
+Proposed or implemented solution
+Technologies used
+GitHub repository link
+Contributors
+Screenshots
+Documentation
+Project status
+Future improvements
+Note: GitHub integration for pulling repository information automatically is planned as described in Section 22, referencing the Grevix GitHub organization at github.com/Grevix.
+8.4 Events Page (Hackathons, Quizzes, Workshops, Competitions)
+The Events section covers hackathons, quizzes, workshops, competitions and general community events. Each event listing is expected to include the following fields:
+Event name, organizer and description
+Event date and registration deadline
+Mode (online / offline) and location
+Eligibility and skills required
+Prize information where available
+Registration URL
+Source of the listing
+Event category
+Over time, the system should be able to collect event information from external sources such as public APIs, RSS or other feeds, and authorized/public endpoints, in addition to events submitted manually by admins. Not every organization or website provides a free, publicly accessible API, so the actual mix of sources will depend on what is legitimately available. Scraping a website in a way that violates its terms of use or robots restrictions will not be used as a data source.
+Because different sources will format event information differently, a normalization layer is planned to convert data collected from any source into a single, consistent Grevix event format before it is stored in the database.
+External Sources
+↓
+API / Feed / Admin Submission
+↓
+Data Collection
+↓
+Data Validation
+↓
+Normalization
+↓
+Database
+↓
+Optional AI Processing
+↓
+Grevix Events Page
+Figure 2: Event and hackathon data collection pipeline
+8.5 Opportunities Page
+The Opportunities page lists internships, jobs, referrals, freelance opportunities and collaboration opportunities relevant to Grevix members.
+External opportunity data can potentially be integrated using public APIs or authorized feeds. A few publicly documented sources that could be researched for this purpose include the Jobicy jobs RSS feed, the Remotive remote jobs API, and the Arbeitnow job board API. These are noted here as possible sources to evaluate, not as sources that are already integrated.
+Source
+Reference
+Notes
+Jobicy
+jobicy.com/jobs-rss-feed
+RSS feed; terms and usage limits to be verified before integration.
+Remotive
+remotive.com/remote-jobs/api
+Public API; rate limits and attribution requirements to be verified.
+Arbeitnow
+arbeitnow.com/blog/job-board-api
+Public job board API; licensing and redistribution terms to be verified.
+Table 3: Candidate external opportunity data sources
+Note: These APIs cannot be assumed to remain free or unrestricted indefinitely. Before integration, each source's current terms of use, rate limits, attribution requirements and redistribution restrictions must be checked, and this should be repeated periodically since terms can change.
+8.6 Members Page
+Member profiles are central to the platform, since they will eventually support features such as team formation and skill-based recommendations. A member profile is expected to hold the following information:
+Profile photo, name and position/role
+Short bio and skills
+Experience
+GitHub and LinkedIn links
+Projects and achievements
+Certifications
+Hackathon participation
+Contributions
+Learning goals
+As the profile data model matures, it can act as the foundation for future team formation and skill-matching features described in Section 9.6, where members could be suggested for a project based on overlapping skills or stated learning goals.
+8.7 Achievements Page
+Hackathon wins
+Competition achievements
+Certifications
+Project milestones
+Community achievements
+Individual member achievements
+Achievements can be associated with either an individual member or a project, so that both a member's profile and a project's page can display relevant accomplishments.
+8.8 Blog Page
+Technical articles
+Regular community updates
+Project updates
+Community announcements
+Learning articles and developer resources
+Hackathon-related content
+An admin/editor role is planned so that authorized members can create, edit, publish and manage blog articles without needing direct database access.
+8.9 Community Page
+Community introduction
+Social and GitHub links
+Discord or other communication platform links, if added later
+Community activities and member collaboration
+Announcements
+Note: Social media links that have not been provided by the Grevix team are not invented here. The page will use whatever links the team confirms are active.
+8.10 Contact Page
+General contact
+Sponsorship inquiries
+Collaboration inquiries
+Partnership inquiries
+Community-related inquiries
+Note: Actual email addresses have not been finalized and are represented as placeholders ([contact email], [sponsorship email], and so on) until confirmed by the team.
+9. Community Management Features
+Beyond the public-facing pages, Grevix is intended to function as a community management tool for its own members. The following twelve feature areas describe the planned functionality. Not all of them will be implemented in the first eleven-day build; several are documented here as future scope so that the database and architecture can be designed to accommodate them later without major rework.
+9.1 Task Assignment & To-Do Management
+Supports individual and team tasks, with assignment, status, priority and deadline tracking, along with basic progress tracking for ongoing project work.
+9.2 Skill Tracking & Member Profiles
+Tracks each member's skills, experience, projects, achievements and learning goals, forming the data foundation described in Section 8.6.
+9.3 Integrated Workflow & Collaboration
+Connects project workflow and team collaboration with GitHub, including source code links and project documentation, so that project status on the site reflects real repository activity where possible.
+9.4 Hackathon & Event Tracking
+Covers event discovery, a shared calendar, deadline tracking, registration links, event categories and the external source pipeline described in Section 8.4.
+9.5 Learning Resources
+A resource library covering courses, tutorials and documentation, with learning paths and skill-based recommendations planned as a future enhancement once enough usage data exists.
+9.6 Team Formation
+Initially, team formation will be manual. Skill-based and role-based matching, along with balanced team suggestions, are planned as future, AI-assisted features once member profile data is populated.
+9.7 Communication Hub
+Centralizes announcements and team discussions. A more complete, Discord-like communication feature is listed as future scope rather than part of the current build.
+9.8 Project Management Dashboard
+Gives project contributors a view of project progress, deadlines, team members, task status and general project performance.
+9.9 Attendance & Participation Analytics
+Tracks event participation, community activity, contributions and participation trends over time, without inventing specific figures before the platform has real usage data.
+9.10 Recruitment & Opportunity Board
+Surfaces internships, jobs, referrals and collaboration opportunities as described in Section 8.5.
+9.11 Achievement & Portfolio System
+Consolidates certificates, projects, hackathon results and achievements into a portfolio view for each member, building on Section 8.7.
+9.12 AI-Based Smart Features
+Covers recommendations, event and opportunity summarization, skill extraction, learning recommendations, project summaries, and, in the future, team matching and skill-gap analysis. These are described in more detail in Section 24 (AI Architecture).
+10. Product Requirements Document (PRD)
+A Product Requirements Document, or PRD, describes what the product should do and why, from the perspective of users and business goals. It focuses on the problem being solved, who it is being solved for, and what functionality is required, without going into the technical implementation details, which are instead covered separately in the Technical Requirements Document (Section 16).
+10.1 Product Overview
+Grevix is a community platform for a private technology and coding community. It will provide public pages that describe the community, along with authenticated member features for profile management, project showcasing, event discovery and opportunity tracking.
+10.2 Problem Statement and Impact
+Covered in Section 2.
+10.3 Product Vision and Mission
+Covered in Section 3.
+10.4 Goals and Objectives
+Covered in Section 4.
+10.5 Target Users and Personas
+Covered in Section 5.
+10.6 User Needs
+Covered in Section 5.2.
+10.7 Functional Requirements
+ID
+Requirement
+Related Page/Feature
+FR-01
+Users can view public pages without logging in.
+Home, About, Projects, Events, etc.
+FR-02
+Members can log in using GitHub OAuth.
+Authentication
+FR-03
+Members can create and edit their profile.
+Members / Dashboard
+FR-04
+Members can submit or update project information.
+Projects
+FR-05
+Admins can create, edit and publish events.
+Events / Admin Dashboard
+FR-06
+Admins can create, edit and publish blog posts.
+Blog / Admin Dashboard
+FR-07
+The system displays opportunities collected from admin submission and, where available, external sources.
+Opportunities
+FR-08
+The system displays a project's linked GitHub repository information.
+Projects
+Table 4: Functional requirements
+10.8 Non-Functional Requirements
+ID
+Requirement
+NFR-01
+Pages should load within a reasonable time on a typical broadband or mobile connection.
+NFR-02
+The site should be usable on both desktop and mobile screen sizes.
+NFR-03
+Authentication and role-based access should prevent unauthorized access to admin functionality.
+NFR-04
+The system should degrade gracefully if an external API or feed is unavailable.
+NFR-05
+The codebase should be organized so that new pages or features can be added without major restructuring.
+Table 5: Non-functional requirements
+10.9 User Stories
+As a prospective member, I want to browse Grevix projects and community information so that I can decide whether to join.
+As a member, I want to log in with GitHub so that I do not need to create a separate password.
+As a member, I want to update my profile with my skills and projects so that other members can find and understand my work.
+As a member, I want to see upcoming events and their deadlines so that I do not miss registration windows.
+As an admin, I want to publish an event or blog post so that members are informed without needing developer access.
+As a member, I want to browse opportunities relevant to my skills so that I can apply to internships or jobs.
+10.10 Feature Requirements and MVP Scope
+The Minimum Viable Product (MVP) for the eleven-day build is limited to the pages and functionality listed as "in scope" in Section 6.1. Feature prioritization for the MVP and beyond is summarized below.
+Priority
+Features
+Must Have
+Home, About, Projects, Events, Community, Contact pages; GitHub OAuth login; basic member profile; admin publishing for events and blog.
+Should Have
+Opportunities page with manual admin submission; Resources page; project GitHub integration (repository link/info).
+Could Have
+External event/opportunity API integration; AI-based event or opportunity summarization; achievements page.
+Future
+AI-based team formation, skill-gap analysis, real-time communication hub, mobile application, advanced analytics.
+Table 6: Feature prioritization (MoSCoW)
+10.11 Future Scope
+Detailed in Section 25 (Future Roadmap).
+10.12 Assumptions
+The five-member development team has access to the necessary accounts (GitHub organization, Supabase, Vercel) before development begins.
+Real community statistics (member count, project count, contributor count) will be filled in once the platform is live and connected to real data.
+External APIs referenced in this document remain available and within their free-tier terms during the initial build; this will be re-verified before integration.
+10.13 Constraints
+Eleven-day development timeframe.
+Five-developer team with overlapping coursework and other commitments.
+Reliance on free tiers of third-party services (Supabase, Vercel, Gemini API) during initial development.
+10.14 Success Metrics
+Covered in Section 32 (Success Metrics).
+11. Technical Requirements Document (TRD)
+While the PRD describes what the product should do, the Technical Requirements Document (TRD) describes how it will be built. It covers the architecture, technology choices, data model, APIs, security and deployment approach. The TRD is written for the development team and assumes familiarity with the functional requirements already listed in the PRD.
+11.1 Technical Objectives
+Build a maintainable Next.js application that can be extended by a small team.
+Use Supabase for the database, authentication and storage so the team does not need to manage its own backend infrastructure.
+Keep the data model normalized enough to support future features (tasks, teams, notifications) without a redesign.
+Integrate external services (GitHub, event/opportunity sources, Gemini API) behind a normalization or validation layer rather than depending on any single source directly in the UI.
+11.2 System Requirements
+Node.js-based development environment for the Next.js application.
+A Supabase project for PostgreSQL, authentication and storage.
+A GitHub organization and OAuth application for authentication and repository access.
+A Gemini API key for AI-related features.
+A Vercel account for deployment.
+12. System Architecture
+The overall architecture follows a fairly standard modern web application pattern: a Next.js frontend talks to an application/API layer, which in turn talks to Supabase for data, authentication and storage. External services are called from the API layer rather than directly from the browser, so that API keys are not exposed to the client.
+Users
+↓
+Next.js Frontend
+↓
+Application / API Layer
+↓
+Supabase
+PostgreSQL Database   |   Authentication   |   Storage
+Figure 3: High-level system architecture
+External services connected to the application/API layer include the GitHub API, event and opportunity APIs/feeds, and the Gemini API.
+Component
+Role
+Next.js Frontend
+Renders pages, handles routing and client-side interactivity.
+Application / API Layer
+Next.js server-side functions that handle business logic, validation and calls to external services.
+Supabase - PostgreSQL
+Stores all relational data: members, projects, events, opportunities, etc.
+Supabase - Authentication
+Handles member login, including GitHub OAuth.
+Supabase - Storage
+Stores uploaded files such as profile photos and project screenshots.
+GitHub API
+Provides repository, organization and contributor information.
+Event / Opportunity APIs & Feeds
+External sources for hackathon and job/internship data, subject to their own terms.
+Gemini API
+Used for AI-assisted features such as summarization, described in Section 24.
+Table 7: System component overview
+13. System Workflow
+The diagrams below describe the intended flow for the main user-facing and administrative processes.
+13.1 General Website Workflow
+User
+↓
+Website
+↓
+Authentication
+↓
+Dashboard
+↓
+Profile / Projects / Events / Opportunities
+↓
+Database
+Figure 4: General website workflow
+13.2 User Registration / Login
+User visits login page
+↓
+Choose GitHub OAuth login
+↓
+Supabase Auth verifies with GitHub
+↓
+Session created
+↓
+Redirect to Dashboard
+Figure 5: User registration and login flow
+13.3 GitHub Authentication
+User clicks "Login with GitHub"
+↓
+Redirect to GitHub OAuth screen
+↓
+User authorizes Grevix
+↓
+GitHub returns authorization code
+↓
+Supabase Auth exchanges code for session
+↓
+User profile created or updated
+Figure 6: GitHub OAuth authentication flow
+13.4 Member Profile Creation
+Member logs in for the first time
+↓
+System creates a base profile from GitHub data
+↓
+Member edits profile (skills, bio, links)
+↓
+Profile saved to database
+Figure 7: Member profile creation flow
+13.5 Project Submission
+Member submits project details
+↓
+Validation of required fields
+↓
+Optional GitHub repository link check
+↓
+Project stored (pending or published)
+↓
+Project visible on Projects page
+Figure 8: Project submission flow
+13.6 Event Collection
+Described in Section 8.4 and Figure 4.
+13.7 Hackathon Processing
+Hackathon data collected (API/feed/manual)
+↓
+Validation
+↓
+Normalization to Grevix event format
+↓
+Optional AI summarization
+↓
+Stored as event record
+↓
+Displayed on Events page
+Figure 9: Hackathon data processing flow
+13.8 Opportunity Processing
+Opportunity data collected (API/feed/manual)
+↓
+Validation
+↓
+Normalization
+↓
+Stored as opportunity record
+↓
+Displayed on Opportunities page
+Figure 10: Opportunity processing flow
+13.9 AI Processing
+Described in Section 24 (AI Architecture) and Figure 12.
+13.10 Admin Publishing Workflow
+Admin creates or edits content
+↓
+Content saved as draft
+↓
+Review
+↓
+Admin publishes content
+↓
+Content visible to appropriate audience
+Figure 11: Admin content publishing workflow
+14. Database Design
+The database is relational and will be hosted on Supabase's managed PostgreSQL. A relational design means data is split into separate tables (for example, members, projects and skills), and relationships between them are expressed using keys rather than repeating information in every table. This keeps the data consistent and avoids duplication.
+14.1 Database Overview
+The proposed entities are listed below. Not all of them will be fully implemented in the eleven-day build; some (such as tasks, teams and notifications) are included so the schema does not need to be redesigned when those features are added later.
+users, members, skills, member_skills
+projects, project_members, project_technologies
+events, event_categories, event_participants
+achievements
+blogs, blog_categories
+opportunities, opportunity_categories
+resources, resource_categories
+tasks, teams, team_members
+notifications, admin_users
+14.2 Entity Descriptions, Keys and Relationships
+Entity
+Description
+Primary Key
+Key Relationships
+users
+Base authentication record linked to Supabase Auth.
+user_id
+One-to-one with members
+members
+Public profile data for a community member.
+member_id
+Links to users; many-to-many with skills, projects, events via join tables
+skills
+Catalog of skill names/categories.
+skill_id
+Many-to-many with members via member_skills
+member_skills
+Join table linking members and skills.
+member_skill_id
+References members and skills
+projects
+Project records (e.g., Vera, Rivox).
+project_id
+Many-to-many with members via project_members; one-to-many with project_technologies
+project_members
+Join table linking members to projects.
+id
+References projects and members
+project_technologies
+Technologies used per project.
+id
+References projects
+events
+Hackathons, quizzes, workshops, competitions.
+event_id
+Many-to-many with members via event_participants; references event_categories
+event_categories
+Category lookup for events.
+category_id
+Referenced by events
+event_participants
+Join table linking members and events.
+id
+References events and members
+achievements
+Achievement records, optionally linked to a member or project.
+achievement_id
+References members and/or projects
+blogs
+Blog articles.
+blog_id
+References members (author) and blog_categories
+blog_categories
+Category lookup for blog posts.
+category_id
+Referenced by blogs
+opportunities
+Internship/job/referral/freelance listings.
+opportunity_id
+References opportunity_categories
+opportunity_categories
+Category lookup for opportunities.
+category_id
+Referenced by opportunities
+resources
+Learning resources (courses, tutorials, docs).
+resource_id
+References resource_categories
+resource_categories
+Category lookup for resources.
+category_id
+Referenced by resources
+tasks
+Individual or team tasks (future scope).
+task_id
+References members and/or teams
+teams
+Teams formed for a project or event (future scope).
+team_id
+Referenced by team_members
+team_members
+Join table linking members and teams.
+id
+References teams and members
+notifications
+System notifications for members (future scope).
+notification_id
+References members
+admin_users
+Marks which members have admin/editor privileges.
+admin_id
+References members
+Table 8: Proposed database entities and relationships
+14.3 Normalization
+The schema is designed to at least third normal form for the core tables: repeating groups such as a member's skills or a project's technologies are stored in separate join tables (member_skills, project_technologies) rather than as comma-separated lists in a single column. This avoids duplicate data and makes filtering and reporting easier, at the cost of requiring joins for some queries, which is a normal and acceptable trade-off for this scale of application.
+14.4 Data Validation
+Required fields (such as member name, project name, event date) enforced at both the application and database level.
+Foreign key constraints to prevent orphaned records (e.g., an event_participant referencing a non-existent event).
+Enum-style constraints or lookup tables for fields such as project status and event category.
+14.5 Indexing Strategy
+Primary keys are indexed by default. Additional indexes are planned on frequently filtered columns such as member_id and project_id in join tables, event date, and opportunity category, to keep list and filter queries fast as the amount of data grows.
+14.6 Backup Strategy
+Database backup relies on Supabase's built-in backup functionality for the plan in use. This should be confirmed against the specific Supabase plan selected for the project, since backup frequency and retention vary by plan.
+14.7 Row-Level Security Considerations
+Supabase supports PostgreSQL row-level security (RLS), which will be used to restrict what data a member can read or write directly from the client. For example, a member should be able to update their own profile row but not another member's, and only admin users should be able to write to tables such as events or blogs. RLS policies are considered part of the security requirements in Section 20.
+14.8 Entity Relationship Diagram
+MEMBER  →  MEMBER_SKILLS  →  SKILL
+MEMBER  →  PROJECT_MEMBERS  →  PROJECT
+MEMBER  →  EVENT_PARTICIPANTS  →  EVENT
+PROJECT  →  PROJECT_TECHNOLOGIES
+EVENT  →  EVENT_CATEGORIES
+MEMBER  →  ACHIEVEMENTS  ←  PROJECT
+MEMBER  →  BLOGS  →  BLOG_CATEGORIES
+Figure 12: Simplified entity relationship diagram
+15. API Structure
+A REST API allows the frontend (or other clients) to read and write data through a well-defined set of URL endpoints, each associated with an HTTP method (GET to read, POST to create, PUT to update, DELETE to remove). The endpoints below are proposed endpoints for the Grevix application layer; they are not yet implemented and are documented here as the intended API surface.
+Note: None of the endpoints listed below exist yet. They represent the planned API surface for the current and near-term scope.
+Endpoint
+Method
+Purpose
+Auth
+/api/projects
+GET
+List all published projects
+Public
+/api/projects/:id
+GET
+Get a single project by ID
+Public
+/api/projects
+POST
+Create a new project
+Member
+/api/projects/:id
+PUT
+Update an existing project
+Member (owner) / Admin
+/api/projects/:id
+DELETE
+Remove a project
+Admin
+/api/events
+GET
+List events
+Public
+/api/events/:id
+GET
+Get a single event
+Public
+/api/opportunities
+GET
+List opportunities
+Public
+/api/members
+GET
+List member profiles
+Public / Member
+/api/members/:id
+GET
+Get a single member profile
+Public / Member
+/api/admin/events
+POST
+Create an event (admin submission)
+Admin
+/api/admin/projects
+POST
+Create/approve a project
+Admin
+/api/admin/blog
+POST
+Create a blog post
+Admin / Editor
+Table 9: Proposed API endpoints
+For each endpoint, the eventual implementation should also document expected input format, output format and possible error responses, following the structure below.
+Field
+Description
+Input
+Request body / query parameters expected by the endpoint.
+Output
+Response body returned on success, typically JSON.
+Possible Errors
+e.g. 400 Bad Request (invalid input), 401 Unauthorized, 403 Forbidden, 404 Not Found, 500 Server Error.
+Table 10: API documentation fields to be completed per endpoint
+16. GitHub Integration
+GitHub integration is planned using the official GitHub REST API (docs.github.com/en/rest). Potential uses include:
+GitHub OAuth login for members
+Fetching repository information for the Grevix organization
+Listing organization repositories
+Fetching contributor information
+Linking projects to their repositories
+Retrieving technology/language information where available from GitHub
+Member clicks "Login with GitHub"
+↓
+GitHub OAuth consent screen
+↓
+GitHub returns authorization code
+↓
+Application exchanges code for access token via Supabase Auth
+↓
+Member session established
+Figure 13: GitHub authentication workflow
+The GitHub API enforces rate limits, which are stricter for unauthenticated requests than for authenticated ones. Because of this, API responses that do not change often (such as repository metadata) should be cached for a reasonable period rather than fetched on every page load, to avoid hitting rate limits as the site gets more traffic.
+17. Authentication and Authorization
+Authentication is proposed to use Supabase Auth combined with GitHub OAuth as the sign-in method, so members do not need to manage a separate Grevix password.
+17.1 Roles
+SUPER_ADMIN
+ADMIN
+EDITOR
+MEMBER
+Role-based access control (RBAC) means that what a user can see or do is determined by the role assigned to their account. For example, a MEMBER can edit their own profile and submit projects, an EDITOR can additionally publish blog posts, an ADMIN can manage events and opportunities, and a SUPER_ADMIN has full administrative access including managing other admin accounts. These roles will be enforced both in the application layer and through Supabase row-level security policies.
+User authenticates via GitHub OAuth
+↓
+Supabase Auth issues session with role claim
+↓
+Application checks role on each protected route
+↓
+Access granted or denied based on role
+Figure 14: Authorization flow
+18. AI Architecture
+The Gemini API (ai.google.dev/gemini-api/docs) is proposed as the initial AI provider, largely because of its documentation and pricing (ai.google.dev/gemini-api/docs/pricing) being publicly available and suitable for a small-scale initial deployment. The AI provider is not fixed permanently and may change in the future if a better-suited option becomes available.
+18.1 Planned AI Features
+Event summarization
+Hackathon information extraction
+Skill extraction from profile or resume text
+Opportunity summarization
+Learning recommendations
+Project summaries
+Blog writing assistance
+Skill-gap analysis (future)
+Team recommendations (future)
+Community assistant (future)
+Input Data
+↓
+Validation
+↓
+AI Processing
+↓
+Structured Output
+↓
+Human / System Validation
+↓
+Database
+↓
+User Interface
+Figure 15: AI processing workflow
+Note: AI-generated output should not be treated as automatically correct. Outputs such as summaries or extracted skills should go through a validation step, whether automated checks or human review by an admin/editor, before being stored or shown as final data. This is especially important for anything derived from external event or opportunity data, since AI summarization can misinterpret or omit details.
+19. Technology Stack
+The table below separates the technologies that make up the website itself from development tools, AI development assistants, and external services, since these serve different purposes.
+19.1 Core Technologies
+Layer
+Technology
+Frontend
+Next.js, React, TypeScript, Tailwind CSS, Motion
+Backend
+Next.js server-side / API functionality, Supabase
+Database
+PostgreSQL (via Supabase)
+Authentication
+Supabase Auth, GitHub OAuth
+Storage
+Supabase Storage
+AI
+Gemini API
+Deployment
+Vercel
+Version Control
+GitHub
+CI/CD
+GitHub Actions
+Design
+Figma
+Table 11: Core technology stack
+19.2 Development and AI Assistant Tools
+These are tools that may be used by developers while building the site. They are not part of the deployed application itself.
+ChatGPT
+Gemini
+Claude
+GitHub Copilot
+Google Antigravity
+Cursor
+Motion (as a design/animation tool)
+Supabase CLI and dashboard tools
+Note: Not every AI development tool listed above will necessarily be used by every developer or in the final production workflow; these represent tools available to the team during development.
+20. UI/UX Design
+The visual direction for Grevix draws on design references supplied by the project team. The intended style is dark, minimal, technical and somewhat cinematic, aiming to communicate technology, community, innovation, collaboration and impact without becoming cluttered.
+Note: The visual style should not compromise usability. Functional pages such as dashboards, admin panels and member profiles should prioritize readability and usability over decorative effects.
+20.1 Color System
+Two candidate color palettes are currently under consideration. The final palette has not been decided, and the two are not intended to be combined into a single design.
+Palette A (Blue/Steel)
+Hex
+Deep Black
+#050505
+Near Black / Navy
+#101020
+Deep Blue
+#203050
+Dark Blue
+#304F70
+Steel / Ice Blue
+#7090B0
+Ice White
+#D0F0F0
+Cool Gray
+#9090A0
+Muted Violet
+#605070
+Purple / Lavender
+#9080A0
+Table 12: Candidate color palette A
+Palette B (Ember/Amber)
+Hex
+Void
+#0A0705
+Charcoal
+#16110D
+Line
+#2C241C
+Ember Red
+#C13B0A
+Solar Orange
+#FF6A1A
+Amber Glow
+#FFB454
+Spark White
+#FFE8C7
+Ash White
+#F5FEF4
+Smoke
+#948B7E
+Smoke Dim
+#5C554B
+Success
+#4CAF7D
+Danger
+#E24C4C
+Table 13: Candidate color palette B
+20.2 Typography
+A clear typographic hierarchy is planned: a distinct display font or weight for headings, and a readable body font for paragraphs and UI text. Final font selection is tied to whichever palette and overall visual direction the team settles on, and will be documented in Figma before implementation.
+20.3 UI Components
+Buttons (primary, secondary, disabled states)
+Cards (project cards, event cards, profile cards)
+Navigation bar and footer
+Forms (login, profile edit, project submission)
+Tables (for admin views such as event or opportunity lists)
+Profile cards
+Project cards
+Event cards
+20.4 Responsive Design and Accessibility
+Layouts should adapt cleanly between desktop, tablet and mobile widths.
+Sufficient color contrast should be maintained, particularly for the dark background and light text combinations used in both candidate palettes.
+Interactive elements (buttons, form fields, links) should have visible focus states for keyboard navigation.
+Images should include descriptive alt text where practical.
+20.5 Wireframes
+The wireframes below use simple boxes and labels to describe page layout at a structural level, rather than final visual design.
+Home Page Wireframe
+Navigation Bar
+↓
+Hero: Logo, Tagline, Mission, CTAs
+↓
+Featured Projects
+↓
+Community Statistics
+↓
+Featured Events
+↓
+Footer
+Figure 16: Home Page Wireframe — proposed layout (wireframe)
+Projects Page Wireframe
+Navigation Bar
+↓
+Page Header + Filter/Search
+↓
+Project Card Grid
+↓
+Footer
+Figure 17: Projects Page Wireframe — proposed layout (wireframe)
+Events Page Wireframe
+Navigation Bar
+↓
+Page Header + Category Filter
+↓
+Event List / Calendar View
+↓
+Footer
+Figure 18: Events Page Wireframe — proposed layout (wireframe)
+Member Profile Wireframe
+Navigation Bar
+↓
+Profile Header: Photo, Name, Role, Links
+↓
+Skills / Bio / Learning Goals
+↓
+Projects and Achievements
+↓
+Footer
+Figure 19: Member Profile Wireframe — proposed layout (wireframe)
+Dashboard Wireframe
+Navigation Bar (Member)
+↓
+Quick Stats: Profile, Projects, Tasks
+↓
+My Projects Panel
+↓
+Upcoming Events Panel
+↓
+Footer
+Figure 20: Dashboard Wireframe — proposed layout (wireframe)
+Admin Dashboard Wireframe
+Navigation Bar (Admin)
+↓
+Content Management Tabs: Events / Projects / Blog / Opportunities
+↓
+Pending Submissions Table
+↓
+Footer
+Figure 21: Admin Dashboard Wireframe — proposed layout (wireframe)
+21. Testing Strategy
+Testing will cover multiple layers of the application, from individual functions up to full user flows. The categories below outline the intended testing approach; actual results will be filled in as testing is carried out.
+Unit testing — individual functions and components
+Integration testing — interaction between modules (e.g., API layer and database)
+API testing — request/response correctness and error handling
+Authentication testing — login, session handling, token expiry
+Authorization testing — role-based access restrictions
+Database testing — data integrity, constraints, relationships
+UI testing — component rendering and interaction
+Responsive testing — layout across screen sizes
+Accessibility testing — keyboard navigation, contrast, alt text
+Performance testing — page load and API response times
+Security testing — basic checks against the threats listed in Section 22
+User acceptance testing — walkthroughs with actual Grevix members
+Test ID
+Module
+Test Case
+Input
+Expected Result
+Actual Result
+Status
+TC-01
+Auth
+Member logs in via GitHub OAuth
+Valid GitHub account
+Session created, redirected to Dashboard
+To be tested
+Pending
+TC-02
+Projects
+Member submits a new project
+Valid project form data
+Project stored and visible on Projects page
+To be tested
+Pending
+TC-03
+Events
+Admin publishes an event
+Valid event details
+Event visible on public Events page
+To be tested
+Pending
+TC-04
+Authorization
+Non-admin attempts to access Admin Dashboard
+Member session
+Access denied
+To be tested
+Pending
+TC-05
+API
+GET /api/projects with no data
+Empty database
+Returns empty list, not an error
+To be tested
+Pending
+Table 14: Sample test case table (to be expanded during actual testing)
+Note: No actual test results are available yet. The table above shows the intended structure for test documentation, with results to be filled in as the corresponding features are implemented and tested.
+22. Security and Threat Model
+This section lists security risks relevant to a web application of this type and the mitigations planned for each.
+Threat
+Risk
+Impact
+Likelihood
+Mitigation
+Broken authentication
+Medium
+Unauthorized account access
+Low-Medium
+Use Supabase Auth with GitHub OAuth rather than custom auth logic
+Broken authorization
+Medium
+Members accessing admin functionality
+Medium
+Role-based access control enforced server-side and via RLS
+SQL injection
+Low
+Data leakage or corruption
+Low
+Use parameterized queries via Supabase client libraries; avoid raw SQL string concatenation
+Cross-site scripting (XSS)
+Medium
+Malicious script execution in user browser
+Medium
+Sanitize and escape user-submitted content, especially in blog and profile fields
+CSRF-related risks
+Low-Medium
+Unauthorized actions performed on behalf of a logged-in user
+Low
+Use framework-provided CSRF protections and same-site cookies
+API abuse
+Medium
+Service degradation, rate-limit exhaustion
+Medium
+Rate limiting on API routes; caching of external API responses
+Exposed API keys
+High
+Unauthorized use of third-party services, unexpected billing
+Low-Medium
+Store keys in environment variables; never commit to GitHub; keys only used server-side
+Improper database permissions
+High
+Unauthorized read/write of sensitive data
+Medium
+Supabase Row-Level Security policies per table
+Insecure file uploads
+Medium
+Malicious file uploads (profile photos, screenshots)
+Low-Medium
+Restrict file types and sizes; store via Supabase Storage with access rules
+Rate limiting gaps
+Low-Medium
+Abuse of public endpoints
+Medium
+Apply rate limiting at the API layer
+Session security
+Medium
+Session hijacking
+Low
+Use secure, HTTP-only cookies for session tokens
+Sensitive information exposure
+Medium
+Leakage of personal member data
+Low-Medium
+Limit publicly exposed fields; apply data minimization principles
+Table 15: Threat model summary
+22.1 Key Security Practices
+Environment variables used for all secrets (API keys, database credentials); never hard-coded.
+Secret management handled through Vercel and Supabase's environment configuration, not committed to the GitHub repository.
+Supabase Row-Level Security applied to all tables containing member or admin data.
+Input validation applied both client-side (for user experience) and server-side (for actual enforcement).
+Authentication and authorization enforced on every protected route, not only in the UI.
+Rate limiting applied to public and admin API routes.
+API keys for third-party services (GitHub, Gemini) used only from server-side code, never exposed to the browser.
+Note: No real API keys, secrets or credentials are included anywhere in this document.
+23. Scalability and Performance
+The current Grevix community has approximately seven members, with growth expected to twenty-five or more in the near term. The system is being designed so it can later support a substantially larger community without requiring a full rebuild, though no exact maximum user capacity is claimed at this stage.
+Scenario
+Approximate Community Size
+Notes
+Small community
+25–100 users
+Current near-term target; minimal scaling concerns expected
+Medium community
+100–1,000 users
+May require additional caching and query optimization
+Future ecosystem
+1,000+ users
+Would require dedicated scaling work: connection pooling, CDN, background job processing
+Table 16: Planning scenarios for community growth (not guaranteed capacities)
+23.1 Scalability Considerations
+Database indexing on frequently queried columns
+API response caching, particularly for GitHub and external event/opportunity data
+Pagination for lists such as projects, events and members
+Lazy loading of images and non-critical content
+Image optimization for uploaded photos and screenshots
+CDN usage for static assets (handled largely by Vercel by default)
+Careful management of database connections to avoid exhausting Supabase's connection limits
+Respecting external API rate limits, with caching and backoff where needed
+Background jobs for tasks such as periodic event/opportunity collection, rather than doing this on every page load
+Asynchronous processing for AI-related tasks so they do not block page rendering
+23.2 Performance Considerations
+Server-side rendering for pages that benefit from fast initial load and SEO (e.g., Home, About, Projects)
+Client-side rendering for highly interactive areas such as the Dashboard
+Database indexing to keep query times low as data volume grows
+Note: No specific performance measurements (load times, response times) are available yet, since the application has not been built or benchmarked.
+24. Deployment
+Deployment is planned through Vercel, connected to the GitHub repository, with Supabase hosting the database, authentication and storage layers.
+GitHub
+↓
+GitHub Actions
+↓
+Testing
+↓
+Build
+↓
+Vercel
+↓
+Production
+Figure 22: Deployment architecture
+Supabase separately hosts the database, authentication and storage services that the deployed application connects to.
+25. CI/CD
+Continuous Integration and Continuous Deployment (CI/CD) automates testing and deployment whenever code is pushed or merged. The general flow involves feature branches, pull requests, code review, and automated checks before code reaches production.
+Git branches for individual features
+Pull requests for proposed changes
+Code review by at least one other team member before merging
+Automated tests run via GitHub Actions on each pull request
+Build checks to catch compilation or type errors early
+Deployment to a preview environment for review
+Production deployment after merge to the main branch
+main
+ |
+ ├── develop
+ |
+ ├── feature/home
+ ├── feature/projects
+ ├── feature/auth
+ ├── feature/events
+ └── feature/admin
+Figure 23: Proposed Git branching workflow
+Note: Branch names shown above are a proposed starting point and can be adjusted by the team as development progresses.
+26. Project Development Workflow
+Requirement
+↓
+Issue
+↓
+Feature Branch
+↓
+Development
+↓
+Local Testing
+↓
+Pull Request
+↓
+Code Review
+↓
+Automated Tests
+↓
+Merge
+↓
+Deployment
+↓
+Manual Verification
+Figure 24: End-to-end development workflow
+27. Team Responsibilities
+The development team consists of five members. Primary responsibilities are proposed below, though all developers are expected to understand the overall architecture so that work can be redistributed if needed.
+Role
+Primary Responsibility
+Developer 1
+Frontend architecture and main pages
+Developer 2
+UI/UX, Figma design system and reusable components
+Developer 3
+Supabase setup, database schema and authentication
+Developer 4
+APIs, GitHub integration, events and opportunities
+Developer 5
+AI integration, testing, integration and deployment
+Table 17: Team responsibilities
+28. Eleven-Day Development Plan
+The plan below is a realistic breakdown of the eleven-day build. It is not expected that every advanced feature described earlier in this document (particularly AI-based and future-scope features) will be fully implemented within this window; the plan focuses on delivering the MVP scope defined in Section 10.10.
+Day
+Focus
+Day 1
+Requirements, architecture, GitHub repository, project setup
+Day 2
+Figma design system, database structure
+Day 3
+Home, About pages, navigation
+Day 4
+Projects page and GitHub integration
+Day 5
+Members page and authentication
+Day 6
+Events and hackathons
+Day 7
+Opportunities and resources
+Day 8
+Admin dashboard
+Day 9
+AI features and integrations
+Day 10
+Testing, responsive design, security fixes
+Day 11
+Deployment, final testing, documentation and presentation preparation
+Table 18: Eleven-day development plan
+29. Future Roadmap
+Phase
+Focus
+Phase 1
+Grevix public website and community foundation
+Phase 2
+Member dashboard and management features
+Phase 3
+Projects, tasks and collaboration
+Phase 4
+AI-powered recommendations and matching
+Phase 5
+Community ecosystem
+Table 19: Phased roadmap
+29.1 Future Features
+Advanced team formation
+AI community assistant
+Skill-gap analysis
+Learning paths
+Opportunity matching
+Advanced analytics
+Real-time communication
+Notifications
+Mobile application
+Broader developer ecosystem
+Public community onboarding
+30. Error Handling
+The application should handle failure conditions gracefully rather than showing raw errors to users. Planned handling for common failure cases is listed below.
+Failure Case
+Planned Handling / Example Message
+API failure (general)
+"Something went wrong. Please try again in a moment."
+GitHub API unavailable
+Fallback to cached repository data where available; "GitHub data is temporarily unavailable."
+AI API unavailable
+Skip AI-generated content and show original data without a summary.
+Database failure
+"We're having trouble loading this page. Please try again shortly."
+Invalid input
+Inline field-level validation messages (e.g., "Please enter a valid event date.")
+Authentication failure
+"Login failed. Please try again."
+Expired session
+Redirect to login with "Your session has expired. Please log in again."
+Missing resource
+Standard 404 page: "This page could not be found."
+Network failure
+"You appear to be offline. Please check your connection."
+Table 20: Planned error handling
+31. Logging and Monitoring
+Logging and monitoring are planned for future implementation as the platform matures, rather than being fully configured from day one.
+Application logs for general request/response tracking
+API logs for external service calls (GitHub, event/opportunity sources, Gemini)
+Authentication logs for login attempts and failures
+Error tracking to catch and surface unhandled exceptions
+Uptime monitoring for the deployed application
+Database monitoring for query performance and connection usage
+Note: No logging or monitoring tools are configured yet. This section describes the intended approach once the core application is stable.
+32. Backup and Recovery
+Database backups handled through Supabase's built-in backup features, per the plan selected
+A defined recovery strategy for restoring from backup in case of data loss
+Media and file backups for content stored in Supabase Storage
+Version control (GitHub) as the source of truth for application code
+A basic disaster recovery plan to be documented once the production environment is finalized
+33. Privacy and Data Management
+The platform will handle several categories of member data, and access to each should be limited to what is necessary for the platform to function.
+User profile data (name, bio, skills)
+GitHub information obtained via OAuth
+Authentication information (managed by Supabase Auth)
+Uploaded images and documents
+Achievement records
+Activity data (e.g., event participation)
+Data minimization means collecting only the information actually needed for the platform's features, rather than gathering additional personal data speculatively. Access control ensures that sensitive fields are only visible to the member themselves and to admins where appropriate, enforced through Supabase Row-Level Security as described in Section 14.7.
+34. Analytics
+Once the platform has real usage, the following metrics could be tracked to understand community activity. No current numbers exist yet, since the platform has not launched.
+Active members
+Project activity
+Event participation
+GitHub contributions
+Popular resources
+Opportunity clicks
+Blog views
+Member engagement
+35. Success Metrics
+Metric
+Current Value
+Future Target
+Active community members
+~7
+25+ (near-term)
+Projects listed
+2 (Vera, Rivox)
+To be tracked as new projects are added
+Project contributors
+Not yet tracked
+To be tracked once platform is live
+Events listed
+0 (pre-launch)
+To be tracked post-launch
+Event participation
+Not yet tracked
+To be tracked post-launch
+Opportunities discovered
+Not yet tracked
+To be tracked post-launch
+Member profile completion
+Not yet tracked
+To be tracked post-launch
+GitHub activity
+Not yet tracked
+To be tracked via GitHub integration
+Table 21: Success metrics — current versus future targets
+36. Limitations
+Small initial development team (5 developers)
+Eleven-day development period, which limits the depth of features that can be fully implemented
+Limited initial community size, meaning early data (statistics, engagement metrics) will be sparse
+Dependency on third-party APIs for GitHub, event, opportunity and AI functionality
+API rate limits on external services, which can affect how often data is refreshed
+AI-generated summaries and recommendations are not guaranteed to be fully accurate and require validation
+Availability of external event/opportunity data depends on sources that are outside the team's control
+Reliance on free-tier limitations of services such as Supabase, Vercel and the Gemini API during initial development
+Limited initial testing data, since the platform has not yet been used by real members at scale
+37. References
+Next.js Documentation — https://nextjs.org/docs
+React Documentation — https://react.dev/learn
+TypeScript Documentation — https://www.typescriptlang.org/docs/
+Tailwind CSS Documentation — https://tailwindcss.com/docs
+Motion Documentation — https://motion.dev/docs/react
+Supabase Documentation — https://supabase.com/docs
+GitHub REST API Documentation — https://docs.github.com/en/rest
+GitHub Actions Documentation — https://docs.github.com/en/actions
+Vercel Documentation — https://vercel.com/docs
+Gemini API Documentation — https://ai.google.dev/gemini-api/docs
+Gemini API Pricing — https://ai.google.dev/gemini-api/docs/pricing
+Jobicy Jobs RSS Feed — https://jobicy.com/jobs-rss-feed
+Remotive Remote Jobs API — https://remotive.com/remote-jobs/api
+Arbeitnow Job Board API — https://www.arbeitnow.com/blog/job-board-api
+Grevix GitHub Organization — https://github.com/Grevix
+Note: All links above point to official documentation or source pages provided for this project. If any link is later found to be broken or outdated, it should be marked "To be verified" rather than replaced with a guessed URL.
+38. Glossary
+Term
+Definition
+API
+Application Programming Interface; a defined way for software to communicate with another system.
+OAuth
+An authorization protocol that lets a user log in using an existing account (e.g., GitHub) without sharing their password with the new application.
+RLS
+Row-Level Security; a PostgreSQL feature that restricts which rows a user can read or write based on policies.
+MVP
+Minimum Viable Product; the smallest version of a product that delivers real value and can be released first.
+PRD
+Product Requirements Document; describes what a product should do and why.
+TRD
+Technical Requirements Document; describes how a product will be technically built.
+CI/CD
+Continuous Integration / Continuous Deployment; automated testing and release process.
+RBAC
+Role-Based Access Control; restricting access based on assigned user roles.
+ER Diagram
+Entity Relationship Diagram; a visual representation of database tables and their relationships.
+Normalization
+Organizing database tables to reduce redundancy and improve data integrity.
+Table 22: Glossary of terms
+39. Conclusion
+This document lays out the plan for the first version of the Grevix website, along with the broader product and technical thinking behind it. The eleven-day build is focused on establishing the core public pages, member authentication and basic admin publishing, while the database and architecture are designed with room for the community management and AI-assisted features described throughout this report.
+As the Grevix community grows past its current size, this document should be revisited and updated to reflect real usage data, finalized design decisions, and lessons learned during the initial build. Placeholder values, unresolved links and open decisions (such as the final color palette) are called out throughout this report and should be resolved as the project progresses.
