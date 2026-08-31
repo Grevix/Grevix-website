@@ -80,7 +80,7 @@ export function Navbar({ theme = 'light' }: NavbarProps) {
         {/* Center Navigation Links */}
         <nav className="hidden lg:flex items-center gap-7 font-mono text-[11px] tracking-wider">
           {navLinks.map((link) => {
-            const isActive = pathname === link.href || (link.href === '/events' && pathname.startsWith('/events'));
+            const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
             return (
               <Link
                 key={link.href}
