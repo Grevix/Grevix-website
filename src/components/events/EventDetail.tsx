@@ -3,13 +3,18 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Event } from '@/types/event';
+import { useAdminAuth } from '@/context/AdminAuthContext';
 
 interface EventDetailProps {
   event: Event;
 }
 
-export function EventDetail({ event }: EventDetailProps) {
+export function EventDetail({ event: initialEvent }: EventDetailProps) {
+  const { events, isAdmin, openEditorForEvent } = useAdminAuth();
   const [copied, setCopied] = useState(false);
+
+  // Sync with context if edited
+  const event = events.find((e) => e.id === initialEvent.id || e.slug === initialEvent.slug) || initialEvent;
 
   const handleCopyLink = () => {
     if (typeof window !== 'undefined') {
@@ -29,13 +34,30 @@ export function EventDetail({ event }: EventDetailProps) {
 
   return (
     <div className="py-8 max-w-5xl mx-auto space-y-10 font-mono">
+      {/* Admin Action Bar */}
+      {isAdmin && (
+        <div className="p-3 bg-[#090D18] border border-[#1E2B45] rounded-[3px] flex items-center justify-between text-xs text-[#60A5FA]">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
+            <span>Admin Mode Active — You are editing this event</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => openEditorForEvent(event)}
+            className="px-3 py-1 bg-[#1E293B] hover:bg-[#334155] text-[#F1F5F9] border border-[#3B82F6]/50 rounded-[2px] font-bold"
+          >
+            ✎ Edit This Event
+          </button>
+        </div>
+      )}
+
       {/* Top Breadcrumb & Share */}
       <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#141C2E] text-xs text-[#8092A8]">
         <Link
           href={`/events?type=${event.type}`}
           className="text-[#8092A8] hover:text-[#FFFFFF] flex items-center gap-1.5 transition-colors"
         >
-          <span>?</span>
+          <span>←</span>
           <span className="uppercase">BACK TO {event.type}S</span>
         </Link>
         <div className="flex items-center gap-3 text-[11px]">
@@ -44,11 +66,11 @@ export function EventDetail({ event }: EventDetailProps) {
             onClick={handleCopyLink}
             className="text-[#8092A8] hover:text-[#FFFFFF] transition-colors"
           >
-            {copied ? 'Link Copied ?' : 'Share Link'}
+            {copied ? 'Link Copied ✓' : 'Share Link'}
           </button>
-          <span className="text-[#334155]">?</span>
+          <span className="text-[#334155]">·</span>
           <span className="text-[#64748B]">GREViX COMMUNITY INITIATIVE</span>
-          <span className="text-[#334155]">?</span>
+          <span className="text-[#334155]">·</span>
           <span className={`px-2 py-0.5 rounded-[2px] font-bold text-[10px] ${
             event.status === 'ongoing' ? 'bg-[#10B981]/20 text-[#10B981] border border-[#10B981]/40' :
             event.status === 'upcoming' ? 'bg-[#3B82F6]/20 text-[#60A5FA] border border-[#3B82F6]/40' :
@@ -62,7 +84,7 @@ export function EventDetail({ event }: EventDetailProps) {
       {/* Main Title Header */}
       <div className="space-y-4">
         <div className="text-xs text-[#60A5FA] uppercase tracking-wider font-semibold">
-          // {event.type.toUpperCase()} ? {event.mode.toUpperCase()}
+          // {event.type.toUpperCase()} • {event.mode.toUpperCase()}
         </div>
         <h1 className="font-display font-bold text-3xl sm:text-5xl text-[#F1F5F9] uppercase tracking-tight leading-tight">
           {event.title}
@@ -72,8 +94,16 @@ export function EventDetail({ event }: EventDetailProps) {
         </p>
         <div className="text-xs text-[#64748B] pt-1 flex items-center gap-3 flex-wrap">
           <span>Host: <span className="text-[#F1F5F9]">{event.organizer.name}</span></span>
-          <span>?</span>
+          <span>•</span>
           <span>Venue: <span className="text-[#F1F5F9]">{event.location}</span></span>
+          {event.sourceUrl && (
+            <>
+              <span>•</span>
+              <a href={event.sourceUrl} target="_blank" rel="noreferrer" className="text-[#60A5FA] hover:underline">
+                LinkedIn Post ↗
+              </a>
+            </>
+          )}
         </div>
       </div>
 
@@ -122,7 +152,7 @@ export function EventDetail({ event }: EventDetailProps) {
                   <div key={idx} className="space-y-0.5">
                     <div className="flex items-center gap-2">
                       <span className="font-bold text-[#F1F5F9]">{m.date}</span>
-                      <span className="text-[#50627A]">?</span>
+                      <span className="text-[#50627A]">·</span>
                       <span className="text-[#60A5FA]">{m.title}</span>
                     </div>
                     <p className="text-[#64748B]">{m.description}</p>
@@ -173,7 +203,7 @@ export function EventDetail({ event }: EventDetailProps) {
                 {event.winners.map((winner, idx) => (
                   <div key={idx} className="p-4 bg-[#090D18] border border-[#182338] rounded-[4px] space-y-1.5">
                     <div className="flex items-center justify-between text-[#F59E0B] font-bold">
-                      <span>?? {winner.rank}</span>
+                      <span>🏆 {winner.rank}</span>
                       <span className="text-[#F1F5F9]">{winner.teamName}</span>
                     </div>
                     <div className="text-sm text-[#F1F5F9] font-sans font-semibold">{winner.projectTitle}</div>
@@ -187,7 +217,7 @@ export function EventDetail({ event }: EventDetailProps) {
                           className="text-[#60A5FA] hover:underline flex items-center gap-1"
                         >
                           <span>View Winning GitHub Repository</span>
-                          <span>?</span>
+                          <span>↗</span>
                         </a>
                       </div>
                     )}
@@ -209,7 +239,7 @@ export function EventDetail({ event }: EventDetailProps) {
               rel="noopener noreferrer"
               className="block w-full text-center py-3 bg-[#F1F5F9] hover:bg-[#FFFFFF] text-[#060810] font-bold text-xs rounded-[2px] transition-colors"
             >
-              {event.status === 'completed' ? 'VIEW RESULTS ?' : 'REGISTER NOW ?'}
+              {event.status === 'completed' ? 'VIEW REGISTRATION FORM ↗' : 'REGISTER NOW ↗'}
             </a>
             <div className="text-[10px] text-center text-[#64748B]">
               Organized by {event.organizer.name}
@@ -264,7 +294,7 @@ export function EventDetail({ event }: EventDetailProps) {
               rel="noreferrer"
               className="inline-block pt-1 text-[#60A5FA] hover:underline"
             >
-              Join Discord Server ?
+              Join Discord Server →
             </a>
           </div>
         </div>

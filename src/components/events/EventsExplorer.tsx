@@ -2,19 +2,23 @@
 
 import React, { useState, useMemo, useTransition } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Event, EventType } from '@/types/event';
+import { Event } from '@/types/event';
 import { FeaturedEventCard } from './FeaturedEventCard';
 import { EventList } from './EventList';
 import { MobileFilterDrawer } from './MobileFilterDrawer';
+import { useAdminAuth } from '@/context/AdminAuthContext';
 
 interface EventsExplorerProps {
-  initialEvents: Event[];
+  initialEvents?: Event[];
 }
 
 export function EventsExplorer({ initialEvents }: EventsExplorerProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
+  const { events: contextEvents, isAdmin, openEditorForEvent, resetAllEvents } = useAdminAuth();
+
+  const allEvents = contextEvents && contextEvents.length > 0 ? contextEvents : (initialEvents || []);
 
   // Primary subpage tabs: 'hackathon' (default & biggest), 'quiz', 'workshop', or 'all'
   const activeType = searchParams.get('type') || 'hackathon';
@@ -45,12 +49,12 @@ export function EventsExplorer({ initialEvents }: EventsExplorerProps) {
 
   // Flagship event (Genesis Hack 2026)
   const flagshipEvent = useMemo(() => {
-    return initialEvents.find((e) => e.slug === 'grevix-genesis-hack-2026') || initialEvents[0];
-  }, [initialEvents]);
+    return allEvents.find((e) => e.slug === 'grevix-genesis-hack-2026') || allEvents[0];
+  }, [allEvents]);
 
   // Filter events based on active category tab & search
   const filteredEvents = useMemo(() => {
-    let list = [...initialEvents];
+    let list = [...allEvents];
 
     if (activeType !== 'all') {
       list = list.filter((e) => e.type === activeType);
@@ -80,16 +84,16 @@ export function EventsExplorer({ initialEvents }: EventsExplorerProps) {
     });
 
     return list;
-  }, [initialEvents, activeType, activeStatus, activeSearch, activeSort]);
+  }, [allEvents, activeType, activeStatus, activeSearch, activeSort]);
 
   const counts = useMemo(() => {
     return {
-      hackathon: initialEvents.filter((e) => e.type === 'hackathon').length,
-      quiz: initialEvents.filter((e) => e.type === 'quiz').length,
-      workshop: initialEvents.filter((e) => e.type === 'workshop').length,
-      all: initialEvents.length,
+      hackathon: allEvents.filter((e) => e.type === 'hackathon').length,
+      quiz: allEvents.filter((e) => e.type === 'quiz').length,
+      workshop: allEvents.filter((e) => e.type === 'workshop').length,
+      all: allEvents.length,
     };
-  }, [initialEvents]);
+  }, [allEvents]);
 
   return (
     <div className="space-y-10">
@@ -141,8 +145,30 @@ export function EventsExplorer({ initialEvents }: EventsExplorerProps) {
             </button>
           </div>
 
-          {/* Right Sort & Filter */}
+          {/* Right Sort & Admin Quick Actions */}
           <div className="flex items-center gap-4 text-xs font-mono">
+            {isAdmin && (
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => openEditorForEvent()}
+                  className="px-2.5 py-1 bg-[#1E293B] hover:bg-[#334155] text-[#60A5FA] border border-[#3B82F6]/50 rounded-[2px] font-bold text-[11px]"
+                >
+                  + Add Event
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (confirm('Reset all events to default data?')) resetAllEvents();
+                  }}
+                  className="text-[10px] text-[#64748B] hover:text-[#EF4444]"
+                  title="Reset stored data to initial mock events"
+                >
+                  [Reset Data]
+                </button>
+              </div>
+            )}
+
             <div className="flex items-center gap-2">
               <span className="text-[#50627A] uppercase text-[10px]">SORT BY:</span>
               <select
@@ -150,8 +176,8 @@ export function EventsExplorer({ initialEvents }: EventsExplorerProps) {
                 onChange={(e) => updateQueryState('sort', e.target.value)}
                 className="bg-transparent text-[#F1F5F9] font-medium border-b border-[#1E293B] focus:outline-none focus:border-[#60A5FA] cursor-pointer text-xs"
               >
-                <option value="recent" className="bg-[#060810]">RECENT ?</option>
-                <option value="deadline" className="bg-[#060810]">DATE / DEADLINE ?</option>
+                <option value="recent" className="bg-[#060810]">RECENT ∨</option>
+                <option value="deadline" className="bg-[#060810]">DATE / DEADLINE ∨</option>
               </select>
             </div>
           </div>
@@ -212,7 +238,7 @@ export function EventsExplorer({ initialEvents }: EventsExplorerProps) {
                 onClick={() => updateQueryState('search', '')}
                 className="absolute right-2 top-1.5 text-xs text-[#64748B] hover:text-[#F1F5F9]"
               >
-                ?
+                ✕
               </button>
             )}
           </div>

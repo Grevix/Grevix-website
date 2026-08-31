@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Event } from '@/types/event';
+import { useAdminAuth } from '@/context/AdminAuthContext';
 
 interface EditorialEventRowProps {
   event: Event;
@@ -10,6 +11,7 @@ interface EditorialEventRowProps {
 }
 
 export function EditorialEventRow({ event, index }: EditorialEventRowProps) {
+  const { isAdmin, openEditorForEvent } = useAdminAuth();
   const indexFormatted = index < 9 ? `0${index + 1}` : `${index + 1}`;
 
   // Formatted date and time
@@ -58,7 +60,24 @@ export function EditorialEventRow({ event, index }: EditorialEventRowProps) {
       </div>
 
       {/* Main Row Box */}
-      <div className="flex-1 p-4 sm:p-6 bg-[#080C16] border border-[#141C2E] group-hover:border-[#253556] rounded-[4px] transition-all space-y-3">
+      <div className="flex-1 p-4 sm:p-6 bg-[#080C16] border border-[#141C2E] group-hover:border-[#253556] rounded-[4px] transition-all space-y-3 relative">
+        {/* Admin Edit Floating Action */}
+        {isAdmin && (
+          <div className="absolute top-3 right-3 z-10">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                openEditorForEvent(event);
+              }}
+              className="px-2 py-0.5 bg-[#1E293B] hover:bg-[#334155] text-[#60A5FA] border border-[#3B82F6]/50 rounded-[2px] font-mono text-[10px] flex items-center gap-1"
+            >
+              <span>✎</span>
+              <span>EDIT</span>
+            </button>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-start sm:items-center">
           {/* Wireframe Icon Box (1 Col) */}
           <div className="hidden sm:flex lg:col-span-1 items-center justify-center p-2 rounded-[2px] bg-[#0A0E1A] border border-[#162032] aspect-square">
@@ -90,13 +109,13 @@ export function EditorialEventRow({ event, index }: EditorialEventRowProps) {
 
             {/* Quick Summary Meta (Date, Time, Place/Mode) */}
             <div className="font-mono text-[11px] text-[#64748B] flex items-center gap-3 flex-wrap pt-0.5">
-              <span>?? {dateStr} at {timeStr}</span>
-              <span>?</span>
-              <span>?? {event.location}</span>
+              <span>📅 {dateStr} at {timeStr}</span>
+              <span>•</span>
+              <span>📍 {event.location}</span>
               {isHackathon && (
                 <>
-                  <span>?</span>
-                  <span>?? {event.teamSize.label}</span>
+                  <span>•</span>
+                  <span>👥 {event.teamSize.label}</span>
                 </>
               )}
             </div>
@@ -123,7 +142,7 @@ export function EditorialEventRow({ event, index }: EditorialEventRowProps) {
                 <div className="text-[9px] text-[#50627A] uppercase tracking-wider">CONTEST FORMAT & REWARD</div>
                 <div className="text-[#F1F5F9] font-medium truncate">{event.prizePool.totalValue}</div>
                 <div className="text-[10px] text-[#8092A8] mt-1">
-                  Focus: {event.tracks.join(', ')}
+                  Focus: {event.tracks.slice(0, 2).join(', ')}
                 </div>
               </div>
             )}
@@ -149,21 +168,21 @@ export function EditorialEventRow({ event, index }: EditorialEventRowProps) {
               className="text-[#60A5FA] hover:underline text-xs flex items-center justify-start lg:justify-end gap-1"
             >
               <span>{event.status === 'completed' ? 'View Results' : 'View Details'}</span>
-              <span className="text-sm leading-none">?</span>
+              <span className="text-sm leading-none">↗</span>
             </Link>
           </div>
         </div>
 
-        {/* Winner podium banner for completed hackathons */}
+        {/* Winner podium banner for completed hackathons or recruitment quiz */}
         {event.winners && event.winners.length > 0 && (
           <div className="mt-2 pt-2 border-t border-[#141C2E] flex items-center justify-between text-xs font-mono text-[#8092A8]">
             <div className="flex items-center gap-2">
-              <span className="text-[#F59E0B]">?? 1st Place:</span>
+              <span className="text-[#F59E0B]">🏆 {event.type === 'quiz' ? 'Inducted Core Builders:' : '1st Place:'}</span>
               <span className="text-[#F1F5F9]">{event.winners[0].teamName} ({event.winners[0].projectTitle})</span>
             </div>
             {event.winners[0].repoUrl && (
               <a href={event.winners[0].repoUrl} target="_blank" rel="noreferrer" className="text-[#60A5FA] hover:underline text-[11px]">
-                GitHub Repo ?
+                GitHub Repo ↗
               </a>
             )}
           </div>

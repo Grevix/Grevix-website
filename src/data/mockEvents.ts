@@ -27,7 +27,7 @@ export const MOCK_EVENTS: Event[] = [
     teamSize: {
       min: 2,
       max: 4,
-      label: '2 ? 4 Members',
+      label: '2 – 4 Members',
     },
     eligibility: 'Open to all college students, developers & researchers',
     entryFee: 'Free (Sponsored by GREViX)',
@@ -39,12 +39,12 @@ export const MOCK_EVENTS: Event[] = [
     ],
     skills: ['Python', 'TypeScript', 'Rust', 'Next.js', 'Go', 'PyTorch'],
     prizePool: {
-      totalValue: '?1,50,000 Pool + Cloud Grants',
+      totalValue: '₹1,50,000 Pool + Cloud Grants',
       currency: 'INR',
       breakdown: [
-        { rank: '1st Place (Grand Prize)', prize: '?75,000 Cash + Swag + Incubation' },
-        { rank: '2nd Place', prize: '?45,000 Cash + Mentorship' },
-        { rank: 'Best Systems / Open Source Hack', prize: '?30,000 Cash + Server Grants' },
+        { rank: '1st Place (Grand Prize)', prize: '₹75,000 Cash + Swag + Incubation' },
+        { rank: '2nd Place', prize: '₹45,000 Cash + Mentorship' },
+        { rank: 'Best Systems / Open Source Hack', prize: '₹30,000 Cash + Server Grants' },
       ],
     },
     registrationUrl: 'https://grevix.org/genesis-hack',
@@ -85,18 +85,18 @@ export const MOCK_EVENTS: Event[] = [
     teamSize: {
       min: 1,
       max: 3,
-      label: '1 ? 3 Members',
+      label: '1 – 3 Members',
     },
     eligibility: 'GREViX Community Members',
     entryFee: 'Free',
     tracks: ['Privacy Tools', 'JSON Utilities', 'Terminal CLI'],
     skills: ['Python', 'Rust', 'WebAssembly'],
     prizePool: {
-      totalValue: '?50,000 Cash Pool',
+      totalValue: '₹50,000 Cash Pool',
       currency: 'INR',
       breakdown: [
-        { rank: '1st Place', prize: '?30,000 + Core Lab Fellowship' },
-        { rank: '2nd Place', prize: '?20,000' },
+        { rank: '1st Place', prize: '₹30,000 + Core Lab Fellowship' },
+        { rank: '2nd Place', prize: '₹20,000' },
       ],
     },
     registrationUrl: 'https://github.com/Grevix',
@@ -106,14 +106,14 @@ export const MOCK_EVENTS: Event[] = [
       {
         rank: '1st Place Winner',
         teamName: 'Team Cubix',
-        projectTitle: 'Cubix ? Lightweight Developer-First JSON Browser',
+        projectTitle: 'Cubix — Lightweight Developer-First JSON Browser',
         repoUrl: 'https://github.com/grevix-labs/cubix',
         members: ['Aarav Sharma', 'Rohan Verma'],
       },
       {
         rank: '2nd Place Winner',
         teamName: 'Team TermNova',
-        projectTitle: 'Terminova ? Cross-Platform Modern Terminal Toolkit',
+        projectTitle: 'Terminova — Cross-Platform Modern Terminal Toolkit',
         repoUrl: 'https://github.com/grevix-labs/terminova',
         members: ['Priya Nair', 'Vikram Das'],
       }
@@ -141,18 +141,18 @@ export const MOCK_EVENTS: Event[] = [
     teamSize: {
       min: 1,
       max: 3,
-      label: '1 ? 3 Members',
+      label: '1 – 3 Members',
     },
     eligibility: 'Open to all community builders',
     entryFee: 'Free',
     tracks: ['Agentic Workflows', 'Multi-Modal Reasoning', 'Edge LLMs'],
     skills: ['Python', 'LangChain', 'FastAPI', 'PyTorch'],
     prizePool: {
-      totalValue: '?40,000 + GPU Server Compute Credits',
+      totalValue: '₹40,000 + GPU Server Compute Credits',
       currency: 'INR',
       breakdown: [
-        { rank: 'Top Builder Award', prize: '?25,000 + H100 Compute Hours' },
-        { rank: 'Runner Up', prize: '?15,000' },
+        { rank: 'Top Builder Award', prize: '₹25,000 + H100 Compute Hours' },
+        { rank: 'Runner Up', prize: '₹15,000' },
       ],
     },
     registrationUrl: 'https://discord.gg/grevix',
@@ -161,10 +161,71 @@ export const MOCK_EVENTS: Event[] = [
   },
 
   // ==========================================
-  // QUIZZES (SPEED CONTESTS & TRIVIA)
+  // QUIZZES (AUTHENTIC LINKEDIN CONDUCTED QUIZ + SERIES)
   // ==========================================
   {
     id: 'evt-004',
+    slug: 'grevix-recruitment-quiz-august-2026',
+    title: 'GREViX RECRUITMENT & SKILLS QUIZ',
+    tagline: 'Comprehensive assessment across AI/ML, Software Development, DSA, Open Source, and Problem Solving.',
+    description: "A short technical quiz designed to test student skills across AI/ML, software engineering, algorithmic data structures, open-source principles, and real-world problem solving. Conducted exclusively for Graphic Era students, offering verified certificates and the opportunity to be inducted as Core Members of GREViX (\"The few who build what is next\").",
+    type: 'quiz',
+    status: 'completed',
+    mode: 'online',
+    location: 'Online (Google Form & GREViX Portal)',
+    startDate: '2026-08-15T00:00:00Z',
+    endDate: '2026-08-16T23:59:59Z',
+    registrationOpen: '2026-08-11T00:00:00Z',
+    registrationDeadline: '2026-08-15T23:59:59Z',
+    submissionDeadline: '2026-08-16T23:59:59Z',
+    organizer: {
+      name: 'GREViX Core Team',
+      slug: 'grevix-core',
+      contactUrl: 'https://in.linkedin.com/company/grevix-org',
+    },
+    teamSize: {
+      min: 1,
+      max: 1,
+      label: 'Individual Assessment',
+    },
+    eligibility: 'Graphic Era students only',
+    entryFee: '100% Free',
+    tracks: [
+      'AI & Machine Learning',
+      'Software Development',
+      'DSA & Algorithms',
+      'Open Source & System Design'
+    ],
+    skills: ['AI/ML', 'Python', 'JavaScript', 'DSA', 'Git/GitHub', 'Problem Solving'],
+    prizePool: {
+      totalValue: 'Verified Certificates + GREViX Core Member Invitation',
+      currency: 'INR',
+      breakdown: [
+        { rank: 'Top Performers', prize: 'GREViX Core Member Induction + Verified Certificate' },
+        { rank: 'All Qualifiers', prize: 'Participation & Competency Certificate' },
+      ],
+    },
+    registrationUrl: 'https://lnkd.in/gXffB4pT',
+    sourceUrl: 'https://www.linkedin.com/posts/grevix-org_grevix-opensource-ai-activity-7493009590662389760-98Ow',
+    sourceType: 'verified_admin',
+    lastSyncedAt: '2026-08-31T00:00:00Z',
+    rules: [
+      'Eligibility restricted strictly to Graphic Era students.',
+      'Individual submission via the official Google Form.',
+      'Questions cover theoretical fundamentals, code tracing, and design thinking.',
+      'Top scorers are invited for the GREViX Core Team technical interview round.'
+    ],
+    winners: [
+      {
+        rank: 'Top Performers Inducted',
+        teamName: 'Selected Core Builders',
+        projectTitle: 'GREViX Core Team Induction — Fall 2026 Cohort',
+        members: ['Core Candidate Ranks #1 — #10'],
+      }
+    ],
+  },
+  {
+    id: 'evt-005',
     slug: 'grevix-algo-sprint-04',
     title: 'GREViX ALGORITHMIC SPRINT #04',
     tagline: '90-minute high-speed competitive programming quiz and data structures contest.',
@@ -192,25 +253,20 @@ export const MOCK_EVENTS: Event[] = [
     tracks: ['Data Structures', 'Dynamic Programming', 'Graph Theory'],
     skills: ['C++', 'Python', 'Java', 'DSA'],
     prizePool: {
-      totalValue: '?10,000 + GREViX Gold Contest Badge',
+      totalValue: '₹10,000 + GREViX Gold Contest Badge',
       currency: 'INR',
       breakdown: [
-        { rank: 'Rank 1', prize: '?5,000 + Gold Badge' },
-        { rank: 'Rank 2', prize: '?3,000 + Silver Badge' },
-        { rank: 'Rank 3', prize: '?2,000 + Bronze Badge' },
+        { rank: 'Rank 1', prize: '₹5,000 + Gold Badge' },
+        { rank: 'Rank 2', prize: '₹3,000 + Silver Badge' },
+        { rank: 'Rank 3', prize: '₹2,000 + Bronze Badge' },
       ],
     },
     registrationUrl: 'https://grevix.org/arena',
     sourceType: 'verified_admin',
     lastSyncedAt: '2026-08-30T10:00:00Z',
-    rules: [
-      'Duration: 90 Minutes (4 Problems).',
-      'Penalty of 10 minutes per incorrect submission.',
-      'Plagiarism checks enforced via MOSS.',
-    ],
   },
   {
-    id: 'evt-005',
+    id: 'evt-006',
     slug: 'grevix-web3-security-trivia-02',
     title: 'WEB3 SECURITY & SMART CONTRACT TRIVIA',
     tagline: '60-minute technical CTF quiz on EVM opcodes, reentrancy vulnerabilities and ZK basics.',
@@ -238,64 +294,16 @@ export const MOCK_EVENTS: Event[] = [
     tracks: ['Smart Contract Security', 'EVM Architecture', 'ZK Cryptography'],
     skills: ['Solidity', 'Foundry', 'Cryptography'],
     prizePool: {
-      totalValue: '?8,000 Cash + Auditor Badge',
+      totalValue: '₹8,000 Cash + Auditor Badge',
       currency: 'INR',
       breakdown: [
-        { rank: 'Top Auditor', prize: '?5,000 + Security Research Role' },
-        { rank: 'Runner Up', prize: '?3,000' },
+        { rank: 'Top Auditor', prize: '₹5,000 + Security Research Role' },
+        { rank: 'Runner Up', prize: '₹3,000' },
       ],
     },
     registrationUrl: 'https://grevix.org/arena/trivia-02',
     sourceType: 'verified_admin',
     lastSyncedAt: '2026-07-21T00:00:00Z',
-    winners: [
-      {
-        rank: '1st Rank (Score: 24/25)',
-        teamName: 'Kabir Mehta',
-        projectTitle: 'Smart Contract Vulnerability Speed Run',
-        members: ['Kabir Mehta'],
-      }
-    ],
-  },
-  {
-    id: 'evt-006',
-    slug: 'grevix-systems-speed-quiz-01',
-    title: 'SYSTEMS & OS ARCHITECTURE BLITZ',
-    tagline: '45-minute rapid-fire contest on Linux kernel internals, memory management and concurrency.',
-    description: 'A deep-dive technical speed contest testing practical understanding of virtual memory, thread synchronization, cache hierarchies, and syscall interfaces.',
-    type: 'quiz',
-    status: 'upcoming',
-    mode: 'online',
-    location: 'GREViX Online Portal',
-    startDate: '2026-09-20T19:00:00Z',
-    endDate: '2026-09-20T19:45:00Z',
-    registrationOpen: '2026-09-05T00:00:00Z',
-    registrationDeadline: '2026-09-20T18:30:00Z',
-    submissionDeadline: '2026-09-20T19:45:00Z',
-    organizer: {
-      name: 'GREViX Systems Lab',
-      slug: 'grevix-systems',
-    },
-    teamSize: {
-      min: 1,
-      max: 1,
-      label: 'Individual Participation',
-    },
-    eligibility: 'Open to all students',
-    entryFee: 'Free',
-    tracks: ['Operating Systems', 'Linux Internals', 'Concurrency'],
-    skills: ['C', 'Rust', 'Linux', 'GDB'],
-    prizePool: {
-      totalValue: '?5,000 Cash + Systems Track Swag',
-      currency: 'INR',
-      breakdown: [
-        { rank: '1st Place', prize: '?3,000 + Lab Access' },
-        { rank: '2nd Place', prize: '?2,000' },
-      ],
-    },
-    registrationUrl: 'https://grevix.org/arena/systems-01',
-    sourceType: 'verified_admin',
-    lastSyncedAt: '2026-08-30T10:00:00Z',
   },
 
   // ==========================================

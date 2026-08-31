@@ -3,20 +3,31 @@
 import React from 'react';
 import Link from 'next/link';
 import { Event } from '@/types/event';
+import { useAdminAuth } from '@/context/AdminAuthContext';
 
 interface FeaturedEventCardProps {
   event: Event;
 }
 
 export function FeaturedEventCard({ event }: FeaturedEventCardProps) {
+  const { isAdmin, openEditorForEvent } = useAdminAuth();
   const startDate = new Date(event.startDate);
   const dateStr = startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
   return (
     <section className="mb-14" aria-labelledby="featured-event-title">
-      {/* Section Header */}
-      <div className="font-mono text-xs text-[#8092A8] uppercase tracking-wider mb-3">
-        // FLAGSHIP COMMUNITY INITIATIVE
+      {/* Section Header with Edit trigger */}
+      <div className="flex items-center justify-between font-mono text-xs text-[#8092A8] uppercase tracking-wider mb-3">
+        <span>// FLAGSHIP COMMUNITY INITIATIVE</span>
+        {isAdmin && (
+          <button
+            type="button"
+            onClick={() => openEditorForEvent(event)}
+            className="text-[10px] px-2 py-0.5 bg-[#1E293B] hover:bg-[#334155] text-[#60A5FA] border border-[#3B82F6]/50 rounded-[2px]"
+          >
+            ✎ Edit Flagship
+          </button>
+        )}
       </div>
 
       {/* Featured Card Box matching Cubix screenshot */}
@@ -27,7 +38,7 @@ export function FeaturedEventCard({ event }: FeaturedEventCardProps) {
           className="absolute top-6 right-6 text-[#8092A8] hover:text-[#FFFFFF] transition-colors text-base font-mono"
           aria-label="View event details"
         >
-          ?
+          ↗
         </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -71,9 +82,9 @@ export function FeaturedEventCard({ event }: FeaturedEventCardProps) {
               {event.description}
             </p>
             <div className="pt-2 space-y-1 text-[#64748B]">
-              <div>?? <span className="text-[#F1F5F9]">Venue:</span> {event.location}</div>
-              <div>?? <span className="text-[#F1F5F9]">Teams:</span> {event.teamSize.label}</div>
-              <div>?? <span className="text-[#F1F5F9]">Eligibility:</span> {event.eligibility}</div>
+              <div>📍 <span className="text-[#F1F5F9]">Venue:</span> {event.location}</div>
+              <div>👥 <span className="text-[#F1F5F9]">Teams:</span> {event.teamSize.label}</div>
+              <div>🎓 <span className="text-[#F1F5F9]">Eligibility:</span> {event.eligibility}</div>
             </div>
           </div>
 
@@ -101,7 +112,7 @@ export function FeaturedEventCard({ event }: FeaturedEventCardProps) {
                 href={`/events/${event.slug}`}
                 className="inline-block px-4 py-2 bg-[#F1F5F9] hover:bg-[#FFFFFF] text-[#060810] font-semibold text-xs rounded-[2px] transition-colors"
               >
-                Explore Hackathon ?
+                Explore Hackathon ↗
               </Link>
             </div>
           </div>
