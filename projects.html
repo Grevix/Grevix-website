@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GREVIX - Projects & Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Side label -->
+  <div class="side-label">GREVIX CO</div>
+
+  <!-- Light Section -->
+  <div class="section-light">
+    <header class="navbar">
+      <div class="nav-left">
+        <div class="logo">
+          <div class="logo-mark"></div>
+          <div class="logo-text">
+            <span class="wordmark">GREVIX</span>
+            <span class="tagline">STUDENT DRIVEN. IMPACT FOCUSED.</span>
+          </div>
+        </div>
+      </div>
+      <nav class="nav-center">
+        <a href="home.html">HOME</a>
+        <a href="about.html">ABOUT</a>
+        <a href="projects.html" class="active">PROJECTS<span class="active-dot-nav"></span></a>
+        <a href="events.html">EVENTS</a>
+        <a href="index.html">COMMUNITY</a>
+        <a href="javascript:void(0)">BLOG</a>
+      </nav>
+      <div class="nav-right">
+        <a href="https://discord.gg/grevix" target="_blank" rel="noopener noreferrer" class="join-btn">JOIN GREVIX &#8599;</a>
+      </div>
+    </header>
+
+    <main class="hero-container">
+      <div class="hero-content">
+        <div class="breadcrumb">
+          <span class="breadcrumb-number">02 / PROJECTS</span>
+          <span class="breadcrumb-line"></span>
+          <span class="breadcrumb-dot"></span>
+        </div>
+        <h1 class="hero-headline">PROJECTS<br><span class="text-accent">THAT CREATE</span><br><span class="text-accent">REAL IMPACT</span></h1>
+        <p class="hero-subhead">From memory-bounded inference runtimes and adversarial AI verifiers to polyglot monorepo build coordinators, explore the open-source engineering systems built within the GREViX student community.</p>
+        <div class="scroll-indicator">
+          <span class="scroll-tag">SCROLL</span>
+          <span class="scroll-icon">&#8595;</span>
+        </div>
+      </div>
+
+      <div class="hero-info-card">
+        <div class="corner top-left"></div>
+        <div class="corner top-right"></div>
+        <div class="corner bottom-left"></div>
+        <div class="corner bottom-right"></div>
+        <div class="info-header">
+          <span class="info-dot"></span> // WHAT WE BUILD
+        </div>
+        <div class="info-body">
+          We build practical, local-first engineering systems. Every project originates from genuine technical bottlenecks&mdash;eliminating silent dependency corruption, enforcing hard OS memory budgets, and establishing deterministic proof before code execution.
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Dark Section -->
+  <div class="section-dark">
+    <div class="dark-content">
+
+      <!-- Category Filter Tabs -->
+      <div class="category-tabs">
+        <button class="tab-btn active" data-filter="all">ALL SYSTEMS</button>
+        <button class="tab-btn" data-filter="devtools">DEVELOPER TOOLS</button>
+        <button class="tab-btn" data-filter="ai">AUTONOMOUS AI</button>
+        <button class="tab-btn" data-filter="systems">SYSTEMS &amp; COMPILERS</button>
+        <button class="tab-btn" data-filter="quant">QUANT FINANCE</button>
+      </div>
+
+      <!-- Featured / Most Recent Project Card -->
+      <div class="flagship-card project-item" data-category="quant" style="margin-bottom: 48px;">
+        <div class="corner-bracket tl"></div><div class="corner-bracket tr"></div>
+        <div class="corner-bracket bl"></div><div class="corner-bracket br"></div>
+        <div class="card-content">
+          <div class="card-left">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+              <span class="tag-pill" style="margin-bottom: 0;">&#9679; MOST RECENT RELEASE &middot; PRODUCTION V0.1.0</span>
+              <span class="star-count" style="font-family: var(--font-mono); font-size: 0.75rem;">&#9733; 5 stars</span>
+            </div>
+            <h2>KUWALA</h2>
+            <p style="color: var(--accent-blue); font-weight: 700; margin-bottom: 8px;">Arbitrage-Checked Quantitative Derivatives &amp; Volatility Research Library</p>
+            <p>Production-grade quantitative volatility surfaces, Greek analytics, and backtesting signals running at 2.6M+ IV ops/sec. High-performance numerical core built in Rust with ergonomic Python bindings, arbitrage-free SSVI calibration, and DuckDB integration.</p>
+            
+            <div class="tech-pills" style="margin-top: 16px;">
+              <span class="tech-pill">Python</span>
+              <span class="tech-pill">Rust Core</span>
+              <span class="tech-pill">PyPI Package</span>
+              <span class="tech-pill">Black-Scholes</span>
+              <span class="tech-pill">SSVI Volatility</span>
+              <span class="tech-pill">DuckDB</span>
+              <span class="tech-pill">Quant Finance</span>
+            </div>
+
+            <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
+              <a href="https://github.com/Grevix/kuwala#what-is-kuwala" target="_blank" rel="noopener noreferrer" class="sub-link-btn">
+                <span>&#128214;</span> Documentation &#8599;
+              </a>
+              <a href="https://pypi.org/project/kuwala/" target="_blank" rel="noopener noreferrer" class="sub-link-btn">
+                <span>&#128230;</span> PyPI Package &#8599;
+              </a>
+            </div>
+          </div>
+          <div class="card-right">
+            <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted-dark); text-align: right;">
+              <div style="color: #10B981; font-weight: 700; margin-bottom: 4px;">PRODUCTION READY</div>
+              <div>LICENSE: MIT</div>
+              <div style="margin-top: 4px;">UPDATED: SEP 04, 2026</div>
+            </div>
+            <a href="https://github.com/Grevix/kuwala" target="_blank" rel="noopener noreferrer" class="action-btn">View on GitHub &#8599;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Subheading -->
+      <div class="section-label" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted-dark); margin-bottom: 24px; letter-spacing: 0.1em;">
+        // OPEN-SOURCE SYSTEMS CATALOG
+      </div>
+
+      <!-- Projects List Rows -->
+      <div class="list-rows" id="projects-list">
+
+        <!-- Project 1: KUWALA -->
+        <div class="list-row project-item" data-category="quant">
+          <div class="row-left">
+            <span class="row-num">01</span>
+            <div class="icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            </div>
+          </div>
+          <div class="row-main">
+            <h3>KUWALA <span class="status-tag">PRODUCTION V0.1.0</span> <span class="star-count" style="font-size: 0.75rem;">&#9733; 5</span></h3>
+            <p>Production-grade quantitative volatility surfaces, Greek analytics, and backtesting signals (2.6M+ IV ops/sec).</p>
+            <div class="tech-pills">
+              <span class="tech-pill">Python / Rust</span>
+              <span class="tech-pill">Quant Finance</span>
+              <span class="tech-pill">PyPI Library</span>
+              <span class="tech-pill">DuckDB</span>
+            </div>
+          </div>
+          <div class="row-right" style="display: flex; gap: 12px;">
+            <a href="https://github.com/Grevix/kuwala" target="_blank" rel="noopener noreferrer" class="row-link">GitHub &#8599;</a>
+          </div>
+        </div>
+
+        <!-- Project 2: AURA -->
+        <div class="list-row project-item" data-category="ai">
+          <div class="row-left">
+            <span class="row-num">02</span>
+            <div class="icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+          </div>
+          <div class="row-main">
+            <h3>AURA <span class="status-tag">ACTIVE DEV</span> <span class="star-count" style="font-size: 0.75rem;">&#9733; 4</span></h3>
+            <p>Adaptive Ultra-Low-Memory Runtime for Local AI Inference on low-RAM hardware.</p>
+            <div class="tech-pills">
+              <span class="tech-pill">Rust 1.80+</span>
+              <span class="tech-pill">Autonomous AI</span>
+              <span class="tech-pill">Memory Hierarchy</span>
+              <span class="tech-pill">Local LLM</span>
+            </div>
+          </div>
+          <div class="row-right" style="display: flex; gap: 12px;">
+            <a href="https://github.com/Grevix/aura" target="_blank" rel="noopener noreferrer" class="row-link">GitHub &#8599;</a>
+          </div>
+        </div>
+
+        <!-- Project 3: BERRYN -->
+        <div class="list-row project-item" data-category="devtools">
+          <div class="row-left">
+            <span class="row-num">03</span>
+            <div class="icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+          </div>
+          <div class="row-main">
+            <h3>BERRYN <span class="status-tag">PRODUCTION V0.2.0</span> <span class="star-count" style="font-size: 0.75rem;">&#9733; 3</span></h3>
+            <p>Local-First Dependency Migration &amp; Evidence Infrastructure</p>
+            <div class="tech-pills">
+              <span class="tech-pill">TypeScript</span>
+              <span class="tech-pill">Developer Tools</span>
+              <span class="tech-pill">AST Codemods</span>
+              <span class="tech-pill">Validation Harness</span>
+            </div>
+          </div>
+          <div class="row-right" style="display: flex; gap: 12px;">
+            <a href="https://github.com/Grevix/berryn" target="_blank" rel="noopener noreferrer" class="row-link">GitHub &#8599;</a>
+          </div>
+        </div>
+
+        <!-- Project 4: RIVOX -->
+        <div class="list-row project-item" data-category="systems">
+          <div class="row-left">
+            <span class="row-num">04</span>
+            <div class="icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            </div>
+          </div>
+          <div class="row-main">
+            <h3>RIVOX <span class="status-tag">PRODUCTION V1.0</span> <span class="star-count" style="font-size: 0.75rem;">&#9733; 3</span></h3>
+            <p>Universal polyglot build coordination, caching, and provenance layer for reproducible monorepos.</p>
+            <div class="tech-pills">
+              <span class="tech-pill">Rust</span>
+              <span class="tech-pill">Systems &amp; Compilers</span>
+              <span class="tech-pill">Crates.io</span>
+              <span class="tech-pill">Build Graph</span>
+            </div>
+          </div>
+          <div class="row-right" style="display: flex; gap: 12px;">
+            <a href="https://github.com/Grevix/Rivox" target="_blank" rel="noopener noreferrer" class="row-link">GitHub &#8599;</a>
+          </div>
+        </div>
+
+        <!-- Project 5: VERA -->
+        <div class="list-row project-item" data-category="ai">
+          <div class="row-left">
+            <span class="row-num">05</span>
+            <div class="icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+          </div>
+          <div class="row-main">
+            <h3>VERA <span class="status-tag">ACTIVE BETA</span> <span class="star-count" style="font-size: 0.75rem;">&#9733; 3</span></h3>
+            <p>Adversarial verification and reliability sandbox for autonomous AI software engineering.</p>
+            <div class="tech-pills">
+              <span class="tech-pill">Go 1.22 / Rust</span>
+              <span class="tech-pill">Autonomous AI</span>
+              <span class="tech-pill">Formal Verification</span>
+              <span class="tech-pill">Static Analysis</span>
+            </div>
+          </div>
+          <div class="row-right" style="display: flex; gap: 12px;">
+            <a href="https://github.com/Grevix/vera" target="_blank" rel="noopener noreferrer" class="row-link">GitHub &#8599;</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Community CTA Banner -->
+      <div class="bottom-cta" style="margin-top: 80px;">
+        <div class="cta-left">
+          <div class="cta-label">// CONTRIBUTE TO GREVIX</div>
+          <h2 class="cta-heading">WANT TO BUILD WITH US <span class="text-accent">CONTRIBUTE ON GITHUB</span></h2>
+          <p class="cta-subtext">All GREVIX systems are open-source. Browse our active repositories, propose architectural RFCs, and build production tools alongside fellow student engineers.</p>
+        </div>
+        <div class="cta-right">
+          <a href="https://github.com/orgs/Grevix/repositories" target="_blank" rel="noopener noreferrer" class="cta-btn">Explore Repositories &#8599;</a>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div class="footer-left" style="display: flex; align-items: center; gap: 12px;">
+          <div class="logo" style="width: 24px; height: 24px; border: 1px solid var(--border-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px;">N</div>
+          <span>&copy; 2026 GREVIX COMMUNITY</span>
+        </div>
+        <div class="footer-center">
+          [ BUILT WITH PURPOSE. DRIVEN BY STUDENTS. ]
+        </div>
+        <div class="footer-right">
+          <a href="javascript:void(0)">PRIVACY</a>
+          <a href="javascript:void(0)">TERMS</a>
+          <a href="mailto:teamgrevixorg@gmail.com">CONTACT</a>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    // Tab filter functionality
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.getAttribute('data-filter');
+        document.querySelectorAll('.project-item').forEach(item => {
+          if (filter === 'all' || item.getAttribute('data-category') === filter) {
+            item.style.display = '';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
