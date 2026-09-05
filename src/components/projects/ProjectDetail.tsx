@@ -2,6 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import { Project } from '@/types/project';
 import { ProjectTags } from './ProjectTags';
+import { ProjectGraphicSchematic } from './ProjectGraphicSchematic';
+import { sanitizeUrl } from '@/lib/utils';
 
 interface ProjectDetailProps {
   project: Project;
@@ -52,9 +54,9 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
 
           {/* Direct GitHub Link */}
           <a
-            href={project.githubUrl}
+            href={sanitizeUrl(project.githubUrl)}
             target="_blank"
-            rel="noreferrer"
+            rel="noreferrer noopener"
             className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#F4F5F6] hover:bg-[#FFFFFF] text-[#050609] font-sans font-semibold text-xs rounded-[2px] transition-colors shrink-0"
           >
             <span>VIEW ON GITHUB</span>
@@ -70,6 +72,15 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
           <ProjectTags tags={project.topics} limit={8} variant="highlight" />
         </div>
       </div>
+
+      {/* DYNAMIC SYSTEM ARCHITECTURE GRAPHIC SCHEMATIC */}
+      <section className="space-y-3" aria-labelledby="graphic-schematic-title">
+        <div className="flex items-center justify-between font-mono text-xs text-[#8D98A8] uppercase tracking-wider">
+          <span>// SYSTEM ARCHITECTURE GRAPHIC & TELEMETRY</span>
+          <span className="text-[#3B82F6] text-[10px]">[ VERIFIED SPECIFICATION ]</span>
+        </div>
+        <ProjectGraphicSchematic slug={project.slug} />
+      </section>
 
       {/* Main Narrative Split: Why it exists & What it does */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 py-8 border-y border-[#162032]">
@@ -210,9 +221,9 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
 
         <div className="flex flex-wrap items-center gap-4">
           <a
-            href={project.githubUrl}
+            href={sanitizeUrl(project.githubUrl)}
             target="_blank"
-            rel="noreferrer"
+            rel="noreferrer noopener"
             className="px-5 py-2.5 bg-[#F4F5F6] hover:bg-[#FFFFFF] text-[#050609] font-sans font-semibold text-xs rounded-[2px] transition-colors inline-flex items-center gap-1.5"
           >
             <span>GITHUB REPOSITORY</span>
@@ -221,9 +232,9 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
 
           {project.docsUrl && (
             <a
-              href={project.docsUrl}
+              href={sanitizeUrl(project.docsUrl)}
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener"
               className="px-5 py-2.5 border border-[#1E293B] hover:border-[#8D98A8] text-[#F4F5F6] font-mono text-xs rounded-[2px] transition-colors inline-flex items-center gap-1.5"
             >
               <span>DOCUMENTATION</span>
@@ -233,9 +244,9 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
 
           {project.packageUrl && (
             <a
-              href={project.packageUrl}
+              href={sanitizeUrl(project.packageUrl)}
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener"
               className="px-5 py-2.5 border border-[#3B82F6]/50 bg-[#1E293B]/40 hover:bg-[#1E293B] text-[#6F9FFF] font-mono text-xs rounded-[2px] transition-colors inline-flex items-center gap-1.5"
             >
               <span>PACKAGE ON {project.packageType?.toUpperCase()}</span>

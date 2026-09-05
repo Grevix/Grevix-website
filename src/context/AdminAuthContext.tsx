@@ -1,8 +1,13 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { Event } from '@/types/event';
 import { MOCK_EVENTS } from '@/data/mockEvents';
+
+interface LoginResult {
+  success: boolean;
+  error?: string;
+}
 
 interface AdminAuthContextType {
   isAdmin: boolean;
@@ -12,8 +17,8 @@ interface AdminAuthContextType {
   isEditorOpen: boolean;
   openLoginModal: () => void;
   closeLoginModal: () => void;
-  login: (password: string) => boolean;
-  logout: () => void;
+  login: (password: string) => Promise<LoginResult>;
+  logout: () => Promise<void>;
   openEditorForEvent: (event?: Event) => void;
   closeEditor: () => void;
   saveEvent: (event: Event) => void;
@@ -23,9 +28,7 @@ interface AdminAuthContextType {
 
 const AdminAuthContext = createContext<AdminAuthContextType | undefined>(undefined);
 
-const LOCAL_STORAGE_KEY_ADMIN = 'grevix_is_admin';
 const LOCAL_STORAGE_KEY_EVENTS = 'grevix_events_data';
-const CORE_PASSCODE = 'grevix2026';
 
 export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -34,46 +37,93 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
   const [editingEvent, setEditingEvent] = useState<Event | null>(null);
   const [isEditorOpen, setIsEditorOpen] = useState(false);
 
-  // Initialize from localStorage on mount
+  // Verify server-side session on mount
   useEffect(() => {
-    try {
-      const savedAdmin = localStorage.getItem(LOCAL_STORAGE_KEY_ADMIN);
-      if (savedAdmin === 'true') {
-        setIsAdmin(true);
-      }
+    let isMounted = true;
 
+    async function checkServerSession() {
+      try {
+        const res = await fetch('/api/admin/auth', { method: 'GET', credentials: 'same-origin' });
+        if (res.ok) {
+          const data = await res.json().catch(() => ({}));
+          if (isMounted && typeof data.isAdmin === 'boolean') {
+            setIsAdmin(data.isAdmin);
+          }
+        }
+      } catch {
+        // Network failure; keep default unauthenticated state
+      }
+    }
+
+    checkServerSession();
+
+    // Load persisted community events from localStorage
+    try {
       const savedEvents = localStorage.getItem(LOCAL_STORAGE_KEY_EVENTS);
       if (savedEvents) {
-        setEvents(JSON.parse(savedEvents));
+        const parsed = JSON.parse(savedEvents);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setEvents(parsed);
+        }
       }
     } catch {
-      // Fallback gracefully
+      // Malformed storage fallback
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  // Save events to localStorage whenever they change
-  const persistEvents = (updatedEvents: Event[]) => {
+  // Save events to localStorage whenever modified
+  const persistEvents = useCallback((updatedEvents: Event[]) => {
     setEvents(updatedEvents);
     try {
       localStorage.setItem(LOCAL_STORAGE_KEY_EVENTS, JSON.stringify(updatedEvents));
     } catch {
-      // Storage error fallback
+      // Storage quota or restriction fallback
+    }
+  }, []);
+
+  const login = async (password: string): Promise<LoginResult> => {
+    try {
+      const res = await fetch('/api/admin/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ password }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok && data.success) {
+        setIsAdmin(true);
+        setIsLoginModalOpen(false);
+        return { success: true };
+      }
+
+      return {
+        success: false,
+        error: data.error || 'Authentication failed. Please verify passcode.',
+      };
+    } catch (err: any) {
+      return {
+        success: false,
+        error: err.message || 'Connection to server failed. Please try again.',
+      };
     }
   };
 
-  const login = (password: string): boolean => {
-    if (password.trim() === CORE_PASSCODE || password.trim().toLowerCase() === 'grevix') {
-      setIsAdmin(true);
-      localStorage.setItem(LOCAL_STORAGE_KEY_ADMIN, 'true');
-      setIsLoginModalOpen(false);
-      return true;
+  const logout = async () => {
+    try {
+      await fetch('/api/admin/auth', {
+        method: 'DELETE',
+        credentials: 'same-origin',
+      });
+    } catch {
+      // Ignore network errors on logout
     }
-    return false;
-  };
-
-  const logout = () => {
     setIsAdmin(false);
-    localStorage.removeItem(LOCAL_STORAGE_KEY_ADMIN);
   };
 
   const openLoginModal = () => setIsLoginModalOpen(true);
@@ -114,7 +164,7 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
         teamSize: {
           min: 1,
           max: 4,
-          label: '1 ? 4 Members',
+          label: '1 – 4 Members',
         },
         entryFee: 'Free',
       });
@@ -148,7 +198,11 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
 
   const resetAllEvents = () => {
     persistEvents(MOCK_EVENTS);
-    localStorage.removeItem(LOCAL_STORAGE_KEY_EVENTS);
+    try {
+      localStorage.removeItem(LOCAL_STORAGE_KEY_EVENTS);
+    } catch {
+      // Fallback
+    }
   };
 
   return (

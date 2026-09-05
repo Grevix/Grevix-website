@@ -19,7 +19,7 @@ export function EventSource({ sourceType, organizerName, verified = true }: Even
   return (
     <div className="text-xs text-[#8D98A8] flex items-center gap-1.5 flex-wrap">
       <span className="text-[#F4F5F6] font-medium">{organizerName}</span>
-      <span className="text-[#5A6475]">?</span>
+      <span className="text-[#5A6475]">•</span>
       <span className="text-[#5A6475]">{sourceLabels[sourceType]}</span>
     </div>
   );

@@ -3,22 +3,28 @@
 import React, { useState, useEffect } from 'react';
 import { useAdminAuth } from '@/context/AdminAuthContext';
 import { Event, EventType, EventStatus, EventMode } from '@/types/event';
+import { validateExternalUrl, sanitizeUrl } from '@/lib/security/urlSanitizer';
 
 export function AdminEventEditorModal() {
   const { isEditorOpen, closeEditor, editingEvent, saveEvent, deleteEvent } = useAdminAuth();
 
   const [formData, setFormData] = useState<Event | null>(null);
+  const [urlError, setUrlError] = useState<string | null>(null);
 
   useEffect(() => {
     if (editingEvent) {
       setFormData({ ...editingEvent });
+      setUrlError(null);
     }
   }, [editingEvent]);
 
   if (!isEditorOpen || !formData) return null;
 
   const handleChange = (field: keyof Event, value: any) => {
-    setFormData((prev) => prev ? { ...prev, [field]: value } : null);
+    setFormData((prev) => (prev ? { ...prev, [field]: value } : null));
+    if (field === 'registrationUrl') {
+      setUrlError(null);
+    }
   };
 
   const handleTracksChange = (val: string) => {
@@ -35,9 +41,22 @@ export function AdminEventEditorModal() {
     e.preventDefault();
     if (!formData.title.trim()) return;
 
+    // Validate registration URL against dangerous protocols
+    if (formData.registrationUrl && formData.registrationUrl.trim()) {
+      const check = validateExternalUrl(formData.registrationUrl);
+      if (!check.isValid) {
+        setUrlError(check.error || 'Invalid or unsafe URL format');
+        return;
+      }
+      formData.registrationUrl = sanitizeUrl(formData.registrationUrl);
+    }
+
     // Auto-generate slug if missing
     if (!formData.slug) {
-      formData.slug = formData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      formData.slug = formData.title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
     }
 
     saveEvent(formData);
@@ -63,9 +82,10 @@ export function AdminEventEditorModal() {
           <button
             type="button"
             onClick={closeEditor}
-            className="text-[#8092A8] hover:text-[#FFFFFF] text-sm"
+            className="text-[#8092A8] hover:text-[#FFFFFF] text-sm transition-colors"
+            aria-label="Close editor"
           >
-            ?
+            ✕
           </button>
         </div>
 
@@ -214,8 +234,10 @@ export function AdminEventEditorModal() {
               <input
                 type="text"
                 value={formData.prizePool.totalValue}
-                onChange={(e) => handleChange('prizePool', { ...formData.prizePool, totalValue: e.target.value })}
-                placeholder="e.g. ?1,50,000 Cash + Certificates"
+                onChange={(e) =>
+                  handleChange('prizePool', { ...formData.prizePool, totalValue: e.target.value })
+                }
+                placeholder="e.g. ₹1,50,000 Cash + Certificates"
                 className="w-full bg-[#060810] border border-[#1E293B] text-[#F1F5F9] px-3 py-2 rounded-[2px] focus:outline-none focus:border-[#60A5FA]"
               />
             </div>
@@ -229,8 +251,13 @@ export function AdminEventEditorModal() {
                 value={formData.registrationUrl}
                 onChange={(e) => handleChange('registrationUrl', e.target.value)}
                 placeholder="e.g. https://lnkd.in/gXffB4pT"
-                className="w-full bg-[#060810] border border-[#1E293B] text-[#F1F5F9] px-3 py-2 rounded-[2px] focus:outline-none focus:border-[#60A5FA]"
+                className={`w-full bg-[#060810] border ${
+                  urlError ? 'border-[#EF4444]' : 'border-[#1E293B]'
+                } text-[#F1F5F9] px-3 py-2 rounded-[2px] focus:outline-none focus:border-[#60A5FA]`}
               />
+              {urlError && (
+                <p className="text-[#EF4444] text-[10px] mt-1 font-mono">{urlError}</p>
+              )}
             </div>
           </div>
 
@@ -290,7 +317,7 @@ export function AdminEventEditorModal() {
                 type="submit"
                 className="py-2 px-6 bg-[#F1F5F9] hover:bg-[#FFFFFF] text-[#060810] font-bold rounded-[2px] transition-colors"
               >
-                Save & Publish Event ?
+                Save & Publish Event ↗
               </button>
             </div>
           </div>

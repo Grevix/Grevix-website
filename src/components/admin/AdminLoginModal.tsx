@@ -6,18 +6,26 @@ import { useAdminAuth } from '@/context/AdminAuthContext';
 export function AdminLoginModal() {
   const { isLoginModalOpen, closeLoginModal, login } = useAdminAuth();
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   if (!isLoginModalOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const success = login(password);
-    if (!success) {
-      setError(true);
+    if (!password.trim()) return;
+
+    setIsLoading(true);
+    setErrorMessage(null);
+
+    const result = await login(password);
+    setIsLoading(false);
+
+    if (!result.success) {
+      setErrorMessage(result.error || 'Incorrect passcode. Access denied.');
     } else {
       setPassword('');
-      setError(false);
+      setErrorMessage(null);
     }
   };
 
@@ -46,9 +54,10 @@ export function AdminLoginModal() {
           <button
             type="button"
             onClick={closeLoginModal}
-            className="text-[#8092A8] hover:text-[#FFFFFF] text-xs"
+            className="text-[#8092A8] hover:text-[#FFFFFF] text-xs transition-colors"
+            aria-label="Close modal"
           >
-            ?
+            ✕
           </button>
         </div>
 
@@ -62,35 +71,35 @@ export function AdminLoginModal() {
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
-                setError(false);
+                setErrorMessage(null);
               }}
               placeholder="Enter core team passcode..."
               autoFocus
-              className="w-full bg-[#060810] border border-[#1E293B] focus:border-[#60A5FA] text-[#F1F5F9] px-3 py-2.5 rounded-[2px] focus:outline-none"
+              disabled={isLoading}
+              className="w-full bg-[#060810] border border-[#1E293B] focus:border-[#60A5FA] text-[#F1F5F9] px-3 py-2.5 rounded-[2px] focus:outline-none disabled:opacity-50"
             />
-            {error && (
-              <p className="text-[#EF4444] text-[10px] mt-1">
-                Incorrect passcode. (Default key: grevix2026)
+            {errorMessage && (
+              <p className="text-[#EF4444] text-[10px] mt-1.5 font-mono">
+                {errorMessage}
               </p>
             )}
-            <p className="text-[#50627A] text-[10px] mt-1.5">
-              Tip: Passcode is <code className="text-[#60A5FA]">grevix2026</code> or <code className="text-[#60A5FA]">grevix</code>
-            </p>
           </div>
 
           <div className="flex items-center gap-3 pt-2">
             <button
               type="button"
               onClick={closeLoginModal}
-              className="flex-1 py-2 text-[#8092A8] hover:text-[#FFFFFF] border border-[#1E293B] rounded-[2px] transition-colors"
+              disabled={isLoading}
+              className="flex-1 py-2 text-[#8092A8] hover:text-[#FFFFFF] border border-[#1E293B] rounded-[2px] transition-colors disabled:opacity-50"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="flex-1 py-2 bg-[#F1F5F9] hover:bg-[#FFFFFF] text-[#060810] font-bold rounded-[2px] transition-colors"
+              disabled={isLoading || !password.trim()}
+              className="flex-1 py-2 bg-[#F1F5F9] hover:bg-[#FFFFFF] text-[#060810] font-bold rounded-[2px] transition-colors disabled:opacity-50 flex items-center justify-center gap-1"
             >
-              Unlock Access ?
+              {isLoading ? 'Verifying...' : 'Unlock Access ↗'}
             </button>
           </div>
         </form>

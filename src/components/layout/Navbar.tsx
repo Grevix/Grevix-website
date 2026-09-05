@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Container } from './Container';
-import { useAdminAuth } from '@/context/AdminAuthContext';
 
 interface NavbarProps {
   theme?: 'light' | 'dark';
@@ -13,7 +12,6 @@ interface NavbarProps {
 export function Navbar({ theme = 'light' }: NavbarProps) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { isAdmin, openLoginModal, logout, openEditorForEvent } = useAdminAuth();
 
   const isLight = theme === 'light';
 
@@ -23,44 +21,16 @@ export function Navbar({ theme = 'light' }: NavbarProps) {
     { href: '/community', label: 'COMMUNITY' },
     { href: '/projects', label: 'PROJECTS' },
     { href: '/events', label: 'EVENTS' },
-    { href: '/resources', label: 'RESOURCES' },
     { href: '/blog', label: 'BLOG' },
   ];
 
   return (
     <header className={`w-full z-50 transition-colors ${isLight ? 'bg-[#F4F5F7] text-[#0A0D14]' : 'bg-[#060810] text-[#F1F5F9]'}`}>
-      {/* Admin Mode Top Banner */}
-      {isAdmin && (
-        <div className="bg-[#090D18] border-b border-[#1E2B45] py-1.5 px-4 text-xs font-mono text-[#60A5FA] flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
-            <span className="font-bold">CORE ADMIN ACTIVE</span>
-            <span className="text-[#64748B] hidden sm:inline">? You can edit & add events directly</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => openEditorForEvent()}
-              className="text-[11px] px-2 py-0.5 bg-[#1E293B] hover:bg-[#334155] text-[#F1F5F9] border border-[#3B82F6]/50 rounded-[2px]"
-            >
-              + New Event
-            </button>
-            <button
-              type="button"
-              onClick={logout}
-              className="text-[11px] text-[#EF4444] hover:underline"
-            >
-              Exit Admin
-            </button>
-          </div>
-        </div>
-      )}
-
       <Container className="flex items-center justify-between h-20">
         {/* Brand Monogram */}
         <div className="flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2.5 group">
-            {/* Aperture / Eclipse Icon from screenshot */}
+            {/* Aperture / Eclipse Icon */}
             <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-[#0A0D14] via-[#1E293B] to-[#38BDF8] p-[1.5px] flex items-center justify-center shadow-sm">
               <div className="w-full h-full rounded-full bg-[#0A0D14] flex items-center justify-center">
                 <div className="w-2.5 h-2.5 rounded-full bg-[#E2E8F0] shadow-inner"></div>
@@ -102,17 +72,6 @@ export function Navbar({ theme = 'light' }: NavbarProps) {
 
         {/* Right Action Pair */}
         <div className="hidden sm:flex items-center gap-3">
-          {!isAdmin ? (
-            <button
-              type="button"
-              onClick={openLoginModal}
-              title="Core Team Access"
-              className={`text-[10px] font-mono px-2 py-1 transition-colors ${isLight ? 'text-[#64748B] hover:text-[#0A0D14]' : 'text-[#64748B] hover:text-[#F1F5F9]'}`}
-            >
-              [ CORE LOGIN ]
-            </button>
-          ) : null}
-
           <Link
             href="/community"
             className={`px-4 py-2 text-xs font-mono tracking-wider border rounded-[3px] transition-all flex items-center gap-1.5 ${
@@ -122,7 +81,7 @@ export function Navbar({ theme = 'light' }: NavbarProps) {
             }`}
           >
             <span>JOIN GREViX</span>
-            <span className="text-sm leading-none">?</span>
+            <span className="text-sm leading-none">→</span>
           </Link>
 
           <button
@@ -133,7 +92,7 @@ export function Navbar({ theme = 'light' }: NavbarProps) {
             }`}
             aria-label="Toggle menu"
           >
-            <span className="text-sm font-mono">?</span>
+            <span className="text-sm font-mono">≡</span>
           </button>
         </div>
 
@@ -161,22 +120,10 @@ export function Navbar({ theme = 'light' }: NavbarProps) {
               {link.label}
             </Link>
           ))}
-          <div className="pt-3 border-t border-[#E2E8F0] mt-2 flex items-center justify-between">
+          <div className="pt-3 border-t border-[#E2E8F0] mt-2">
             <Link href="/community" className="font-bold flex items-center gap-1">
-              JOIN GREViX ?
+              JOIN GREViX →
             </Link>
-            {!isAdmin && (
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  openLoginModal();
-                }}
-                className="text-[11px] text-[#64748B]"
-              >
-                Core Member Login
-              </button>
-            )}
           </div>
         </div>
       )}

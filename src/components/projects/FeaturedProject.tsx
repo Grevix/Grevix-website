@@ -2,6 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import { Project } from '@/types/project';
 import { ProjectTags } from './ProjectTags';
+import { ProjectGraphicSchematic } from './ProjectGraphicSchematic';
+import { sanitizeUrl } from '@/lib/utils';
 
 interface FeaturedProjectProps {
   project: Project;
@@ -32,12 +34,12 @@ export function FeaturedProject({ project }: FeaturedProjectProps) {
       </div>
 
       {/* Main Featured Box */}
-      <div className="relative p-6 sm:p-8 bg-[#090D18] border border-[#162238] rounded-[4px] hover:border-[#253556] transition-all group">
+      <div className="relative p-6 sm:p-8 bg-[#090D18] border border-[#162238] rounded-[4px] hover:border-[#253556] transition-all group space-y-6">
         {/* Top Right GitHub Link */}
         <a
-          href={project.githubUrl}
+          href={sanitizeUrl(project.githubUrl)}
           target="_blank"
-          rel="noreferrer"
+          rel="noreferrer noopener"
           className="absolute top-6 right-6 text-[#8D98A8] hover:text-[#FFFFFF] transition-colors text-base font-mono flex items-center gap-1"
           aria-label="View repository on GitHub"
         >
@@ -111,9 +113,9 @@ export function FeaturedProject({ project }: FeaturedProjectProps) {
               <div>
                 <div className="text-[10px] text-[#5A6475] uppercase tracking-wider">PACKAGE REGISTRY</div>
                 <a
-                  href={project.packageUrl}
+                  href={sanitizeUrl(project.packageUrl)}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noreferrer noopener"
                   className="text-[#6F9FFF] hover:underline font-medium mt-0.5 inline-flex items-center gap-1"
                 >
                   <span>{project.packageType} ({project.version})</span>
@@ -135,15 +137,20 @@ export function FeaturedProject({ project }: FeaturedProjectProps) {
                 View Project Details ↗
               </Link>
               <a
-                href={project.githubUrl}
+                href={sanitizeUrl(project.githubUrl)}
                 target="_blank"
-                rel="noreferrer"
+                rel="noreferrer noopener"
                 className="inline-block w-full text-center px-4 py-1.5 border border-[#1E293B] hover:border-[#8D98A8] text-[#8D98A8] hover:text-[#F4F5F6] font-mono text-[11px] rounded-[2px] transition-colors"
               >
                 GitHub Repository ↗
               </a>
             </div>
           </div>
+        </div>
+
+        {/* Embedded Graphic System Schematic */}
+        <div className="pt-2 border-t border-[#141F33]">
+          <ProjectGraphicSchematic slug={project.slug} />
         </div>
       </div>
     </section>

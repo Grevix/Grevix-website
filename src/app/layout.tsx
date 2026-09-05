@@ -4,8 +4,6 @@ import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { AdminAuthProvider } from '@/context/AdminAuthContext';
-import { AdminLoginModal } from '@/components/admin/AdminLoginModal';
-import { AdminEventEditorModal } from '@/components/admin/AdminEventEditorModal';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -20,7 +18,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'GREViX ? Student Driven. Impact Focused.',
+  title: 'GREViX • Student Driven. Impact Focused.',
   description: 'A student-driven technology and research community building software, hackathons, and technical research.',
 };
 
@@ -38,8 +36,6 @@ export default function RootLayout({
             {children}
           </div>
           <Footer />
-          <AdminLoginModal />
-          <AdminEventEditorModal />
         </AdminAuthProvider>
       </body>
     </html>

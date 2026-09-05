@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "@/lib/utils";
+import { cn, sanitizeUrl } from "@/lib/utils";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "outline" | "ghost" | "danger";
@@ -40,8 +40,11 @@ export function Button({
   const combinedClasses = cn(baseStyles, sizeStyles[size], variantStyles[variant], className);
 
   if (asLink && href) {
+    const safeHref = sanitizeUrl(href);
+    const safeRel = target === '_blank' ? (rel || 'noreferrer noopener') : rel;
+
     return (
-      <a href={href} target={target} rel={rel} className={combinedClasses}>
+      <a href={safeHref} target={target} rel={safeRel} className={combinedClasses}>
         {children}
       </a>
     );

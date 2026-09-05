@@ -23,22 +23,22 @@ export function EventList({ events, hasFilters = false, onResetFilters }: EventL
         <EditorialEventRow key={event.id} event={event} index={idx} />
       ))}
 
-      {/* Bottom Scroll Prompt matching screenshot */}
+      {/* Bottom Scroll Prompt */}
       <div className="py-12 flex flex-col items-center justify-center gap-2 font-mono text-[10px] text-[#64748B] uppercase tracking-widest select-none">
         <div className="flex items-center gap-3">
           <span className="w-8 h-[1px] bg-[#1E293B]"></span>
-          <span>?</span>
+          <span>•</span>
           <span className="w-8 h-[1px] bg-[#1E293B]"></span>
           <span>SCROLL TO EXPLORE MORE OPPORTUNITIES</span>
-          <span className="inline-block px-1.5 py-0.5 border border-[#1E293B] rounded-[3px] text-xs leading-none">??</span>
+          <span className="inline-block px-1.5 py-0.5 border border-[#1E293B] rounded-[3px] text-xs leading-none">↓</span>
           <span className="w-8 h-[1px] bg-[#1E293B]"></span>
-          <span>?</span>
+          <span>•</span>
           <span className="w-8 h-[1px] bg-[#1E293B]"></span>
         </div>
-        <div className="text-xs text-[#50627A]">?</div>
+        <div className="text-xs text-[#50627A]">↓</div>
       </div>
 
-      {/* Bottom Community Callout Box matching screenshot ("HAVE AN IDEA? BUILD IT WITH US.") */}
+      {/* Bottom Community Callout Box ("HAVE AN IDEA? BUILD IT WITH US.") */}
       <div className="pt-8 pb-16">
         <div className="font-mono text-xs text-[#8092A8] uppercase tracking-wider mb-3">
           // COMPETE. BUILD. IMPACT.
@@ -66,7 +66,7 @@ export function EventList({ events, hasFilters = false, onResetFilters }: EventL
               className="px-6 py-3.5 bg-[#0B1020] hover:bg-[#121A30] border border-[#1E2B45] text-[#F1F5F9] font-mono text-xs tracking-wider font-semibold rounded-[2px] transition-colors flex items-center gap-3"
             >
               <span>SUBMIT AN OPPORTUNITY</span>
-              <span className="text-sm leading-none text-[#60A5FA]">?</span>
+              <span className="text-sm leading-none text-[#60A5FA]">→</span>
             </a>
           </div>
         </div>

@@ -1,15 +1,12 @@
+'use client';
+
 import React from 'react';
 import { Container } from '@/components/layout/Container';
 
 export function ProjectsHero() {
   return (
-    <section className="relative bg-[#F4F5F7] text-[#0A0D14] pt-8 pb-20 md:pb-28 overflow-hidden">
+    <section className="relative bg-[#F4F5F7] text-[#0A0D14] pt-8 pb-16 md:pb-24 overflow-hidden">
       <Container className="relative">
-        {/* Left vertical rotated stamp */}
-        <div className="hidden xl:block absolute -left-12 top-10 transform -rotate-90 origin-top-left font-mono text-[9px] tracking-[0.3em] text-[#94A3B8] uppercase select-none">
-          GREViX COMMUNITY
-        </div>
-
         {/* Header Tag with horizontal line & node */}
         <div className="flex items-center gap-3 mb-6">
           <span className="font-mono text-xs text-[#0A0D14] tracking-wider uppercase font-semibold">
@@ -21,13 +18,13 @@ export function ProjectsHero() {
         </div>
 
         {/* 2-Column Asymmetric Hero Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-6">
           {/* Left: Giant 3-Line Title & Manifesto */}
           <div className="lg:col-span-8 space-y-4">
             <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight uppercase leading-[0.95]">
               <span className="text-[#0A0D14] block">PROJECTS</span>
               <span className="text-[#7A889B] block">THAT CREATE</span>
-              <span className="text-[#7A889B] block">REAL IMPACT.</span>
+              <span className="text-[#7A889B] block">REAL IMPACT</span>
             </h1>
 
             <p className="text-xs sm:text-sm font-sans text-[#475569] max-w-lg leading-relaxed pt-2">
@@ -54,12 +51,6 @@ export function ProjectsHero() {
               </p>
             </div>
           </div>
-        </div>
-
-        {/* Scroll indicator on left */}
-        <div className="hidden md:flex items-center gap-2 font-mono text-[10px] text-[#64748B] uppercase tracking-widest pt-4">
-          <span className="border border-[#CBD5E1] px-1.5 py-0.5 rounded-[2px] bg-[#FFFFFF]">SCROLL</span>
-          <span>↓</span>
         </div>
       </Container>
 

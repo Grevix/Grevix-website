@@ -21,7 +21,7 @@ export function EventTimeline({ milestones }: EventTimelineProps) {
           />
           <div className="flex flex-wrap items-center gap-2 mb-1">
             <span className="text-[#7090B0] font-semibold">{m.date}</span>
-            <span className="text-[#606880]">?</span>
+            <span className="text-[#606880]">•</span>
             <span className="text-[#D0F0F0] font-medium font-sans">{m.title}</span>
             {m.completed && (
               <span className="text-[10px] text-[#10B981] bg-[#10B981]/10 px-1.5 rounded-[2px]">

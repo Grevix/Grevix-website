@@ -2,16 +2,30 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getEventBySlug } from '@/lib/data/eventsRepository';
 import { analyzeEventIntelligence } from '@/lib/ai/aiClient';
 
+const SLUG_REGEX = /^[a-z0-9-]+$/;
+const MAX_SLUG_LENGTH = 100;
+
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
+    const body = await req.json().catch(() => ({}));
     const { slug } = body;
 
-    if (!slug) {
-      return NextResponse.json({ error: 'Missing event slug' }, { status: 400 });
+    if (!slug || typeof slug !== 'string') {
+      return NextResponse.json(
+        { error: 'Event slug is required and must be a string' },
+        { status: 400 }
+      );
     }
 
-    const event = await getEventBySlug(slug);
+    const trimmedSlug = slug.trim();
+    if (trimmedSlug.length > MAX_SLUG_LENGTH || !SLUG_REGEX.test(trimmedSlug)) {
+      return NextResponse.json(
+        { error: 'Invalid slug format' },
+        { status: 400 }
+      );
+    }
+
+    const event = await getEventBySlug(trimmedSlug);
     if (!event) {
       return NextResponse.json({ error: 'Event not found' }, { status: 404 });
     }

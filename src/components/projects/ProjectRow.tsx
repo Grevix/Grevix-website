@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Project } from '@/types/project';
 import { ProjectTags } from './ProjectTags';
+import { sanitizeUrl } from '@/lib/utils';
 
 interface ProjectRowProps {
   project: Project;
@@ -81,9 +82,9 @@ export function ProjectRow({ project, index }: ProjectRowProps) {
             <div className="flex items-center gap-2">
               <span className="text-[#5A6475] text-[10px] uppercase">PKG:</span>
               <a
-                href={project.packageUrl}
+                href={sanitizeUrl(project.packageUrl)}
                 target="_blank"
-                rel="noreferrer"
+                rel="noreferrer noopener"
                 className="text-[#6F9FFF] hover:underline text-[11px]"
               >
                 {project.packageType}
@@ -103,9 +104,9 @@ export function ProjectRow({ project, index }: ProjectRowProps) {
           </Link>
 
           <a
-            href={project.githubUrl}
+            href={sanitizeUrl(project.githubUrl)}
             target="_blank"
-            rel="noreferrer"
+            rel="noreferrer noopener"
             className="text-[#8D98A8] hover:text-[#F4F5F6] transition-colors flex items-center gap-1 text-[11px]"
           >
             <span>GitHub</span>
@@ -114,9 +115,9 @@ export function ProjectRow({ project, index }: ProjectRowProps) {
 
           {project.docsUrl && (
             <a
-              href={project.docsUrl}
+              href={sanitizeUrl(project.docsUrl)}
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener"
               className="text-[#5A6475] hover:text-[#8D98A8] transition-colors flex items-center gap-1 text-[11px]"
             >
               <span>Docs</span>

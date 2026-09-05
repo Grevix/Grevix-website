@@ -217,7 +217,25 @@ export async function getProjects(): Promise<ProjectsResult> {
       };
     }
 
-    const rawRepos: GitHubRepoDto[] = await res.json();
+    const rawText = await res.text().catch(() => '');
+    if (!rawText || !rawText.trim()) {
+      return {
+        projects: GREVIX_PROJECTS,
+        isFromGitHub: false,
+        lastSyncedAt: new Date().toISOString(),
+      };
+    }
+
+    let rawRepos: GitHubRepoDto[] = [];
+    try {
+      rawRepos = JSON.parse(rawText);
+    } catch {
+      return {
+        projects: GREVIX_PROJECTS,
+        isFromGitHub: false,
+        lastSyncedAt: new Date().toISOString(),
+      };
+    }
 
     if (!Array.isArray(rawRepos) || rawRepos.length === 0) {
       return {
