@@ -193,7 +193,7 @@ body {
   padding: 80px 40px 100px 40px;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   position: relative;
 }
 
@@ -272,7 +272,6 @@ body {
   border: 1px dashed var(--border-light);
   padding: 24px;
   position: relative;
-  margin-top: 40px;
 }
 .hero-info-card .corner {
   position: absolute;
@@ -744,4 +743,47 @@ body {
 .add-member-card:hover .plus-icon-container,
 .add-member-card:hover .member-name {
   color: #60A5FA !important;
+}
+/* Sponsorship Card */
+.sponsor-card {
+}
+.sponsor-status {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #3B82F6;
+  margin: 12px 0 16px 0;
+  letter-spacing: 0.02em;
+}
+.sponsor-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sponsor-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: var(--text-muted-dark);
+  margin-bottom: 4px;
+}
+.sponsor-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sponsor-role {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted-dark);
+}
+.sponsor-email {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: #3B82F6;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.sponsor-email:hover {
+  opacity: 0.7;
 }
