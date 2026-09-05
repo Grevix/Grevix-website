@@ -1,13 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
 import { Container } from '@/components/layout/Container';
+import { HomeSystemsVisualizer } from '@/components/home/HomeSystemsVisualizer';
 
 export default function HomePage() {
   return (
-    <div className="py-20 md:py-32">
+    <div className="py-16 md:py-24">
       <Container>
         {/* Editorial Hero */}
-        <div className="max-w-4xl space-y-8 mb-20">
+        <div className="max-w-4xl space-y-8 mb-16">
           <div className="font-mono text-xs text-[#8D98A8] tracking-widest uppercase">
             GREViX // STUDENT TECHNOLOGY & RESEARCH
           </div>
@@ -22,8 +23,15 @@ export default function HomePage() {
 
           <div className="flex flex-wrap items-center gap-4 pt-2 text-xs font-mono">
             <Link
+              href="/projects"
+              className="px-5 py-3 bg-[#F4F5F6] hover:bg-[#FFFFFF] text-[#050609] font-semibold rounded-[2px] transition-colors flex items-center gap-1.5"
+            >
+              <span>Explore Projects (Page 02)</span>
+              <span>↗</span>
+            </Link>
+            <Link
               href="/events"
-              className="px-5 py-3 bg-[#F4F5F6] hover:bg-[#E5E7EB] text-[#050609] font-semibold rounded-[2px] transition-colors"
+              className="px-5 py-3 border border-[#1E2330] hover:border-[#8D98A8] text-[#F4F5F6] rounded-[2px] transition-colors"
             >
               Explore Events & Hackathons ↗
             </Link>
@@ -31,7 +39,7 @@ export default function HomePage() {
               href="https://github.com/Grevix"
               target="_blank"
               rel="noreferrer noopener"
-              className="px-5 py-3 border border-[#1E2330] hover:border-[#8D98A8] text-[#F4F5F6] rounded-[2px] transition-colors"
+              className="px-5 py-3 border border-[#1E2330] hover:border-[#8D98A8] text-[#8D98A8] hover:text-[#F4F5F6] rounded-[2px] transition-colors"
             >
               GitHub Organization ↗
             </a>
@@ -57,7 +65,11 @@ export default function HomePage() {
             <div className="text-[#5A6475] mt-1">Special Interest Labs</div>
           </div>
         </div>
+
+        {/* Interactive Systems Graphic Showcase */}
+        <HomeSystemsVisualizer />
       </Container>
     </div>
   );
 }
+
