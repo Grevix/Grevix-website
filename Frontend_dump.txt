@@ -1,0 +1,93 @@
+GREVIX
+1.PAGE-1 HOME -About GREVIX
+Section 1:- Navigation Bar
+Example:
+Includes :
+About
+Projects
+Hackathons
+Members
+Achievements
+Blog
+Community
+Section 2:- Hero 
+First thing visitors see.
+Includes:
+GREVIX logo and tagline
+Primary CTA -> EXPLORE PROJECTS
+Secondary CTA ->JOIN/CONTRIBUTE
+Subtle Animation/Visual
+Who we are? (Short introduction )
+Areas we work in (icons of Software , AI and Research, Open Source Contribution etc)
+Grevix Numbers(Live records of contributors, Repositories ,Projects , Members ) it will be fetched through Github/Api/Database.
+Section 3 :- Footer
+It includes:
+2.PAGE-2 Projects
+Includes:-
+Projects with their icons ,2 line details and direct link of their repositories with a CTA saying View project and a small Github Logo.
+If their will be more projects that can be stated in one page then their will be sub pages with CTA (NEXT-> and <-PREVIOUS)
+NAVIGATION BAR WILL BE SAME AS FIRST PAGE.
+All right reserved footer should be there.
+3.PAGE-3 HACKATHON AND QUIZZES
+Includes: -
+Upcoming (Links for registration should be there)
+Ongoing  (Live updates)
+Completed(Show result details)
+NAVIGATION BAR WILL BE SAME AS FIRST PAGE.
+All right reserved footer should be there.
+4.PAGE-4 ACHIEVEMENTS
+Includes: -
+Each should contain: -
+Title
+Date/year
+Description
+Image
+People Involved
+NAVIGATION BAR WILL BE SAME AS FIRST PAGE.
+All right reserved footer should be there.
+5.PAGE-5 MEMBERS
+Include: -
+Leadership: -
+Founder and Co-Founder
+Core Team: -
+President
+Vice president
+Project leads
+Community Manger
+Researchers
+Above details will be showed as per suitable team members at respective post.
+NAVIGATION BAR WILL BE SAME AS FIRST PAGE.
+All right reserved footer should be there.
+6.PAGE-6 BLOG/ARTICLES
+Include: -
+Article Cards with title and read article CTA.
+NAVIGATION BAR WILL BE SAME AS FIRST PAGE.
+All right reserved footer should be there.
+7.PAGE-7 COMMUNITY
+Purpose: Tell people where they can interact with Grevix.
+Join the Grevix community.
+Build with us.
+Learn with us.
+Contribute with us.
+GitHub
+Twitter(X)
+LinkedIn
+Instagram
+NAVIGATION BAR WILL BE SAME AS FIRST PAGE.
+All right reserved footer should be there.
+8.PAGE-8 CONTACT
+Contact categories
+Sponsorship
+Partnership
+Project Collaboration
+Hackathons
+Community
+Sponsorship
+Interested in sponsoring Grevix?
+We work with organizations interested in
+technology, innovation, developer communities
+and student-led projects.
+[Discuss Sponsorship →]
+The above CTA will connects to a google form through backend.
+NAVIGATION BAR WILL BE SAME AS FIRST PAGE.
+All right reserved footer should be there.
