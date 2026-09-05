@@ -23,20 +23,8 @@ export function EventList({ events, hasFilters = false, onResetFilters }: EventL
         <EditorialEventRow key={event.id} event={event} index={idx} />
       ))}
 
-      {/* Bottom Scroll Prompt */}
-      <div className="py-12 flex flex-col items-center justify-center gap-2 font-mono text-[10px] text-[#64748B] uppercase tracking-widest select-none">
-        <div className="flex items-center gap-3">
-          <span className="w-8 h-[1px] bg-[#1E293B]"></span>
-          <span>•</span>
-          <span className="w-8 h-[1px] bg-[#1E293B]"></span>
-          <span>SCROLL TO EXPLORE MORE OPPORTUNITIES</span>
-          <span className="inline-block px-1.5 py-0.5 border border-[#1E293B] rounded-[3px] text-xs leading-none">↓</span>
-          <span className="w-8 h-[1px] bg-[#1E293B]"></span>
-          <span>•</span>
-          <span className="w-8 h-[1px] bg-[#1E293B]"></span>
-        </div>
-        <div className="text-xs text-[#50627A]">↓</div>
-      </div>
+      {/* Clean Divider */}
+      <div className="py-6 border-b border-[#141C2E]"></div>
 
       {/* Bottom Community Callout Box ("HAVE AN IDEA? BUILD IT WITH US.") */}
       <div className="pt-8 pb-16">

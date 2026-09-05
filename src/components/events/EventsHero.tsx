@@ -5,11 +5,6 @@ export function EventsHero() {
   return (
     <section className="relative bg-[#F4F5F7] text-[#0A0D14] pt-8 pb-20 md:pb-28 overflow-hidden">
       <Container className="relative">
-        {/* Left vertical rotated label matching screenshot */}
-        <div className="hidden xl:block absolute -left-12 top-10 transform -rotate-90 origin-top-left font-mono text-[9px] tracking-[0.3em] text-[#94A3B8] uppercase select-none">
-          GREViX COMMUNITY
-        </div>
-
         {/* Header Tag with horizontal line */}
         <div className="flex items-center gap-3 mb-6">
           <span className="font-mono text-xs text-[#0A0D14] tracking-wider uppercase font-semibold">
@@ -20,8 +15,8 @@ export function EventsHero() {
           </div>
         </div>
 
-        {/* 2-Column Hero Grid matching screenshot */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-8">
+        {/* 2-Column Hero Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-4">
           {/* Left: Giant 3-Line Title */}
           <div className="lg:col-span-8 space-y-4">
             <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight uppercase leading-[0.95]">
@@ -55,19 +50,13 @@ export function EventsHero() {
             </div>
           </div>
         </div>
-
-        {/* Scroll indicator on left */}
-        <div className="hidden md:flex items-center gap-2 font-mono text-[10px] text-[#64748B] uppercase tracking-widest pt-4">
-          <span className="border border-[#CBD5E1] px-1.5 py-0.5 rounded-[2px] bg-[#FFFFFF]">SCROLL</span>
-          <span>?</span>
-        </div>
       </Container>
 
       {/* Slanted diagonal bottom divider */}
       <div
         className="absolute bottom-0 left-0 right-0 h-8 md:h-12 bg-[#060810]"
         style={{
-          clipPath: 'polygon(0 100%, 100% 0, 100% 100%)'
+          clipPath: 'polygon(0 100%, 100% 0, 100% 100%)',
         }}
       />
     </section>
