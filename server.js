@@ -46,6 +46,7 @@ app.use(express.static(__dirname, {
 }));
 
 const { loadArticles, runDailyPipeline, loadState } = require('./services/blogPipeline');
+const { addSubscriber, getAllSubscribers, sendDailyDigestEmails } = require('./services/newsletterService');
 
 // Route handlers
 app.get('/', (req, res) => {
@@ -62,6 +63,40 @@ app.get('/terms', (req, res) => {
 
 app.get('/blog', (req, res) => {
   res.sendFile(path.join(__dirname, 'blog.html'));
+});
+
+// Newsletter API: Subscribe Email (Stored locally in private_data/subscribers.xlsx)
+app.post('/api/newsletter/subscribe', async (req, res) => {
+  try {
+    const { email } = req.body;
+    const ip = req.ip || req.headers['x-forwarded-for'] || '127.0.0.1';
+    const result = await addSubscriber(email, ip);
+    return res.json(result);
+  } catch (err) {
+    console.error('[API /api/newsletter/subscribe] Error:', err);
+    return res.status(500).json({ success: false, message: 'Internal server error processing subscription.' });
+  }
+});
+
+// Newsletter API: Get Subscriber Count & List (Local Secured Access)
+app.get('/api/newsletter/subscribers', async (req, res) => {
+  try {
+    const subscribers = await getAllSubscribers();
+    return res.json({ success: true, count: subscribers.length, subscribers });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// Newsletter API: Manual Trigger for Daily 07:00 AM IST Email Digest
+app.post('/api/newsletter/send-digest', async (req, res) => {
+  try {
+    const result = await sendDailyDigestEmails();
+    return res.json(result);
+  } catch (err) {
+    console.error('[API /api/newsletter/send-digest] Manual trigger error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
 });
 
 // Blog API: Fetch list of articles with optional category and search query filtering
@@ -167,13 +202,15 @@ function initDaily7AmIstScheduler() {
 
     if (hours === 7 && minutes === 0 && global.__last7AmISTRun !== todayKey) {
       global.__last7AmISTRun = todayKey;
-      console.log(`[07:00 AM IST Scheduler] Executing daily blog update pipeline for ${todayKey}`);
-      runDailyPipeline().catch(err => console.error('[07:00 AM IST Scheduler] Error:', err));
+      console.log(`[07:00 AM IST Scheduler] Executing daily blog update pipeline & newsletter email dispatch for ${todayKey}`);
+      runDailyPipeline()
+        .then(() => sendDailyDigestEmails())
+        .catch(err => console.error('[07:00 AM IST Scheduler] Error:', err));
     }
   }
 
   setInterval(checkTimeAndTrigger, 30000); // Check every 30 seconds
-  console.log('[Scheduler] Daily 07:00 AM IST (Asia/Kolkata) blog automation initialized.');
+  console.log('[Scheduler] Daily 07:00 AM IST (Asia/Kolkata) blog automation & email newsletter dispatch initialized.');
 }
 
 initDaily7AmIstScheduler();
