@@ -154,7 +154,7 @@
         <!-- Bottom Telemetry Row -->
         <div class="home-telemetry-footer">
           <div class="home-telemetry-coords">
-            <span>28.5837&deg; N &nbsp; 78.9629&deg; E</span>
+            <span id="user-coords">28.5837&deg; N &nbsp; 78.9629&deg; E</span>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
               <circle cx="12" cy="12" r="9"/>
               <circle cx="12" cy="12" r="4"/>
@@ -194,5 +194,59 @@
 
   </div>
 
+  <script>
+    (function initUserCoordinates() {
+      const coordsEl = document.getElementById('user-coords');
+      if (!coordsEl) return;
+
+      function formatCoordinates(lat, lng) {
+        const latDir = lat >= 0 ? 'N' : 'S';
+        const lngDir = lng >= 0 ? 'E' : 'W';
+        const formattedLat = Math.abs(lat).toFixed(4);
+        const formattedLng = Math.abs(lng).toFixed(4);
+        return `${formattedLat}&deg; ${latDir} &nbsp; ${formattedLng}&deg; ${lngDir}`;
+      }
+
+      function tryIPGeolocationFallback() {
+        fetch('https://get.geojs.io/v1/ip/geo.json')
+          .then(response => response.json())
+          .then(data => {
+            if (data && data.latitude && data.longitude) {
+              const lat = parseFloat(data.latitude);
+              const lng = parseFloat(data.longitude);
+              if (!isNaN(lat) && !isNaN(lng)) {
+                coordsEl.innerHTML = formatCoordinates(lat, lng);
+              }
+            }
+          })
+          .catch(() => {
+            fetch('https://ipapi.co/json/')
+              .then(res => res.json())
+              .then(data => {
+                if (data && data.latitude && data.longitude) {
+                  coordsEl.innerHTML = formatCoordinates(data.latitude, data.longitude);
+                }
+              })
+              .catch(() => {});
+          });
+      }
+
+      if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            coordsEl.innerHTML = formatCoordinates(lat, lng);
+          },
+          () => {
+            tryIPGeolocationFallback();
+          },
+          { timeout: 5000, enableHighAccuracy: false }
+        );
+      } else {
+        tryIPGeolocationFallback();
+      }
+    })();
+  </script>
 </body>
 </html>
