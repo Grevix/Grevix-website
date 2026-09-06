@@ -279,6 +279,31 @@ async function sendToGoogleSheet(payload) {
   }
 }
 
+// Supabase Cloud Storage Client
+let supabase = null;
+try {
+  const { createClient } = require('@supabase/supabase-js');
+  const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (supabaseUrl && supabaseKey) {
+    supabase = createClient(supabaseUrl, supabaseKey);
+  }
+} catch (e) {}
+
+async function saveToSupabase(table, record) {
+  if (!supabase) return;
+  try {
+    const { error } = await supabase.from(table).insert([record]);
+    if (error) {
+      console.error(`[Supabase Error] (${table}):`, error.message);
+    } else {
+      console.log(`[Supabase Success] Inserted row into table '${table}'`);
+    }
+  } catch (err) {
+    console.error(`[Supabase Exception] (${table}):`, err.message);
+  }
+}
+
 // Helper: Sanitize string input to prevent XSS / CSV/Excel Formula Injection
 function sanitizeInput(str) {
   if (typeof str !== 'string') return '';
@@ -445,6 +470,15 @@ app.post('/api/join-application', async (req, res) => {
       email: cleanEmail,
       github: cleanGithub,
       interest: cleanInterest,
+      status: 'Received'
+    });
+
+    // Sync to Supabase table 'join_applications'
+    saveToSupabase('join_applications', {
+      email: cleanEmail,
+      github: cleanGithub,
+      interest: cleanInterest,
+      timestamp: formattedTimestamp,
       status: 'Received'
     });
 

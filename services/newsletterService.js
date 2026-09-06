@@ -37,6 +37,31 @@ async function sendToGoogleSheet(payload) {
   }
 }
 
+// Supabase Cloud Storage Client
+let supabase = null;
+try {
+  const { createClient } = require('@supabase/supabase-js');
+  const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (supabaseUrl && supabaseKey) {
+    supabase = createClient(supabaseUrl, supabaseKey);
+  }
+} catch (e) {}
+
+async function saveToSupabase(table, record) {
+  if (!supabase) return;
+  try {
+    const { error } = await supabase.from(table).insert([record]);
+    if (error) {
+      console.error(`[Supabase Error] (${table}):`, error.message);
+    } else {
+      console.log(`[Supabase Success] Inserted row into table '${table}'`);
+    }
+  } catch (err) {
+    console.error(`[Supabase Exception] (${table}):`, err.message);
+  }
+}
+
 /**
  * Initialize Excel workbook if it doesn't exist
  */
@@ -130,6 +155,14 @@ async function addSubscriber(email, ip = '127.0.0.1') {
     email: normEmail,
     ip: ip,
     status: 'ACTIVE'
+  });
+
+  // Sync to Supabase table 'subscribers'
+  saveToSupabase('subscribers', {
+    email: normEmail,
+    subscribed_at: nowIso,
+    status: 'ACTIVE',
+    ip: ip
   });
 
   return { success: true, message: 'Thank you for subscribing! You will receive daily AI & Tech digests at 7:00 AM IST.', isNew: true };
