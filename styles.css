@@ -2407,7 +2407,7 @@ body {
   text-decoration: underline;
 }
 
-/* Responsive Rules for Blog */
+/* Responsive Rules for Blog & General Components */
 @media (max-width: 1024px) {
   .blog-hero {
     grid-template-columns: 1fr;
@@ -2435,6 +2435,348 @@ body {
     width: 100%;
   }
 }
+
+/* ==========================================================================
+   MOBILE & RESPONSIVE REFINEMENTS (STRICTLY MOBILE PHONES <= 768px / <= 480px)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  /* Global Mobile Overflow & Word Wrapping Protection */
+  html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+  }
+  
+  *, *::before, *::after {
+    max-width: 100%;
+  }
+
+  h1, h2, h3, h4, .hero-headline, .home-headline, .blog-headline, .why-title, 
+  .team-section-heading, .newsletter-title, .cta-heading, .join-box-left h2,
+  .member-name, .blog-card-title, .reader-title {
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+    hyphens: auto;
+  }
+
+  /* Containers & Padding */
+  .navbar,
+  .home-navbar,
+  .hero-container,
+  .dark-content,
+  .about-main-container,
+  .blog-main-container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    width: 100% !important;
+  }
+
+  /* Navbar Adjustments */
+  .navbar {
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
+  }
+
+  .home-navbar {
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
+  }
+
+  .wordmark {
+    font-size: 1rem !important;
+  }
+
+  .tagline {
+    font-size: 0.45rem !important;
+  }
+
+  .join-btn, .join-btn-home {
+    padding: 6px 12px !important;
+    font-size: 0.7rem !important;
+  }
+
+  /* Headlines & Typography scaling on Mobile */
+  .hero-headline {
+    font-size: clamp(1.8rem, 7vw, 2.8rem) !important;
+    line-height: 1.05 !important;
+    letter-spacing: -0.02em !important;
+    margin-bottom: 20px !important;
+  }
+
+  .home-headline {
+    font-size: clamp(1.6rem, 6.5vw, 2.4rem) !important;
+    line-height: 1.05 !important;
+    letter-spacing: -0.02em !important;
+    margin-bottom: 16px !important;
+  }
+
+  .blog-headline {
+    font-size: clamp(1.8rem, 7vw, 2.8rem) !important;
+    line-height: 1.05 !important;
+  }
+
+  .why-title, .team-section-heading, .cta-heading, .newsletter-title {
+    font-size: clamp(1.5rem, 6vw, 2.2rem) !important;
+    line-height: 1.1 !important;
+  }
+
+  .join-box-left h2 {
+    font-size: clamp(1.6rem, 6vw, 2.2rem) !important;
+    line-height: 1.1 !important;
+  }
+
+  .card-left h2 {
+    font-size: 1.4rem !important;
+    line-height: 1.15 !important;
+  }
+
+  .hero-subhead, .home-subhead, .manifesto, .why-desc, .blog-subhead, .cta-subtext {
+    font-size: 0.85rem !important;
+    line-height: 1.5 !important;
+    max-width: 100% !important;
+  }
+
+  /* Home Split Hero Layout on Mobile */
+  .home-hero-main {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 16px 16px 30px !important;
+  }
+
+  .home-left-col {
+    padding: 24px 16px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-bottom: 24px !important;
+  }
+
+  .home-cta-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    gap: 10px !important;
+  }
+
+  .home-cta-primary, .home-cta-secondary {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  .home-blackhole-visual {
+    height: 220px !important;
+    margin: 10px 0 20px !important;
+  }
+
+  .home-right-col {
+    padding-left: 0 !important;
+    min-height: auto !important;
+    gap: 24px !important;
+  }
+
+  .home-telemetry-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+
+  .home-telemetry-num {
+    font-size: 2.2rem !important;
+    text-align: left !important;
+    padding-right: 0 !important;
+  }
+
+  .home-telemetry-num::after {
+    display: none !important;
+  }
+
+  .home-telemetry-footer {
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  /* Flagship Cards & Social Section */
+  .flagship-card {
+    padding: 24px 18px !important;
+  }
+
+  .card-content {
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+
+  .card-right {
+    align-items: flex-start !important;
+    width: 100% !important;
+  }
+
+  .action-btn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .list-row {
+    padding: 16px !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+
+  .row-left {
+    width: 100% !important;
+    justify-content: space-between !important;
+  }
+
+  .row-right {
+    width: 100% !important;
+    margin-top: 4px !important;
+  }
+
+  .bottom-cta {
+    padding: 30px 20px !important;
+    flex-direction: column !important;
+    gap: 24px !important;
+    align-items: stretch !important;
+  }
+
+  .cta-right {
+    min-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .cta-btn {
+    width: 100% !important;
+    text-align: center !important;
+    justify-content: center !important;
+  }
+
+  /* Grid Layouts to 1 Column */
+  .why-cards-grid,
+  .explore-grid,
+  .philosophy-grid,
+  .team-grid,
+  .blog-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  /* Join Box Form */
+  .join-box {
+    padding: 24px 16px !important;
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+
+  .join-input-group {
+    flex-wrap: wrap !important;
+    padding: 10px 12px !important;
+  }
+
+  .join-submit-btn {
+    width: 100% !important;
+  }
+
+  /* Blog & Newsletter */
+  .blog-hero {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+
+  .blog-toolbar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 16px !important;
+  }
+
+  .blog-search-wrap {
+    width: 100% !important;
+  }
+
+  .newsletter-content {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+
+  .newsletter-form {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+
+  .newsletter-btn {
+    width: 100% !important;
+  }
+
+  .blog-newsletter {
+    padding: 30px 20px !important;
+  }
+
+  /* Footers */
+  .site-footer, .home-footer {
+    flex-direction: column !important;
+    gap: 14px !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+    padding: 20px 16px !important;
+  }
+
+  .footer-right {
+    flex-wrap: wrap !important;
+    gap: 14px !important;
+  }
+
+  /* Article Modal */
+  .article-modal-overlay {
+    padding: 16px 10px !important;
+  }
+
+  .article-modal-container {
+    padding: 24px 16px !important;
+    max-height: 88vh !important;
+  }
+
+  .reader-title {
+    font-size: 1.5rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .reader-hero-img {
+    height: 200px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra Compact Styling for Small Smartphones */
+  .hero-headline {
+    font-size: 1.7rem !important;
+  }
+
+  .home-headline {
+    font-size: 1.5rem !important;
+  }
+
+  .blog-headline {
+    font-size: 1.6rem !important;
+  }
+
+  .home-left-col {
+    padding: 18px 14px !important;
+  }
+
+  .cat-btn {
+    padding: 6px 10px !important;
+    font-size: 0.65rem !important;
+  }
+
+  .tab-btn {
+    padding: 6px 12px !important;
+    font-size: 0.68rem !important;
+  }
+
+  .member-card {
+    padding: 20px 16px !important;
+  }
+}
+
 
 
 
