@@ -194,9 +194,24 @@ Vector databases enable fast similarity searches across high-dimensional embeddi
   }
 ];
 
-// Helper: Normalize title / URL for deduplication hashing
+// Helper: Normalize title / URL for strict deduplication hashing
 function generateStoryHash(title, url) {
-  const normTitle = (title || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const normTitle = (title || '')
+    .toLowerCase()
+    .replace(/hacker news/g, 'hn')
+    .replace(/product hunt/g, 'ph')
+    .replace(/products/g, 'prod')
+    .replace(/product/g, 'prod')
+    .replace(/community/g, '')
+    .replace(/digest/g, '')
+    .replace(/daily/g, '')
+    .replace(/ecosystem/g, '')
+    .replace(/infrastructure & inference/g, 'infra')
+    .replace(/infrastructure/g, 'infra')
+    .replace(/open source trends/g, 'ostrends')
+    .replace(/open source/g, 'os')
+    .replace(/[^a-z0-9]/g, '');
+
   const normUrl = (url || '').toLowerCase().trim();
   return crypto.createHash('md5').update(`${normTitle}:${normUrl}`).digest('hex');
 }
@@ -427,9 +442,22 @@ async function runDailyPipeline() {
   const processedHashesSet = new Set(state.processedHashes || []);
 
   for (const item of fetchedItems) {
-    const hash = generateStoryHash(item.title, item.url);
+    const cleanTitle = sanitizeToEnglish(item.title) || 'AI & Tech Update';
+    const hash = generateStoryHash(cleanTitle, item.url);
+
     if (processedHashesSet.has(hash)) {
       continue; // Skip already published / processed story
+    }
+
+    // Check against existing published article titles
+    const isDuplicate = currentArticles.some(art => {
+      const artHash = generateStoryHash(art.title, art.sourceUrl);
+      return artHash === hash || art.title.toLowerCase().trim() === cleanTitle.toLowerCase().trim();
+    });
+
+    if (isDuplicate) {
+      processedHashesSet.add(hash);
+      continue;
     }
 
     // Mark hash as processed
