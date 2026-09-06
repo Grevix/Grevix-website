@@ -267,19 +267,37 @@ initDaily7AmIstScheduler();
 async function sendToGoogleSheet(payload) {
   const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
   if (!webhookUrl) return;
+const nodemailer = require('nodemailer');
+
+// Helper: Send instant email notification to teamgrevix.foundation@gmail.com
+async function sendNotificationEmail(subject, htmlBody) {
   try {
-    await fetch(webhookUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    console.log(`[Google Sheets] Synced ${payload.type || 'Submission'} to Google Sheet`);
+    const smtpUser = process.env.SMTP_USER || 'teamgrevix.foundation@gmail.com';
+    const smtpPass = process.env.SMTP_PASS;
+    const smtpHost = process.env.SMTP_HOST || 'smtp.gmail.com';
+    const smtpPort = parseInt(process.env.SMTP_PORT || '587', 10);
+
+    if (smtpPass) {
+      const transporter = nodemailer.createTransport({
+        host: smtpHost,
+        port: smtpPort,
+        secure: smtpPort === 465,
+        auth: { user: smtpUser, pass: smtpPass }
+      });
+      await transporter.sendMail({
+        from: `"Grevix Alerts" <${smtpUser}>`,
+        to: 'teamgrevix.foundation@gmail.com',
+        subject: subject,
+        html: htmlBody
+      });
+      console.log(`[Email Alert] Dispatched alert to teamgrevix.foundation@gmail.com`);
+    } else {
+      console.log(`[Email Alert Recorded] ${subject}`);
+    }
   } catch (err) {
-    console.error('[Google Sheets Error]:', err.message);
+    console.error('[Email Alert Error]:', err.message);
   }
 }
-
-
 
 // Helper: Sanitize string input to prevent XSS / CSV/Excel Formula Injection
 function sanitizeInput(str) {
@@ -440,17 +458,20 @@ app.post('/api/join-application', async (req, res) => {
 
     console.log(`[${formattedTimestamp}] New Application Recorded Securely: ${cleanEmail}`);
 
-    // Sync to Google Sheet if GOOGLE_SHEETS_WEBHOOK_URL is set
-    sendToGoogleSheet({
-      type: 'Join Application',
-      timestamp: formattedTimestamp,
-      email: cleanEmail,
-      github: cleanGithub,
-      interest: cleanInterest,
-      status: 'Received'
-    });
-
-
+    // Trigger instant notification alert to teamgrevix.foundation@gmail.com
+    const alertSubject = `New Join Application: ${cleanEmail}`;
+    const alertHtml = `
+      <div style="font-family: sans-serif; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+        <h2 style="color: #0A0D14; margin-top: 0;">New Grevix Join Application Received</h2>
+        <p><strong>Applicant Email:</strong> <a href="mailto:${cleanEmail}">${cleanEmail}</a></p>
+        <p><strong>GitHub Profile:</strong> <a href="${cleanGithub}" target="_blank">${cleanGithub}</a></p>
+        <p><strong>Interest Area:</strong> ${cleanInterest}</p>
+        <p><strong>Submitted At:</strong> ${formattedTimestamp} (IST)</p>
+        <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
+        <p style="font-size: 12px; color: #64748b;">This automated alert was dispatched by the Grevix Website Server.</p>
+      </div>
+    `;
+    sendNotificationEmail(alertSubject, alertHtml);
 
     return res.json({
       success: true,
