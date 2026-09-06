@@ -55,7 +55,27 @@ const { addSubscriber, getAllSubscribers, sendDailyDigestEmails } = require('./s
 
 // Route handlers
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'home.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.get('/home', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.get('/community', (req, res) => {
+  res.sendFile(path.join(__dirname, 'community.html'));
+});
+
+app.get('/about', (req, res) => {
+  res.sendFile(path.join(__dirname, 'about.html'));
+});
+
+app.get('/projects', (req, res) => {
+  res.sendFile(path.join(__dirname, 'projects.html'));
+});
+
+app.get('/events', (req, res) => {
+  res.sendFile(path.join(__dirname, 'events.html'));
 });
 
 app.get('/privacy', (req, res) => {
