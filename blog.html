@@ -37,6 +37,14 @@
       <div class="nav-right">
         <a href="https://discord.gg/HMFaCYeYa" target="_blank" rel="noopener noreferrer" class="join-btn">JOIN GREVIX &#8599;</a>
       </div>
+      <!-- Mobile Hamburger Toggle -->
+      <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
     </header>
 
     <main class="hero-container">
@@ -353,6 +361,48 @@
         .replace(/\n\n/g, '</p><p>')
         .replace(/(<p><\/p>)/g, '');
     }
+
+  <!-- Mobile Drawer Menu Overlay -->
+  <div class="mobile-drawer-overlay" id="mobileDrawer">
+    <div class="mobile-drawer-header">
+      <a href="index.html" class="logo">
+        <div class="logo-mark"></div>
+        <div class="logo-text">
+          <span class="wordmark">GREVIX</span>
+          <span class="tagline">STUDENT DRIVEN. IMPACT FOCUSED.</span>
+        </div>
+      </a>
+      <button class="mobile-drawer-close" id="mobileDrawerClose" aria-label="Close Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <nav class="mobile-drawer-nav">
+      <a href="index.html">HOME <span>&#8594;</span></a>
+      <a href="about.html">ABOUT <span>&#8594;</span></a>
+      <a href="projects.html">PROJECTS <span>&#8594;</span></a>
+      <a href="events.html">EVENTS <span>&#8594;</span></a>
+      <a href="community.html">COMMUNITY <span>&#8594;</span></a>
+      <a href="blog.html" class="active">BLOG <span>&#8594;</span></a>
+      <a href="https://discord.gg/HMFaCYeYa" target="_blank" rel="noopener noreferrer" class="mobile-drawer-join">JOIN GREVIX &#8599;</a>
+    </nav>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggleBtn = document.getElementById('mobileMenuToggle');
+      const drawer = document.getElementById('mobileDrawer');
+      const closeBtn = document.getElementById('mobileDrawerClose');
+
+      if (toggleBtn && drawer) {
+        toggleBtn.addEventListener('click', () => drawer.classList.add('active'));
+      }
+      if (closeBtn && drawer) {
+        closeBtn.addEventListener('click', () => drawer.classList.remove('active'));
+      }
+    });
 
     // Check query param on page load
     window.addEventListener('DOMContentLoaded', () => {
