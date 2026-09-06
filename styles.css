@@ -62,6 +62,13 @@ body {
   margin: 0 auto;
 }
 
+.nav-left {
+  display: flex;
+  align-items: center;
+  flex: 1 1 0%;
+  justify-content: flex-start;
+}
+
 .nav-left .logo {
   display: flex;
   align-items: center;
@@ -109,7 +116,9 @@ body {
 
 .nav-center {
   display: flex;
-  gap: 24px;
+  align-items: center;
+  gap: clamp(14px, 1.8vw, 24px);
+  justify-content: center;
 }
 .nav-center a {
   text-decoration: none;
@@ -120,6 +129,7 @@ body {
   letter-spacing: 0.05em;
   position: relative;
   transition: color 0.2s;
+  white-space: nowrap;
 }
 .nav-center a:hover {
   color: var(--text-dark);
@@ -152,6 +162,8 @@ body {
   display: flex;
   align-items: center;
   gap: 16px;
+  flex: 1 1 0%;
+  justify-content: flex-end;
 }
 .login-link {
   font-family: var(--font-mono);
@@ -1354,6 +1366,20 @@ body {
   max-width: 1600px;
   margin: 0 auto;
   width: 100%;
+}
+
+.home-navbar .nav-left {
+  flex: 1 1 0%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.home-navbar .nav-right {
+  flex: 1 1 0%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .home-navbar .nav-left .wordmark {
