@@ -209,12 +209,9 @@ function buildDailyDigestHtml(articles) {
 
     <!-- Sign-off & Footer -->
     <div style="border-top: 1px solid #E2E8F0; padding-top: 20px; font-size: 13px; color: #475569; line-height: 1.6;">
-      <p style="margin: 0 0 12px 0;">
+      <p style="margin: 0;">
         Best regards,<br>
         <strong style="color: #0F172A;">Grevix Team</strong>
-      </p>
-      <p style="font-size: 11px; color: #94A3B8; margin: 0; line-height: 1.4;">
-        You received this automated daily digest because your email is subscribed on the Grevix website. All subscriber data is stored in secured local storage.
       </p>
     </div>
 
@@ -240,6 +237,10 @@ async function sendDailyDigestEmails() {
   const htmlContent = buildDailyDigestHtml(articles);
   const subject = `Grevix Daily Digest: Top 3 Tech & AI Updates for ${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
 
+  // Sender email configuration (Default: teamgrevix.foundation@gmail.com)
+  const defaultSender = '"Grevix Daily Digest" <teamgrevix.foundation@gmail.com>';
+  const fromEmail = process.env.SMTP_FROM || (process.env.SMTP_USER ? `"Grevix Daily Digest" <${process.env.SMTP_USER}>` : defaultSender);
+
   // Check SMTP configuration
   const hasSmtp = process.env.SMTP_HOST && process.env.SMTP_USER;
 
@@ -263,13 +264,13 @@ async function sendDailyDigestEmails() {
     if (hasSmtp && transporter) {
       try {
         await transporter.sendMail({
-          from: `"Grevix Daily Digest" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+          from: fromEmail,
           to: email,
           subject: subject,
           html: htmlContent
         });
         sentCount++;
-        logEntries.push(`[${new Date().toISOString()}] DISPATCHED SMTP -> ${email}`);
+        logEntries.push(`[${new Date().toISOString()}] DISPATCHED FROM ${fromEmail} -> ${email}`);
       } catch (err) {
         console.error(`[Newsletter Service] Failed sending to ${email}:`, err.message);
         logEntries.push(`[${new Date().toISOString()}] ERROR SMTP -> ${email}: ${err.message}`);
@@ -277,7 +278,7 @@ async function sendDailyDigestEmails() {
     } else {
       // Local Simulated Dispatch Mode (Logs sent email details cleanly)
       sentCount++;
-      logEntries.push(`[${new Date().toISOString()}] DISPATCHED SIMULATED (Local Secured Mode) -> ${email}`);
+      logEntries.push(`[${new Date().toISOString()}] DISPATCHED FROM ${fromEmail} (Local Secured Mode) -> ${email}`);
     }
   }
 

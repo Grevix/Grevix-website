@@ -18,16 +18,19 @@ const EXCEL_PATH = path.join(PRIVATE_DIR, 'details.xlsx');
 app.use((req, res, next) => {
   const reqPath = req.path.toLowerCase();
 
-  // Block any attempt to read Excel files, dotfiles, node modules, or raw server scripts
+  // Block any attempt to read Excel files, dotfiles, node modules, JSON/log/yaml files in private directories, or raw server scripts
   if (
     reqPath.endsWith('.xlsx') ||
     reqPath.endsWith('.xls') ||
     reqPath.endsWith('.env') ||
+    reqPath.endsWith('.log') ||
+    reqPath.endsWith('.json') ||
     reqPath.includes('/private_data/') ||
     reqPath === '/server.js' ||
     reqPath === '/package.json' ||
     reqPath === '/package-lock.json' ||
-    reqPath.startsWith('/.git')
+    reqPath.startsWith('/.git') ||
+    reqPath.includes('.git')
   ) {
     console.warn(`[SECURITY BLOCKED] Unauthorized HTTP request attempt to private resource: ${req.path} from IP ${req.ip}`);
     return res.status(404).send('404 Not Found'); // Return 404 so attackers cannot even probe file existence

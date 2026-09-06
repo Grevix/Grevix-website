@@ -173,7 +173,6 @@
           gridEl.innerHTML = `<div class="blog-error">No articles found in this category.</div>`;
         }
       } catch (err) {
-        console.error('Error fetching articles:', err);
         gridEl.innerHTML = `<div class="blog-error">Failed to load articles. Please refresh.</div>`;
       }
     }
@@ -275,7 +274,6 @@
             feedback.innerText = data.message || 'Subscription failed. Please try again.';
           }
         } catch (err) {
-          console.error('Newsletter submission error:', err);
           feedback.style.color = '#EF4444';
           feedback.innerText = 'Failed to submit. Please check connection.';
         } finally {
