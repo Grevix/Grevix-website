@@ -33,3 +33,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# confidential local spreadsheets
+details.xlsx
+*.xlsx
+*.xls
+
