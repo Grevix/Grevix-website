@@ -85,7 +85,7 @@ export default function CommunityPage() {
             </p>
             <div className="pt-2">
               <a
-                href="https://discord.gg/grevix"
+                href="https://discord.gg/HMFaCYeYa"
                 target="_blank"
                 rel="noreferrer noopener"
                 className="inline-block px-5 py-2.5 bg-[#5865F2] hover:bg-[#4752C4] text-[#FFFFFF] font-bold text-xs rounded-[2px] transition-colors"

@@ -155,7 +155,7 @@ export const MOCK_EVENTS: Event[] = [
         { rank: 'Runner Up', prize: '₹15,000' },
       ],
     },
-    registrationUrl: 'https://discord.gg/grevix',
+    registrationUrl: 'https://discord.gg/HMFaCYeYa',
     sourceType: 'verified_admin',
     lastSyncedAt: '2026-08-30T12:00:00Z',
   },

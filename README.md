@@ -119,7 +119,7 @@ Make sure you have [Node.js](https://nodejs.org/) (v18.0.0 or higher) installed 
 - **Organization:** GREVIX Tech Collective  
 - **Email:** [teamgrevixorg@gmail.com](mailto:teamgrevixorg@gmail.com)  
 - **GitHub:** [https://github.com/Grevix](https://github.com/Grevix)  
-- **Discord:** [Join GREVIX Community](https://discord.gg/grevix)
+- **Discord:** [Join GREVIX Community](https://discord.gg/HMFaCYeYa)
 
 ---
 

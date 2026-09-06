@@ -35,7 +35,7 @@ export default function ContactPage() {
             </p>
             <div className="pt-2">
               <a
-                href="https://discord.gg/grevix"
+                href="https://discord.gg/HMFaCYeYa"
                 target="_blank"
                 rel="noreferrer noopener"
                 className="text-[#60A5FA] hover:underline"

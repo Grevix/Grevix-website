@@ -262,7 +262,7 @@ export function EventDetail({ event: initialEvent }: EventDetailProps) {
               Join the GREViX Discord community to collaborate, form teams, and get help from mentors.
             </p>
             <a
-              href="https://discord.gg/grevix"
+              href="https://discord.gg/HMFaCYeYa"
               target="_blank"
               rel="noreferrer noopener"
               className="inline-block pt-1 text-[#60A5FA] hover:underline"
