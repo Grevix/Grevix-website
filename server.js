@@ -45,6 +45,8 @@ app.use(express.static(__dirname, {
   index: false
 }));
 
+const { loadArticles, runDailyPipeline, loadState } = require('./services/blogPipeline');
+
 // Route handlers
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'home.html'));
@@ -57,6 +59,124 @@ app.get('/privacy', (req, res) => {
 app.get('/terms', (req, res) => {
   res.sendFile(path.join(__dirname, 'terms.html'));
 });
+
+app.get('/blog', (req, res) => {
+  res.sendFile(path.join(__dirname, 'blog.html'));
+});
+
+// Blog API: Fetch list of articles with optional category and search query filtering
+app.get('/api/blog/articles', (req, res) => {
+  try {
+    let articles = loadArticles();
+    const { category, search } = req.query;
+
+    if (category && category.toUpperCase() !== 'ALL') {
+      const cleanCat = category.toUpperCase().replace(/\s+/g, '');
+      articles = articles.filter(a => {
+        const itemCat = (a.category || '').toUpperCase().replace(/\s+/g, '');
+        return itemCat === cleanCat || itemCat.includes(cleanCat) || cleanCat.includes(itemCat);
+      });
+    }
+
+    if (search && search.trim().length > 0) {
+      const q = search.trim().toLowerCase();
+      articles = articles.filter(a =>
+        a.title.toLowerCase().includes(q) ||
+        a.excerpt.toLowerCase().includes(q) ||
+        (a.tags && a.tags.some(t => t.toLowerCase().includes(q)))
+      );
+    }
+
+    return res.json({ success: true, count: articles.length, articles });
+  } catch (err) {
+    console.error('[API /api/blog/articles] Error:', err);
+    return res.status(500).json({ success: false, message: 'Failed to load blog articles.' });
+  }
+});
+
+// Blog API: Get single article details by slug
+app.get('/api/blog/articles/:slug', (req, res) => {
+  try {
+    const articles = loadArticles();
+    const slug = req.params.slug.toLowerCase().trim();
+    const article = articles.find(a => a.slug.toLowerCase() === slug || a.id.toLowerCase() === slug);
+
+    if (!article) {
+      return res.status(404).json({ success: false, message: 'Article not found' });
+    }
+
+    // Find 3 related articles in same category
+    const related = articles
+      .filter(a => a.id !== article.id)
+      .slice(0, 3);
+
+    return res.json({ success: true, article, related });
+  } catch (err) {
+    console.error('[API /api/blog/articles/:slug] Error:', err);
+    return res.status(500).json({ success: false, message: 'Failed to load article.' });
+  }
+});
+
+// Blog API: Admin / Manual Trigger for Daily Fetch Pipeline
+app.post('/api/blog/fetch', async (req, res) => {
+  try {
+    console.log(`[API /api/blog/fetch] Manual trigger started at ${new Date().toISOString()}`);
+    const result = await runDailyPipeline();
+    return res.json(result);
+  } catch (err) {
+    console.error('[API /api/blog/fetch] Manual trigger failed:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+app.get('/api/blog/fetch', async (req, res) => {
+  try {
+    console.log(`[API /api/blog/fetch] Manual trigger started at ${new Date().toISOString()}`);
+    const result = await runDailyPipeline();
+    return res.json(result);
+  } catch (err) {
+    console.error('[API /api/blog/fetch] Manual trigger failed:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// Blog API: Admin Pipeline Status
+app.get('/api/blog/admin/status', (req, res) => {
+  const state = loadState();
+  const articles = loadArticles();
+  return res.json({
+    status: 'ACTIVE',
+    schedule: '07:00 AM IST (Asia/Kolkata)',
+    lastRun: state.lastRun || 'Not run yet',
+    runCount: state.runCount || 0,
+    processedItemsCount: (state.processedHashes || []).length,
+    publishedArticlesCount: articles.length
+  });
+});
+
+// 07:00 AM IST (Asia/Kolkata) Daily Scheduler Loop
+function initDaily7AmIstScheduler() {
+  function checkTimeAndTrigger() {
+    const now = new Date();
+    const istTimeStr = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour12: false });
+    const parts = istTimeStr.split(':');
+    const hours = parseInt(parts[0], 10);
+    const minutes = parseInt(parts[1], 10);
+
+    const todayKey = now.toLocaleDateString('en-US', { timeZone: 'Asia/Kolkata' });
+
+    if (hours === 7 && minutes === 0 && global.__last7AmISTRun !== todayKey) {
+      global.__last7AmISTRun = todayKey;
+      console.log(`[07:00 AM IST Scheduler] Executing daily blog update pipeline for ${todayKey}`);
+      runDailyPipeline().catch(err => console.error('[07:00 AM IST Scheduler] Error:', err));
+    }
+  }
+
+  setInterval(checkTimeAndTrigger, 30000); // Check every 30 seconds
+  console.log('[Scheduler] Daily 07:00 AM IST (Asia/Kolkata) blog automation initialized.');
+}
+
+initDaily7AmIstScheduler();
 
 // Helper: Sanitize string input to prevent XSS / CSV/Excel Formula Injection
 function sanitizeInput(str) {

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GREVIX - Blog & Research</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/jpeg" href="favicon.jpg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="blog-page-wrap">
+  <!-- Side label -->
+  <div class="side-label">GREVIX CO</div>
+
+  <!-- Main Navbar -->
+  <header class="navbar">
+    <div class="nav-left">
+      <div class="logo">
+        <div class="logo-mark"></div>
+        <div class="logo-text">
+          <span class="wordmark">GREVIX</span>
+          <span class="tagline">STUDENT DRIVEN. IMPACT FOCUSED.</span>
+        </div>
+      </div>
+    </div>
+    <nav class="nav-center">
+      <a href="home.html">HOME</a>
+      <a href="about.html">ABOUT</a>
+      <a href="community.html">COMMUNITY</a>
+      <a href="projects.html">PROJECTS</a>
+      <a href="events.html">EVENTS</a>
+      <a href="blog.html" class="active">BLOG<span class="active-dot-nav"></span></a>
+    </nav>
+    <div class="nav-right">
+      <a href="https://discord.gg/grevix" target="_blank" rel="noopener noreferrer" class="join-btn">JOIN GREVIX &#8599;</a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="blog-main-container">
+
+    <!-- 01 / BLOG Hero Section -->
+    <div class="blog-hero">
+      <div class="blog-hero-left">
+        <div class="breadcrumb">
+          <span class="breadcrumb-number">01 / BLOG</span>
+          <span class="breadcrumb-line"></span>
+          <span class="breadcrumb-dot"></span>
+        </div>
+
+        <h1 class="blog-headline">
+          IDEAS<br>
+          THAT BUILD<br>
+          <span class="text-tomorrow">TOMORROW.</span>
+        </h1>
+
+        <p class="blog-subhead">
+          Articles, research, tools and ideas from the GREVIX collective and the wider tech community.
+        </p>
+
+        <div class="blog-hero-tags">
+          <span>AI/ML</span>
+          <span>SOFTWARE</span>
+          <span>OPEN SOURCE</span>
+          <span>RESEARCH</span>
+          <span>CONCEPTS</span>
+        </div>
+      </div>
+
+      <div class="blog-hero-right">
+        <div class="knowledge-card">
+          <div class="knowledge-tag">// KNOWLEDGE IN PROGRESS</div>
+          <p class="knowledge-desc">
+            We explore ideas, tools and research that shape a more open, intelligent and innovative future.
+          </p>
+          <div class="knowledge-divider"></div>
+          <div class="knowledge-steps">
+            <span>READ .</span>
+            <span>LEARN .</span>
+            <span>BUILD .</span>
+            <span>REPEAT .</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter & Search Bar -->
+    <div class="blog-toolbar">
+      <div class="blog-categories" id="category-bar">
+        <button class="cat-btn active" data-category="ALL">ALL</button>
+        <button class="cat-btn" data-category="AI / ML">AI / ML</button>
+        <button class="cat-btn" data-category="SOFTWARE">SOFTWARE</button>
+        <button class="cat-btn" data-category="OPEN SOURCE">OPEN SOURCE</button>
+        <button class="cat-btn" data-category="RESEARCH">RESEARCH</button>
+        <button class="cat-btn" data-category="CONCEPTS">CONCEPTS</button>
+        <button class="cat-btn" data-category="TUTORIALS">TUTORIALS</button>
+        <button class="cat-btn" data-category="OPINION">OPINION</button>
+      </div>
+
+      <div class="blog-search-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="blog-search" placeholder="Search articles..." />
+      </div>
+    </div>
+
+    <!-- Article Grid -->
+    <div class="blog-grid" id="blog-grid">
+      <!-- Dynamic Article Cards Loaded via JavaScript -->
+      <div class="blog-loading">Loading Grevix Articles...</div>
+    </div>
+
+    <!-- Newsletter Section -->
+    <div class="blog-newsletter">
+      <div class="corner-bracket tl"></div><div class="corner-bracket tr"></div>
+      <div class="corner-bracket bl"></div><div class="corner-bracket br"></div>
+      
+      <div class="newsletter-content">
+        <div class="newsletter-left">
+          <div class="newsletter-tag">// STAY UPDATED</div>
+          <h2 class="newsletter-title">NEW IDEAS<br>IN YOUR <span class="text-inbox">INBOX.</span></h2>
+          <p class="newsletter-sub">Get notified when we publish new articles, research or tools.</p>
+        </div>
+
+        <div class="newsletter-right">
+          <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed to Grevix Research Insights!');">
+            <div class="newsletter-input-wrap">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              <input type="email" placeholder="Enter your email" required />
+            </div>
+            <button type="submit" class="newsletter-btn">SUBSCRIBE &#8599;</button>
+          </form>
+          <div class="newsletter-side-tag">
+            KNOWLEDGE<br>
+            BUILDS<br>
+            OPPORTUNITIES.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Article Reader Modal -->
+  <div class="article-modal-overlay" id="article-modal">
+    <div class="article-modal-container">
+      <button class="article-modal-close" onclick="closeArticleModal()">&times; CLOSE</button>
+      <div id="article-modal-body">
+        <!-- Rendered Full Article Body -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Standard Footer -->
+  <footer class="home-footer">
+    <div class="footer-left" style="display: flex; align-items: center; gap: 12px;">
+      <div class="logo" style="width: 24px; height: 24px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--text-light);">N</div>
+      <span>&copy; 2026 GREVIX COMMUNITY</span>
+    </div>
+    <div class="footer-center">
+      [ THE FEW WHO BUILD WHAT'S NEXT. ]
+    </div>
+    <div class="footer-right" style="display: flex; align-items: center; gap: 20px; position: relative; z-index: 20;">
+      <a href="privacy.html" style="cursor: pointer; display: inline-block;">PRIVACY</a>
+      <a href="terms.html" style="cursor: pointer; display: inline-block;">TERMS</a>
+      <a href="mailto:teamgrevixorg@gmail.com" style="cursor: pointer; display: inline-block;">CONTACT</a>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+    </div>
+  </footer>
+
+  <!-- Blog Client Script -->
+  <script>
+    let currentCategory = 'ALL';
+    let searchQuery = '';
+    let allArticles = [];
+
+    async function loadBlogArticles() {
+      const gridEl = document.getElementById('blog-grid');
+      try {
+        const url = `/api/blog/articles?category=${encodeURIComponent(currentCategory)}&search=${encodeURIComponent(searchQuery)}`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (data.success && data.articles) {
+          allArticles = data.articles;
+          renderArticles(allArticles);
+        } else {
+          gridEl.innerHTML = `<div class="blog-error">No articles found in this category.</div>`;
+        }
+      } catch (err) {
+        console.error('Error fetching articles:', err);
+        gridEl.innerHTML = `<div class="blog-error">Failed to load articles. Please refresh.</div>`;
+      }
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return 'SEP 2026';
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return 'SEP 2026';
+      const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+      return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+    }
+
+    function renderArticles(articles) {
+      const gridEl = document.getElementById('blog-grid');
+      if (!articles || articles.length === 0) {
+        gridEl.innerHTML = `<div class="blog-empty">No articles match your search query.</div>`;
+        return;
+      }
+
+      gridEl.innerHTML = articles.map(art => `
+        <article class="blog-card" onclick="openArticleModal('${art.slug}')">
+          <div class="blog-card-thumb">
+            <img src="${art.imageUrl || 'assets/blackhole.png'}" alt="${art.title}" />
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-card-cat">${art.category}</span>
+              <span class="blog-card-time">${art.readingTime || '5 MIN READ'}</span>
+            </div>
+            <h3 class="blog-card-title">${art.title}</h3>
+            <p class="blog-card-excerpt">${art.excerpt}</p>
+            <div class="blog-card-footer">
+              <div class="blog-card-author">
+                <span class="author-dot"></span>
+                <span>${art.author || 'GREVIX'}</span>
+                <span class="author-sep">&bull;</span>
+                <span>${formatDate(art.publishedAt)}</span>
+              </div>
+              <span class="blog-card-arrow">&#8599;</span>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    // Category Filter Events
+    document.querySelectorAll('#category-bar .cat-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#category-bar .cat-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = btn.getAttribute('data-category');
+        loadBlogArticles();
+      });
+    });
+
+    // Search Input Event
+    const searchInput = document.getElementById('blog-search');
+    let searchTimeout;
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        searchQuery = e.target.value;
+        loadBlogArticles();
+      }, 300);
+    });
+
+    // Modal Article Reader
+    async function openArticleModal(slug) {
+      const modalOverlay = document.getElementById('article-modal');
+      const modalBody = document.getElementById('article-modal-body');
+
+      modalOverlay.classList.add('active');
+      modalBody.innerHTML = `<div class="blog-loading">Loading article content...</div>`;
+
+      try {
+        const res = await fetch(`/api/blog/articles/${slug}`);
+        const data = await res.json();
+
+        if (data.success && data.article) {
+          const art = data.article;
+          modalBody.innerHTML = `
+            <div class="reader-header">
+              <div class="reader-cat-row">
+                <span class="reader-cat">${art.category}</span>
+                <span class="reader-time">${art.readingTime}</span>
+              </div>
+              <h1 class="reader-title">${art.title}</h1>
+              <div class="reader-byline">
+                <span>By ${art.author}</span> &bull; 
+                <span>${formatDate(art.publishedAt)}</span> &bull; 
+                <span>Source: <a href="${art.sourceUrl}" target="_blank" rel="noopener">${art.source}</a></span>
+              </div>
+            </div>
+
+            <div class="reader-hero-img">
+              <img src="${art.imageUrl || 'assets/blackhole.png'}" alt="${art.title}">
+            </div>
+
+            <div class="reader-content">
+              ${formatContentMarkdown(art.content)}
+            </div>
+
+            <div class="reader-tags">
+              ${(art.tags || []).map(t => `<span class="reader-tag">#${t}</span>`).join('')}
+            </div>
+
+            <div class="reader-source-box">
+              <strong>Source & Attribution:</strong> This Grevix Editorial article is compiled from real-time open intelligence upstream (<a href="${art.sourceUrl}" target="_blank" rel="noopener">${art.source}</a>).
+            </div>
+          `;
+
+          // Update URL hash for sharing
+          history.pushState(null, '', `?slug=${art.slug}`);
+        } else {
+          modalBody.innerHTML = `<div class="blog-error">Article could not be loaded.</div>`;
+        }
+      } catch (err) {
+        modalBody.innerHTML = `<div class="blog-error">Failed to load article.</div>`;
+      }
+    }
+
+    function closeArticleModal() {
+      const modalOverlay = document.getElementById('article-modal');
+      modalOverlay.classList.remove('active');
+      history.pushState(null, '', window.location.pathname);
+    }
+
+    function formatContentMarkdown(raw) {
+      if (!raw) return '';
+      return raw
+        .replace(/### (.*?)\n/g, '<h3>$1</h3>')
+        .replace(/## (.*?)\n/g, '<h2>$1</h2>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n\n/g, '</p><p>')
+        .replace(/(<p><\/p>)/g, '');
+    }
+
+    // Check query param on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      loadBlogArticles();
+      const params = new URLSearchParams(window.location.search);
+      const slug = params.get('slug');
+      if (slug) {
+        openArticleModal(slug);
+      }
+    });
+  </script>
+</body>
+</html>
