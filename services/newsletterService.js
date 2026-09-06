@@ -21,6 +21,22 @@ try {
   }
 } catch (e) {}
 
+// Helper: Send submission data to Google Sheet Webhook if configured
+async function sendToGoogleSheet(payload) {
+  const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+  if (!webhookUrl) return;
+  try {
+    await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    console.log(`[Google Sheets] Synced ${payload.type || 'Submission'} to Google Sheet`);
+  } catch (err) {
+    console.error('[Google Sheets Error]:', err.message);
+  }
+}
+
 /**
  * Initialize Excel workbook if it doesn't exist
  */
@@ -106,6 +122,16 @@ async function addSubscriber(email, ip = '127.0.0.1') {
   }
 
   console.log(`[Newsletter Service] Successfully added subscriber: ${normEmail} to local Excel file.`);
+  
+  // Sync to Google Sheet if GOOGLE_SHEETS_WEBHOOK_URL is set
+  sendToGoogleSheet({
+    type: 'Newsletter Subscriber',
+    timestamp: nowIso,
+    email: normEmail,
+    ip: ip,
+    status: 'ACTIVE'
+  });
+
   return { success: true, message: 'Thank you for subscribing! You will receive daily AI & Tech digests at 7:00 AM IST.', isNew: true };
 }
 

@@ -263,6 +263,22 @@ function initDaily7AmIstScheduler() {
 
 initDaily7AmIstScheduler();
 
+// Helper: Send submission data to Google Sheet Webhook if configured
+async function sendToGoogleSheet(payload) {
+  const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+  if (!webhookUrl) return;
+  try {
+    await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    console.log(`[Google Sheets] Synced ${payload.type || 'Submission'} to Google Sheet`);
+  } catch (err) {
+    console.error('[Google Sheets Error]:', err.message);
+  }
+}
+
 // Helper: Sanitize string input to prevent XSS / CSV/Excel Formula Injection
 function sanitizeInput(str) {
   if (typeof str !== 'string') return '';
@@ -416,9 +432,21 @@ app.post('/api/join-application', async (req, res) => {
     newRow.height = 20;
 
     // Save Workbook to Local File
-    await workbook.xlsx.writeFile(EXCEL_PATH);
+    try {
+      await workbook.xlsx.writeFile(EXCEL_PATH);
+    } catch (e) {}
 
     console.log(`[${formattedTimestamp}] New Application Recorded Securely: ${cleanEmail}`);
+
+    // Sync to Google Sheet if GOOGLE_SHEETS_WEBHOOK_URL is set
+    sendToGoogleSheet({
+      type: 'Join Application',
+      timestamp: formattedTimestamp,
+      email: cleanEmail,
+      github: cleanGithub,
+      interest: cleanInterest,
+      status: 'Received'
+    });
 
     return res.json({
       success: true,
