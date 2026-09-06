@@ -1877,7 +1877,7 @@ body {
    BLOG PAGE STYLES (MATCHING DESIGN SPECIFICATION)
    ========================================================================== */
 .blog-page-wrap {
-  background-color: #F8F9FA;
+  background-color: var(--bg-light);
   color: #111111;
   font-family: var(--font-sans);
   min-height: 100vh;
