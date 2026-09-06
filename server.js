@@ -6,11 +6,13 @@ const ExcelJS = require('exceljs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Store confidential Excel outside public asset serving
-const PRIVATE_DIR = path.join(__dirname, 'private_data');
-if (!fs.existsSync(PRIVATE_DIR)) {
-  fs.mkdirSync(PRIVATE_DIR, { recursive: true });
-}
+const isVercel = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
+const PRIVATE_DIR = isVercel ? path.join('/tmp', 'private_data') : path.join(__dirname, 'private_data');
+try {
+  if (!fs.existsSync(PRIVATE_DIR)) {
+    fs.mkdirSync(PRIVATE_DIR, { recursive: true });
+  }
+} catch (e) {}
 const EXCEL_PATH = path.join(PRIVATE_DIR, 'details.xlsx');
 
 // Security Middleware 1: Strict File Shielding
@@ -192,8 +194,31 @@ app.get('/api/blog/admin/status', (req, res) => {
   });
 });
 
+// Vercel Cron Endpoint (Triggers daily 07:00 AM IST automation at 01:30 UTC)
+app.get('/api/cron/daily-digest', async (req, res) => {
+  try {
+    console.log(`[Vercel Cron] Daily 07:00 AM IST automation triggered at ${new Date().toISOString()}`);
+    const pipelineResult = await runDailyPipeline();
+    const digestResult = await sendDailyDigestEmails();
+    return res.json({
+      success: true,
+      timestamp: new Date().toISOString(),
+      pipeline: pipelineResult,
+      digest: digestResult
+    });
+  } catch (err) {
+    console.error('[Vercel Cron Error]:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // 07:00 AM IST (Asia/Kolkata) Daily Scheduler Loop
 function initDaily7AmIstScheduler() {
+  if (isVercel) {
+    console.log('[Scheduler] Running on Vercel Serverless environment. Relying on Vercel Cron Jobs for 07:00 AM IST execution.');
+    return;
+  }
+
   function checkTimeAndTrigger() {
     const now = new Date();
     const istTimeStr = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour12: false });
@@ -389,7 +414,11 @@ app.post('/api/join-application', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`GREVIX website server running at http://localhost:${PORT}`);
-  console.log(`Confidential form entries are stored locally at: ${EXCEL_PATH}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`GREVIX website server running at http://localhost:${PORT}`);
+    console.log(`Confidential form entries are stored locally at: ${EXCEL_PATH}`);
+  });
+}
+
+module.exports = app;

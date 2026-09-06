@@ -1,7 +1,14 @@
 {
   "version": 2,
   "cleanUrls": true,
+  "crons": [
+    {
+      "path": "/api/cron/daily-digest",
+      "schedule": "30 1 * * *"
+    }
+  ],
   "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index" },
     { "source": "/", "destination": "/index.html" },
     { "source": "/home", "destination": "/home.html" },
     { "source": "/about", "destination": "/about.html" },

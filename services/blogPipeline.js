@@ -9,14 +9,18 @@ const { fetchAgentsRadar } = require('../sources/agentsRadar');
 const { fetchTechNewsDigest } = require('../sources/techNewsDigest');
 const { fetchTwitterResearch } = require('../sources/twitterResearch');
 
-const PRIVATE_DIR = path.join(__dirname, '..', 'private_data');
+const isVercel = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
+const PRIVATE_DIR = isVercel ? path.join('/tmp', 'private_data') : path.join(__dirname, '..', 'private_data');
+const PACKAGED_ARTICLES_FILE = path.join(__dirname, '..', 'private_data', 'articles.json');
 const ARTICLES_FILE = path.join(PRIVATE_DIR, 'articles.json');
 const STATE_FILE = path.join(PRIVATE_DIR, 'blog_state.json');
 
-// Ensure private directory exists
-if (!fs.existsSync(PRIVATE_DIR)) {
-  fs.mkdirSync(PRIVATE_DIR, { recursive: true });
-}
+// Ensure private directory exists safely
+try {
+  if (!fs.existsSync(PRIVATE_DIR)) {
+    fs.mkdirSync(PRIVATE_DIR, { recursive: true });
+  }
+} catch (e) {}
 
 // Initial Curated Seed Articles for Instant High Quality Showcase
 const SEED_ARTICLES = [
@@ -243,6 +247,12 @@ function loadArticles() {
   try {
     if (fs.existsSync(ARTICLES_FILE)) {
       const data = JSON.parse(fs.readFileSync(ARTICLES_FILE, 'utf8'));
+      if (Array.isArray(data) && data.length > 0) {
+        return data;
+      }
+    }
+    if (fs.existsSync(PACKAGED_ARTICLES_FILE)) {
+      const data = JSON.parse(fs.readFileSync(PACKAGED_ARTICLES_FILE, 'utf8'));
       if (Array.isArray(data) && data.length > 0) {
         return data;
       }

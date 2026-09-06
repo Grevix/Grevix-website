@@ -8,15 +8,18 @@ const ExcelJS = require('exceljs');
 const nodemailer = require('nodemailer');
 const { loadArticles } = require('./blogPipeline');
 
-const PRIVATE_DIR = path.join(__dirname, '..', 'private_data');
+const isVercel = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
+const PRIVATE_DIR = isVercel ? path.join('/tmp', 'private_data') : path.join(__dirname, '..', 'private_data');
 const EXCEL_FILE = path.join(PRIVATE_DIR, 'subscribers.xlsx');
 const JSON_FILE = path.join(PRIVATE_DIR, 'subscribers.json');
 const EMAIL_LOG_FILE = path.join(PRIVATE_DIR, 'email_digest_logs.log');
 
-// Ensure private directory exists
-if (!fs.existsSync(PRIVATE_DIR)) {
-  fs.mkdirSync(PRIVATE_DIR, { recursive: true });
-}
+// Ensure private directory exists safely
+try {
+  if (!fs.existsSync(PRIVATE_DIR)) {
+    fs.mkdirSync(PRIVATE_DIR, { recursive: true });
+  }
+} catch (e) {}
 
 /**
  * Initialize Excel workbook if it doesn't exist
