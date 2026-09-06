@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service - GREVIX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .legal-container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 60px 24px 100px 24px;
+    }
+    .legal-header {
+      margin-bottom: 60px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      padding-bottom: 40px;
+    }
+    .legal-title {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(2.5rem, 4vw, 3.8rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-top: 16px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+    .legal-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: #666;
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .legal-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 48px;
+    }
+    @media (max-width: 900px) {
+      .legal-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .legal-sidebar {
+      position: sticky;
+      top: 100px;
+      height: fit-content;
+      background: #f8f9fa;
+      border: 1px solid #e5e7eb;
+      padding: 24px;
+    }
+    .toc-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #111;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .toc-list a {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: #555;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .toc-list a:hover {
+      color: var(--accent-blue, #0055FF);
+    }
+    .legal-content section {
+      margin-bottom: 56px;
+      scroll-margin-top: 100px;
+    }
+    .section-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent-blue, #0055FF);
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.5rem;
+      color: #111;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+    }
+    .guideline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .guideline-card {
+      background: #ffffff;
+      border: 1px solid #e9ecef;
+      padding: 20px 24px;
+      position: relative;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .guideline-card:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+    .guideline-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #94a3b8;
+      margin-bottom: 6px;
+    }
+    .guideline-heading {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .guideline-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: #475569;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header / Navigation -->
+  <header class="site-header">
+    <div class="nav-left">
+      <div class="logo">
+        <div class="logo-mark"></div>
+        <div class="logo-text">
+          <span class="wordmark">GREVIX</span>
+          <span class="tagline">STUDENT DRIVEN. IMPACT FOCUSED.</span>
+        </div>
+      </div>
+    </div>
+    <nav class="nav-center">
+      <a href="home.html">HOME</a>
+      <a href="about.html">ABOUT</a>
+      <a href="projects.html">PROJECTS</a>
+      <a href="events.html">EVENTS</a>
+      <a href="community.html">COMMUNITY</a>
+      <a href="javascript:void(0)">BLOG</a>
+    </nav>
+    <div class="nav-right">
+      <a href="https://discord.gg/grevix" target="_blank" rel="noopener noreferrer" class="join-btn">JOIN GREVIX &#8599;</a>
+    </div>
+  </header>
+
+  <!-- Legal Main Container -->
+  <main class="legal-container">
+
+    <!-- Header Banner -->
+    <div class="legal-header">
+      <div class="breadcrumb">
+        <span class="breadcrumb-number">07 / TERMS OF SERVICE</span>
+        <span class="breadcrumb-line"></span>
+        <span class="breadcrumb-dot"></span>
+      </div>
+      <h1 class="legal-title">TERMS OF <span class="text-accent">SERVICE & CONDUCT</span></h1>
+      <div class="legal-meta">
+        <span>EFFECTIVE DATE: SEPTEMBER 2026</span>
+        <span>VERSION: 2.4.0</span>
+        <span>COMMUNITY AGREEMENT: OPEN-SOURCE & ACADEMIC INTEGRITY</span>
+      </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="legal-grid">
+
+      <!-- Table of Contents Sidebar -->
+      <aside class="legal-sidebar">
+        <div class="toc-title">// SECTIONS</div>
+        <ul class="toc-list">
+          <li><a href="#sec-acceptance">01. Acceptance of Terms</a></li>
+          <li><a href="#sec-conduct">02. Member Code of Conduct</a></li>
+          <li><a href="#sec-licensing">03. IP & Open Source Licensing</a></li>
+          <li><a href="#sec-hackathons">04. Events & Hackathons</a></li>
+          <li><a href="#sec-accounts">05. Membership & Applications</a></li>
+          <li><a href="#sec-disclaimer">06. Disclaimers & Liability</a></li>
+        </ul>
+      </aside>
+
+      <!-- Detailed Guidelines Content (30 Guidelines) -->
+      <div class="legal-content">
+
+        <!-- 01. Acceptance of Terms -->
+        <section id="sec-acceptance">
+          <div class="section-tag">// SECTION 01</div>
+          <h2 class="section-title">Acceptance of Terms</h2>
+          <div class="guideline-list">
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #01.01</div>
+              <div class="guideline-heading">Binding Community Contract</div>
+              <div class="guideline-desc">By accessing the GREVIX portal, participating in community hackathons, or submitting recruitment applications, you agree to be bound by these Terms of Service.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #01.02</div>
+              <div class="guideline-heading">Student & Academic Alignment</div>
+              <div class="guideline-desc">GREVIX is a student-driven software and research collective. Members agree to uphold academic honesty and ethical software development standards in all initiatives.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #01.03</div>
+              <div class="guideline-heading">Eligibility Requirements</div>
+              <div class="guideline-desc">Participation in core technical projects is open to enrolled university students, self-taught developers, and accredited academic research collaborators.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #01.04</div>
+              <div class="guideline-heading">Modifications to Terms</div>
+              <div class="guideline-desc">GREVIX reserves the right to amend community terms at any time. Continued engagement following published amendments constitutes binding acceptance.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #01.05</div>
+              <div class="guideline-heading">Jurisdiction & Good Faith</div>
+              <div class="guideline-desc">All community interactions and disputes are governed under principles of good-faith open-source collaboration and applicable local regulations in India.</div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 02. Member Code of Conduct -->
+        <section id="sec-conduct">
+          <div class="section-tag">// SECTION 02</div>
+          <h2 class="section-title">Member Code of Conduct</h2>
+          <div class="guideline-list">
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #02.01</div>
+              <div class="guideline-heading">Zero Tolerance for Harassment</div>
+              <div class="guideline-desc">GREVIX enforces a strict zero-tolerance policy against discrimination, harassment, toxic communication, or offensive behavior across all platforms and Discord servers.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #02.02</div>
+              <div class="guideline-heading">Constructive Peer Review</div>
+              <div class="guideline-desc">Pull request reviews, architecture feedback, and code critiques must remain respectful, constructive, and focused objectively on technical merit.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #02.03</div>
+              <div class="guideline-heading">Responsible Vulnerability Disclosure</div>
+              <div class="guideline-desc">Security vulnerabilities discovered in community projects must be confidentially reported to lead maintainers before public disclosure.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #02.04</div>
+              <div class="guideline-heading">Prohibition of Malicious Code</div>
+              <div class="guideline-desc">Intentionally committing backdoors, malware, keyloggers, cryptominers, or destructive payloads to community repositories results in immediate expulsion and reporting.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #02.05</div>
+              <div class="guideline-heading">Conflict Resolution Protocol</div>
+              <div class="guideline-desc">Interpersonal or project leadership disputes are mediated by designated core team leads through transparent, structured conflict resolution channels.</div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 03. IP & Open Source Licensing -->
+        <section id="sec-licensing">
+          <div class="section-tag">// SECTION 03</div>
+          <h2 class="section-title">Intellectual Property & Open-Source</h2>
+          <div class="guideline-list">
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #03.01</div>
+              <div class="guideline-heading">Open-Source Default License</div>
+              <div class="guideline-desc">Unless explicitly specified otherwise, code assets built within GREVIX core projects are distributed under permissible open-source licenses (e.g. MIT or Apache 2.0).</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #03.02</div>
+              <div class="guideline-heading">Contributor License Assignment</div>
+              <div class="guideline-desc">By submitting code pull requests to GREVIX repositories, contributors grant the community a non-exclusive, worldwide, royalty-free license to use and distribute the code.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #03.03</div>
+              <div class="guideline-heading">Author Attribution Protection</div>
+              <div class="guideline-desc">Original student authors retain permanent attribution credit in git commit histories, repository release notes, and project documentation catalogs.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #03.04</div>
+              <div class="guideline-heading">Third-Party Library Compliance</div>
+              <div class="guideline-desc">All open-source dependencies used in GREVIX projects must comply with compatible licensing rules. Copyleft or proprietary license violations are prohibited.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #03.05</div>
+              <div class="guideline-heading">Brand & Logo Usage</div>
+              <div class="guideline-desc">The GREVIX wordmark, visual logos, and reticle brand assets may not be used for unauthorized commercial products without written consent from core leadership.</div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 04. Events & Hackathons -->
+        <section id="sec-hackathons">
+          <div class="section-tag">// SECTION 04</div>
+          <h2 class="section-title">Events & Hackathons Standard</h2>
+          <div class="guideline-list">
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #04.01</div>
+              <div class="guideline-heading">Original Work Rule</div>
+              <div class="guideline-desc">Projects submitted to GREVIX Genesis Hackathons or coding sprint challenges must be built during the official competition window. Pre-built code must be declared.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #04.02</div>
+              <div class="guideline-heading">Plagiarism & Anti-Cheating</div>
+              <div class="guideline-desc">Submitting plagiarized repositories or attempting to game automated quiz/hackathon leaderboards results in instant team disqualification.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #04.03</div>
+              <div class="guideline-heading">Judging Impartiality</div>
+              <div class="guideline-desc">Hackathon evaluation is conducted by technical mentors according to published scoring rubrics. Judging decisions rendered are final.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #04.04</div>
+              <div class="guideline-heading">Prize Distribution</div>
+              <div class="guideline-desc">Sponsorship rewards, mentorship grants, or certificates earned during official events are disbursed upon verification of participant eligibility.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #04.05</div>
+              <div class="guideline-heading">Media & Project Showcase</div>
+              <div class="guideline-desc">Hackathon participants grant GREVIX permission to feature project demonstrations, screenshots, and team summaries in public community showcases.</div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 05. Membership & Applications -->
+        <section id="sec-accounts">
+          <div class="section-tag">// SECTION 05</div>
+          <h2 class="section-title">Membership & Application Protocol</h2>
+          <div class="guideline-list">
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #05.01</div>
+              <div class="guideline-heading">Accurate Information Requirement</div>
+              <div class="guideline-desc">Applicants must provide genuine, functional email addresses and legitimate GitHub profiles when submitting recruitment applications.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #05.02</div>
+              <div class="guideline-heading">Duplicate Application Rejection</div>
+              <div class="guideline-desc">Multiple submissions using duplicate email addresses or identical GitHub profile URLs are blocked automatically to preserve system integrity.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #05.03</div>
+              <div class="guideline-heading">Application Review Timeline</div>
+              <div class="guideline-desc">GREVIX core leads aim to evaluate submitted candidate profiles within 14 days, sending notification updates via the provided email.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #05.04</div>
+              <div class="guideline-heading">Termination of Membership</div>
+              <div class="guideline-desc">Core leadership reserves the right to revoke community membership or repository write access for severe violations of code of conduct guidelines.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #05.05</div>
+              <div class="guideline-heading">Voluntary Resignation</div>
+              <div class="guideline-desc">Members may resign from active research teams at any time by notifying team leads and transferring ongoing project maintenance duties.</div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 06. Disclaimers & Liability -->
+        <section id="sec-disclaimer">
+          <div class="section-tag">// SECTION 06</div>
+          <h2 class="section-title">Disclaimers & Liability Limits</h2>
+          <div class="guideline-list">
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #06.01</div>
+              <div class="guideline-heading">"As-Is" Software Provision</div>
+              <div class="guideline-desc">All open-source tools, experimental codebases, and website content are provided "as-is" without warranty of any kind, express or implied.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #06.02</div>
+              <div class="guideline-heading">Limitation of Liability</div>
+              <div class="guideline-desc">GREVIX, its student maintainers, and community contributors shall not be liable for any direct, indirect, or incidental damages arising from software usage.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #06.03</div>
+              <div class="guideline-heading">Service Availability</div>
+              <div class="guideline-desc">We do not guarantee uninterrupted local server uptime or error-free web operation during community infrastructure maintenance.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #06.04</div>
+              <div class="guideline-heading">Third-Party Platforms</div>
+              <div class="guideline-desc">GREVIX is not responsible for outages, policies, or data practices of third-party platforms including GitHub, Discord, or web browsers.</div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-num">GUIDELINE #06.05</div>
+              <div class="guideline-heading">Inquiries & Legal Contact</div>
+              <div class="guideline-desc">For legal notices, terms clarification, or governance queries, contact official leadership at <code style="background:#f1f5f9; padding:2px 6px; font-family:monospace;">teamgrevixorg@gmail.com</code>.</div>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-left" style="display: flex; align-items: center; gap: 12px;">
+      <span class="footer-mark">&#9670;</span>
+      <span class="footer-copy">GREVIX &copy; 2026. IDEAS BY STUDENTS. FOR A BRIGHTER TOMORROW.</span>
+    </div>
+    <div class="footer-center">
+      <a href="privacy.html">PRIVACY</a>
+      <a href="terms.html">TERMS</a>
+      <a href="mailto:teamgrevixorg@gmail.com">CONTACT</a>
+    </div>
+    <div class="footer-right">
+      <span class="location-tag">&#9581; INDIA &#9584;</span>
+    </div>
+  </footer>
+
+</body>
+</html>

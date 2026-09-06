@@ -12,12 +12,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 
-// Serve main home page on root
+// Route handlers
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'home.html'));
 });
 
-// Confidential Form Submission API Endpoint
+app.get('/privacy', (req, res) => {
+  res.sendFile(path.join(__dirname, 'privacy.html'));
+});
+
+app.get('/terms', (req, res) => {
+  res.sendFile(path.join(__dirname, 'terms.html'));
+});
+
+// Confidential Form Submission API Endpoint with Strict Duplicate Validation
 app.post('/api/join-application', async (req, res) => {
   try {
     const { email, github, interest } = req.body;
@@ -28,6 +36,9 @@ app.post('/api/join-application', async (req, res) => {
         message: 'All fields (Email, GitHub Profile, Interest) are required.'
       });
     }
+
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanGithub = github.trim().toLowerCase().replace(/\/+$/, '');
 
     let workbook = new ExcelJS.Workbook();
     let worksheet;
@@ -60,9 +71,54 @@ app.post('/api/join-application', async (req, res) => {
       headerRow.height = 24;
     }
 
-    // Determine S.No
-    const rowCount = worksheet.rowCount;
-    const sNo = rowCount > 1 ? rowCount : 1;
+    // Ensure Column mapping
+    worksheet.columns = [
+      { header: 'S.No', key: 'sNo', width: 8 },
+      { header: 'Date & Time', key: 'timestamp', width: 22 },
+      { header: 'Email', key: 'email', width: 30 },
+      { header: 'GitHub Profile URL', key: 'github', width: 40 },
+      { header: 'Interest Area', key: 'interest', width: 35 },
+      { header: 'Status', key: 'status', width: 15 }
+    ];
+
+    // Check for Duplicates in existing rows
+    let duplicateEmailFound = false;
+    let duplicateGithubFound = false;
+
+    worksheet.eachRow((row, rowNumber) => {
+      if (rowNumber === 1) return; // Skip header row
+
+      const rawEmail = row.getCell(3).value || '';
+      const rawGithub = row.getCell(4).value || '';
+
+      const existingEmail = rawEmail.toString().trim().toLowerCase();
+      const existingGithub = rawGithub.toString().trim().toLowerCase().replace(/\/+$/, '');
+
+      if (existingEmail === cleanEmail) {
+        duplicateEmailFound = true;
+      }
+      if (existingGithub === cleanGithub) {
+        duplicateGithubFound = true;
+      }
+    });
+
+    if (duplicateEmailFound) {
+      return res.status(400).json({
+        success: false,
+        message: 'This email address has already submitted an application.'
+      });
+    }
+
+    if (duplicateGithubFound) {
+      return res.status(400).json({
+        success: false,
+        message: 'This GitHub profile URL has already submitted an application.'
+      });
+    }
+
+    // Calculate S.No for new row
+    const dataRowCount = worksheet.rowCount > 1 ? worksheet.rowCount : 1;
+    const sNo = dataRowCount;
     const formattedTimestamp = new Date().toLocaleString('en-US', {
       timeZone: 'Asia/Kolkata',
       dateStyle: 'medium',
@@ -86,7 +142,7 @@ app.post('/api/join-application', async (req, res) => {
     // Save Workbook to Local File
     await workbook.xlsx.writeFile(EXCEL_PATH);
 
-    console.log(`[${formattedTimestamp}] New Application Saved: ${email} (${github})`);
+    console.log(`[${formattedTimestamp}] New Application Recorded: ${email} (${github})`);
 
     return res.json({
       success: true,
