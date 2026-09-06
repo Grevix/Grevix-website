@@ -34,8 +34,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# confidential local spreadsheets
+# confidential local spreadsheets & private data
 details.xlsx
 *.xlsx
 *.xls
-
+private_data/
+private_data/*

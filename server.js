@@ -5,12 +5,45 @@ const ExcelJS = require('exceljs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const EXCEL_PATH = path.join(__dirname, 'details.xlsx');
+
+// Store confidential Excel outside public asset serving
+const PRIVATE_DIR = path.join(__dirname, 'private_data');
+if (!fs.existsSync(PRIVATE_DIR)) {
+  fs.mkdirSync(PRIVATE_DIR, { recursive: true });
+}
+const EXCEL_PATH = path.join(PRIVATE_DIR, 'details.xlsx');
+
+// Security Middleware 1: Strict File Shielding
+// Completely block public HTTP access to confidential spreadsheets, environment files, and server scripts
+app.use((req, res, next) => {
+  const reqPath = req.path.toLowerCase();
+
+  // Block any attempt to read Excel files, dotfiles, node modules, or raw server scripts
+  if (
+    reqPath.endsWith('.xlsx') ||
+    reqPath.endsWith('.xls') ||
+    reqPath.endsWith('.env') ||
+    reqPath.includes('/private_data/') ||
+    reqPath === '/server.js' ||
+    reqPath === '/package.json' ||
+    reqPath === '/package-lock.json' ||
+    reqPath.startsWith('/.git')
+  ) {
+    console.warn(`[SECURITY BLOCKED] Unauthorized HTTP request attempt to private resource: ${req.path} from IP ${req.ip}`);
+    return res.status(404).send('404 Not Found'); // Return 404 so attackers cannot even probe file existence
+  }
+  next();
+});
 
 // Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname));
+app.use(express.json({ limit: '50kb' }));
+app.use(express.urlencoded({ extended: true, limit: '50kb' }));
+
+// Serve static HTML/CSS/Assets safely
+app.use(express.static(__dirname, {
+  dotfiles: 'ignore',
+  index: false
+}));
 
 // Route handlers
 app.get('/', (req, res) => {
@@ -25,7 +58,28 @@ app.get('/terms', (req, res) => {
   res.sendFile(path.join(__dirname, 'terms.html'));
 });
 
-// Confidential Form Submission API Endpoint with Strict Duplicate Validation
+// Helper: Sanitize string input to prevent XSS / CSV/Excel Formula Injection
+function sanitizeInput(str) {
+  if (typeof str !== 'string') return '';
+  let cleaned = str.trim();
+  // Strip formula injection triggers if input starts with =, +, -, @
+  if (/^[=+@-]/.test(cleaned)) {
+    cleaned = "'" + cleaned;
+  }
+  return cleaned;
+}
+
+// Helper: Validate email format
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+// Helper: Validate GitHub URL or handle
+function isValidGithub(github) {
+  return /^https?:\/\/(www\.)?github\.com\/[a-zA-Z0-9_-]+\/?$/i.test(github) || /^[a-zA-Z0-9_-]+$/.test(github);
+}
+
+// Confidential Form Submission API Endpoint with Strict Validation & Security
 app.post('/api/join-application', async (req, res) => {
   try {
     const { email, github, interest } = req.body;
@@ -37,8 +91,25 @@ app.post('/api/join-application', async (req, res) => {
       });
     }
 
-    const cleanEmail = email.trim().toLowerCase();
-    const cleanGithub = github.trim().toLowerCase().replace(/\/+$/, '');
+    const cleanEmail = sanitizeInput(email).toLowerCase();
+    const cleanGithub = sanitizeInput(github).toLowerCase().replace(/\/+$/, '');
+    const cleanInterest = sanitizeInput(interest);
+
+    // Validate email format
+    if (!isValidEmail(cleanEmail)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please enter a valid email address.'
+      });
+    }
+
+    // Validate GitHub profile format
+    if (!isValidGithub(cleanGithub)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please enter a valid GitHub profile URL or username.'
+      });
+    }
 
     let workbook = new ExcelJS.Workbook();
     let worksheet;
@@ -52,9 +123,9 @@ app.post('/api/join-application', async (req, res) => {
       // Define Columns
       worksheet.columns = [
         { header: 'S.No', key: 'sNo', width: 8 },
-        { header: 'Date & Time', key: 'timestamp', width: 22 },
-        { header: 'Email', key: 'email', width: 30 },
-        { header: 'GitHub Profile URL', key: 'github', width: 40 },
+        { header: 'Date & Time', key: 'timestamp', width: 24 },
+        { header: 'Email', key: 'email', width: 32 },
+        { header: 'GitHub Profile URL', key: 'github', width: 42 },
         { header: 'Interest Area', key: 'interest', width: 35 },
         { header: 'Status', key: 'status', width: 15 }
       ];
@@ -74,9 +145,9 @@ app.post('/api/join-application', async (req, res) => {
     // Ensure Column mapping
     worksheet.columns = [
       { header: 'S.No', key: 'sNo', width: 8 },
-      { header: 'Date & Time', key: 'timestamp', width: 22 },
-      { header: 'Email', key: 'email', width: 30 },
-      { header: 'GitHub Profile URL', key: 'github', width: 40 },
+      { header: 'Date & Time', key: 'timestamp', width: 24 },
+      { header: 'Email', key: 'email', width: 32 },
+      { header: 'GitHub Profile URL', key: 'github', width: 42 },
       { header: 'Interest Area', key: 'interest', width: 35 },
       { header: 'Status', key: 'status', width: 15 }
     ];
@@ -129,9 +200,9 @@ app.post('/api/join-application', async (req, res) => {
     const newRow = worksheet.addRow({
       sNo: sNo,
       timestamp: formattedTimestamp,
-      email: email.trim(),
-      github: github.trim(),
-      interest: interest.trim(),
+      email: cleanEmail,
+      github: cleanGithub,
+      interest: cleanInterest,
       status: 'Received'
     });
 
@@ -142,7 +213,7 @@ app.post('/api/join-application', async (req, res) => {
     // Save Workbook to Local File
     await workbook.xlsx.writeFile(EXCEL_PATH);
 
-    console.log(`[${formattedTimestamp}] New Application Recorded: ${email} (${github})`);
+    console.log(`[${formattedTimestamp}] New Application Recorded Securely: ${cleanEmail}`);
 
     return res.json({
       success: true,
@@ -150,7 +221,7 @@ app.post('/api/join-application', async (req, res) => {
     });
 
   } catch (err) {
-    console.error('Error saving application to details.xlsx:', err);
+    console.error('Error saving application to Excel:', err);
     return res.status(500).json({
       success: false,
       message: 'Internal server error while recording application.'
