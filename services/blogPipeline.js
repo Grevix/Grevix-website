@@ -248,6 +248,76 @@ function saveArticles(articles) {
   }
 }
 
+// Translation map for upstream Chinese content
+const TRANSLATION_MAP = [
+  [/Hacker News AI 社区动态日报/gi, "Hacker News AI Daily Digest"],
+  [/Product Hunt AI 产品日报/gi, "Product Hunt AI Product Daily"],
+  [/技术社区 AI 动态日报/gi, "Tech Community AI Digest"],
+  [/AI CLI 工具社区动态日报/gi, "AI CLI Tools Ecosystem Daily"],
+  [/AI Agents 生态日报/gi, "AI Agents Ecosystem Daily"],
+  [/OpenClaw 生态日报/gi, "OpenClaw Ecosystem Daily"],
+  [/AI 基础设施日报/gi, "AI Infrastructure & Inference Daily"],
+  [/AI 开源趋势日报/gi, "AI Open Source Trends Daily"],
+  [/社区动态日报/gi, "Community Daily Digest"],
+  [/产品日报/gi, "Product Daily Digest"],
+  [/动态日报/gi, "Daily Tech Digest"],
+  [/工具社区/gi, "Tooling Community"],
+  [/生态日报/gi, "Ecosystem Daily"],
+  [/基础设施/gi, "Infrastructure"],
+  [/开源趋势/gi, "Open Source Trends"],
+  [/开源生态/gi, "Open Source Ecosystem"],
+  [/生态概览/gi, "Ecosystem Overview"],
+  [/生态报告/gi, "Ecosystem Report"],
+  [/今日亮点/gi, "Today's Highlights"],
+  [/今日产品狩猎/gi, "Today on Product Hunt"],
+  [/数据来源/gi, "Sources"],
+  [/生成时间/gi, "Generated at"],
+  [/覆盖工具/gi, "Covered Tools"],
+  [/覆盖项目/gi, "Covered Projects"],
+  [/横向对比/gi, "Cross Comparison"],
+  [/跨工具/gi, "Cross-Tool"],
+  [/跨项目/gi, "Cross-Project"],
+  [/项目深度报告/gi, "In-Depth Project Report"],
+  [/项目简报/gi, "Project Brief"],
+  [/基础设施生态报告/gi, "Infrastructure Ecosystem Report"],
+  [/开源趋势报告/gi, "Open Source Trends Report"],
+  [/智能体调度框架/gi, "Agent Orchestration Frameworks"],
+  [/记忆系统/gi, "Memory Systems"],
+  [/上的人工智能领域由下一代模型和智能代理主导/gi, "in AI dominated by next-gen models and intelligent autonomous agents"],
+  [/这些技术旨在优化开发/gi, "designed to streamline software development workflows"],
+  [/人工智能代理正成为当下热议的焦点/gi, "AI agents are taking center stage in active developer discussions"],
+  [/人们高度关注其/gi, "with heavy community focus on autonomous execution capabilities"],
+  [/推理与服务生态正进入/gi, "Inference and serving infrastructure is rapidly evolving"],
+  [/开源生态正经历以智能体为中心的工具与基础设施的爆发式增长/gi, "open source ecosystem is seeing explosive growth in agent-centric tooling and infrastructure"],
+  [/当前的/gi, "Current "],
+  [/篇/gi, " articles"],
+  [/条/gi, " items"],
+  [/个产品/gi, " products"],
+  [/个项目/gi, " projects"],
+  [/个/gi, " items"],
+  [/共/gi, "Total "],
+  [/上的/gi, " on "]
+];
+
+function sanitizeToEnglish(text) {
+  if (!text || typeof text !== 'string') return text || '';
+  let str = text;
+  for (const [pattern, replacement] of TRANSLATION_MAP) {
+    str = str.replace(pattern, replacement);
+  }
+  str = str.replace(/：/g, ': ')
+           .replace(/（/g, ' (')
+           .replace(/）/g, ') ')
+           .replace(/｜/g, ' | ')
+           .replace(/—/g, ' - ')
+           .replace(/，/g, ', ')
+           .replace(/。/g, '. ')
+           .replace(/！/g, '! ')
+           .replace(/？/g, '? ');
+  str = str.replace(/[\u4e00-\u9fff]+/g, '').replace(/\s+/g, ' ').trim();
+  return str;
+}
+
 // Helper: Generate clean SEO URL slug
 function createSlug(title) {
   return title
@@ -283,19 +353,21 @@ function selectThumbnail(category) {
 
 // Generate structured Grevix Article from raw upstream item
 function generateGrevixArticle(item) {
-  const category = item.category || determineCategory(item.title + ' ' + item.summary);
-  const slug = createSlug(item.title);
-  const words = (item.rawText || item.summary || '').split(/\s+/).length;
+  const cleanTitle = sanitizeToEnglish(item.title) || 'AI & Tech Ecosystem Update';
+  const cleanSummary = sanitizeToEnglish(item.summary) || 'Latest technical developments in AI, open-source software, and developer infrastructure.';
+  const category = item.category || determineCategory(cleanTitle + ' ' + cleanSummary);
+  const slug = createSlug(cleanTitle);
+  const words = cleanSummary.split(/\s+/).length;
   const readMins = Math.max(3, Math.ceil(words / 40) + 3);
   const thumbnail = selectThumbnail(category);
 
   return {
     id: `art-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
-    title: item.title,
+    title: cleanTitle,
     slug: slug,
     category: category,
     tags: [category, 'AI', 'Open Source', 'Software'].filter((v, idx, a) => a.indexOf(v) === idx),
-    excerpt: item.summary.slice(0, 180) + '...',
+    excerpt: cleanSummary.slice(0, 180) + '...',
     readingTime: `${readMins} MIN READ`,
     author: 'GREVIX Editorial',
     publishedAt: new Date().toISOString(),
@@ -306,15 +378,15 @@ function generateGrevixArticle(item) {
     featured: false,
     content: `
 ### Introduction
-In the fast-moving landscape of artificial intelligence and software engineering, **${item.title}** represents an important development for modern technical teams.
+In the fast-moving landscape of artificial intelligence and software engineering, **${cleanTitle}** represents an important development for modern technical teams.
 
 ### Why It Matters
 Understanding developments in ${category.toLowerCase()} equips developers, researchers, and open-source contributors with the tools to build scalable, resilient systems.
 
 ### Technical Overview
-${item.summary}
+${cleanSummary}
 
-The technical underlying architecture emphasizes modularity, performance optimization, and seamless integration into developer workflows.
+The underlying technical architecture emphasizes modularity, performance optimization, and seamless integration into developer workflows.
 
 ### Ecosystem Impact & Conclusion
 As open-source models and developer infrastructure continue to advance, initiatives like this accelerate the transition toward accessible, high-performance technology for everyone.
