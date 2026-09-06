@@ -7,6 +7,7 @@ const path = require('path');
 const crypto = require('crypto');
 const { fetchAgentsRadar } = require('../sources/agentsRadar');
 const { fetchTechNewsDigest } = require('../sources/techNewsDigest');
+const { fetchTwitterResearch } = require('../sources/twitterResearch');
 
 const PRIVATE_DIR = path.join(__dirname, '..', 'private_data');
 const ARTICLES_FILE = path.join(PRIVATE_DIR, 'articles.json');
@@ -355,26 +356,38 @@ function determineCategory(text) {
   return 'AI / ML';
 }
 
-// Helper: Select suitable abstract thumbnail image
-function selectThumbnail(category) {
-  switch (category) {
-    case 'AI / ML': return 'assets/blackhole.png';
-    case 'SOFTWARE': return 'assets/build.jpg';
-    case 'RESEARCH': return 'assets/learn.jpg';
-    case 'OPEN SOURCE': return 'assets/contribute.jpg';
-    default: return 'assets/blackhole.png';
-  }
+const UNIQUE_IMAGE_POOL = [
+  'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&auto=format&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=800&auto=format&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&auto=format&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800&auto=format&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&auto=format&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&auto=format&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1526374870839-e155464bb9b2?w=800&auto=format&fit=crop&q=80',
+  'assets/blackhole.png',
+  'assets/build.jpg',
+  'assets/learn.jpg',
+  'assets/contribute.jpg'
+];
+
+// Helper: Select unique abstract thumbnail image
+function selectThumbnail(category, idx = 0) {
+  return UNIQUE_IMAGE_POOL[idx % UNIQUE_IMAGE_POOL.length];
 }
 
 // Generate structured Grevix Article from raw upstream item
-function generateGrevixArticle(item) {
+function generateGrevixArticle(item, index = 0) {
   const cleanTitle = sanitizeToEnglish(item.title) || 'AI & Tech Ecosystem Update';
   const cleanSummary = sanitizeToEnglish(item.summary) || 'Latest technical developments in AI, open-source software, and developer infrastructure.';
   const category = item.category || determineCategory(cleanTitle + ' ' + cleanSummary);
   const slug = createSlug(cleanTitle);
   const words = cleanSummary.split(/\s+/).length;
   const readMins = Math.max(3, Math.ceil(words / 40) + 3);
-  const thumbnail = selectThumbnail(category);
+  const thumbnail = selectThumbnail(category, index);
 
   return {
     id: `art-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
@@ -435,6 +448,15 @@ async function runDailyPipeline() {
     fetchedItems = fetchedItems.concat(itemsB);
   } catch (e) {
     console.error('[Blog Pipeline] Source B fetch error:', e.message);
+  }
+
+  // Step 3: Fetch Source C (Twitter / X Verified AI Research)
+  try {
+    const itemsC = await fetchTwitterResearch();
+    console.log(`[Blog Pipeline] Fetched ${itemsC.length} items from Twitter/X AI Research`);
+    fetchedItems = fetchedItems.concat(itemsC);
+  } catch (e) {
+    console.error('[Blog Pipeline] Source C (Twitter Research) fetch error:', e.message);
   }
 
   // Step 3: Deduplication & Scoring
