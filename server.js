@@ -44,6 +44,47 @@ app.use((req, res, next) => {
 app.use(express.json({ limit: '50kb' }));
 app.use(express.urlencoded({ extended: true, limit: '50kb' }));
 
+// Rate Limiter for High Traffic Spikes & DDoS Protection
+const rateLimitMap = new Map();
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
+const MAX_REQUESTS_PER_WINDOW = 120; // 120 requests per minute per IP
+
+function apiRateLimiter(req, res, next) {
+  const ip = req.ip || req.headers['x-forwarded-for'] || req.socket.remoteAddress || '127.0.0.1';
+  const now = Date.now();
+
+  let clientData = rateLimitMap.get(ip);
+  if (!clientData || now - clientData.startTime > RATE_LIMIT_WINDOW_MS) {
+    clientData = { count: 1, startTime: now };
+    rateLimitMap.set(ip, clientData);
+  } else {
+    clientData.count++;
+  }
+
+  if (rateLimitMap.size > 10000) {
+    for (const [key, value] of rateLimitMap.entries()) {
+      if (now - value.startTime > RATE_LIMIT_WINDOW_MS) {
+        rateLimitMap.delete(key);
+      }
+    }
+  }
+
+  res.setHeader('X-RateLimit-Limit', MAX_REQUESTS_PER_WINDOW);
+  res.setHeader('X-RateLimit-Remaining', Math.max(0, MAX_REQUESTS_PER_WINDOW - clientData.count));
+
+  if (clientData.count > MAX_REQUESTS_PER_WINDOW) {
+    return res.status(429).json({
+      success: false,
+      message: 'Too many requests. Please try again later.'
+    });
+  }
+
+  next();
+}
+
+app.use('/api/', apiRateLimiter);
+
+
 // Serve static HTML/CSS/Assets safely
 app.use(express.static(__dirname, {
   dotfiles: 'ignore',
@@ -267,6 +308,18 @@ initDaily7AmIstScheduler();
 async function sendToGoogleSheet(payload) {
   const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
   if (!webhookUrl) return;
+  try {
+    const fetch = (await import('node-fetch')).default;
+    await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch (err) {
+    console.error('Google Sheets Webhook Error:', err);
+  }
+}
+
 const nodemailer = require('nodemailer');
 
 // Helper: Send instant email notification to teamgrevix.foundation@gmail.com
