@@ -40,3 +40,13 @@ details.xlsx
 *.xls
 private_data/
 private_data/*
+
+# Development dump files
+*_dump.txt
+Frontend_dump.txt
+Grevix2_dump.txt
+Grevix_dump.txt
+Report_dump.txt
+
+# AI tool artifacts
+skills-lock.json

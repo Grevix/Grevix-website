@@ -3,15 +3,12 @@
 
 User-agent: *
 Allow: /
-Allow: /about
-Allow: /projects
-Allow: /events
-Allow: /community
-Allow: /blog
-Allow: /privacy
-Allow: /terms
+
+# Allow all assets needed for rendering
 Allow: /styles.css
 Allow: /main.js
+Allow: /assets/
+Allow: /favicon.ico
 Allow: /favicon.jpg
 Allow: /favicon.svg
 

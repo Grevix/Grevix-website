@@ -84,6 +84,26 @@ function apiRateLimiter(req, res, next) {
 
 app.use('/api/', apiRateLimiter);
 
+// Admin API Protection Middleware � requires X-Admin-Key header or ADMIN_KEY query param
+const ADMIN_API_KEY = process.env.ADMIN_API_KEY || null; // Set ADMIN_API_KEY env var on Vercel
+
+function requireAdminKey(req, res, next) {
+  if (!ADMIN_API_KEY) {
+    // If no key is configured, block all access in production
+    if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
+      return res.status(403).json({ success: false, message: 'Admin endpoint disabled: ADMIN_API_KEY not configured.' });
+    }
+    return next(); // Allow in local dev if no key set
+  }
+  const providedKey = req.headers['x-admin-key'] || req.query.admin_key;
+  if (!providedKey || providedKey !== ADMIN_API_KEY) {
+    console.warn([SECURITY] Unauthorized admin API access attempt from  to );
+    return res.status(403).json({ success: false, message: 'Forbidden: Invalid or missing admin key.' });
+  }
+  next();
+}
+
+
 // Middleware: Fail-safe Sitemap & Robots Handler for Vercel Serverless Rewrites
 app.use((req, res, next) => {
   const reqUrl = (req.url || req.originalUrl || '').toLowerCase();
@@ -277,6 +297,13 @@ Sitemap: https://grevix.online/sitemap.xml
 `);
 });
 
+// Serve PWA Web App Manifest
+app.get('/manifest.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/manifest+json; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=86400');
+  res.sendFile(path.join(__dirname, 'public', 'manifest.json'));
+});
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
@@ -327,7 +354,7 @@ app.post('/api/newsletter/subscribe', async (req, res) => {
 });
 
 // Newsletter API: Get Subscriber Count & List (Local Secured Access)
-app.get('/api/newsletter/subscribers', async (req, res) => {
+app.get('/api/newsletter/subscribers', requireAdminKey,, async (req, res) => {
   try {
     const subscribers = await getAllSubscribers();
     return res.json({ success: true, count: subscribers.length, subscribers });
@@ -337,7 +364,7 @@ app.get('/api/newsletter/subscribers', async (req, res) => {
 });
 
 // Newsletter API: Manual Trigger for Daily 07:00 AM IST Email Digest
-app.post('/api/newsletter/send-digest', async (req, res) => {
+app.post('/api/newsletter/send-digest', requireAdminKey,, async (req, res) => {
   try {
     const result = await sendDailyDigestEmails();
     return res.json(result);
@@ -401,7 +428,7 @@ app.get('/api/blog/articles/:slug', (req, res) => {
 });
 
 // Blog API: Admin / Manual Trigger for Daily Fetch Pipeline
-app.post('/api/blog/fetch', async (req, res) => {
+app.post('/api/blog/fetch', requireAdminKey,, async (req, res) => {
   try {
     console.log(`[API /api/blog/fetch] Manual trigger started at ${new Date().toISOString()}`);
     const result = await runDailyPipeline();
@@ -412,7 +439,7 @@ app.post('/api/blog/fetch', async (req, res) => {
   }
 });
 
-app.get('/api/blog/fetch', async (req, res) => {
+app.get('/api/blog/fetch', requireAdminKey,, async (req, res) => {
   try {
     console.log(`[API /api/blog/fetch] Manual trigger started at ${new Date().toISOString()}`);
     const result = await runDailyPipeline();
@@ -424,7 +451,7 @@ app.get('/api/blog/fetch', async (req, res) => {
 });
 
 // Blog API: Admin Pipeline Status
-app.get('/api/blog/admin/status', (req, res) => {
+app.get('/api/blog/admin/status', requireAdminKey,, (req, res) => {
   const state = loadState();
   const articles = loadArticles();
   return res.json({
