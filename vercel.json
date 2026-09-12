@@ -2,7 +2,6 @@
   "version": 2,
   "framework": null,
   "outputDirectory": ".",
-  "cleanUrls": true,
   "crons": [
     {
       "path": "/api/cron/daily-digest",
@@ -75,18 +74,18 @@
       ]
     }
   ],
-  "rewrites": [
-    { "source": "/sitemap.xml", "destination": "/api/sitemap" },
-    { "source": "/robots.txt", "destination": "/api/robots" },
-    { "source": "/api/(.*)", "destination": "/api/index" },
-    { "source": "/", "destination": "/index.html" },
-    { "source": "/home", "destination": "/home.html" },
-    { "source": "/about", "destination": "/about.html" },
-    { "source": "/blog", "destination": "/blog.html" },
-    { "source": "/projects", "destination": "/projects.html" },
-    { "source": "/events", "destination": "/events.html" },
-    { "source": "/community", "destination": "/community.html" },
-    { "source": "/privacy", "destination": "/privacy.html" },
-    { "source": "/terms", "destination": "/terms.html" }
+  "routes": [
+    { "src": "/sitemap.xml", "dest": "/api/sitemap" },
+    { "src": "/robots.txt", "dest": "/api/robots" },
+    { "src": "/api/(.*)", "dest": "/api/index" },
+    { "src": "/home", "dest": "/index.html" },
+    { "src": "/about", "dest": "/about.html" },
+    { "src": "/blog", "dest": "/blog.html" },
+    { "src": "/projects", "dest": "/projects.html" },
+    { "src": "/events", "dest": "/events.html" },
+    { "src": "/community", "dest": "/community.html" },
+    { "src": "/privacy", "dest": "/privacy.html" },
+    { "src": "/terms", "dest": "/terms.html" },
+    { "src": "/(.*)", "dest": "/$1" }
   ]
 }
