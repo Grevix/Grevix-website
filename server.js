@@ -94,7 +94,17 @@ app.use(express.static(__dirname, {
 const { loadArticles, runDailyPipeline, loadState } = require('./services/blogPipeline');
 const { addSubscriber, getAllSubscribers, sendDailyDigestEmails } = require('./services/newsletterService');
 
-// Route handlers
+// Route handlers for search engines and SEO crawlers
+app.get('/sitemap.xml', (req, res) => {
+  res.header('Content-Type', 'application/xml; charset=utf-8');
+  res.sendFile(path.join(__dirname, 'sitemap.xml'));
+});
+
+app.get('/robots.txt', (req, res) => {
+  res.header('Content-Type', 'text/plain; charset=utf-8');
+  res.sendFile(path.join(__dirname, 'robots.txt'));
+});
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
