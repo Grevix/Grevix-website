@@ -47,6 +47,54 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      {
+        source: '/sitemap.xml',
+        destination: '/sitemap.xml',
+      },
+      {
+        source: '/robots.txt',
+        destination: '/robots.txt',
+      },
+      {
+        source: '/',
+        destination: '/index.html',
+      },
+      {
+        source: '/home',
+        destination: '/index.html',
+      },
+      {
+        source: '/about',
+        destination: '/about.html',
+      },
+      {
+        source: '/projects',
+        destination: '/projects.html',
+      },
+      {
+        source: '/events',
+        destination: '/events.html',
+      },
+      {
+        source: '/community',
+        destination: '/community.html',
+      },
+      {
+        source: '/blog',
+        destination: '/blog.html',
+      },
+      {
+        source: '/privacy',
+        destination: '/privacy.html',
+      },
+      {
+        source: '/terms',
+        destination: '/terms.html',
+      },
+    ];
+  },
 };
 
 export default nextConfig;
