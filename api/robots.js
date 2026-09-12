@@ -1,7 +1,8 @@
 module.exports = (req, res) => {
+  res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain; charset=utf-8');
   res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=86400');
-  return res.status(200).send(`# Grevix Official Robots.txt
+  res.end(`# Grevix Official Robots.txt
 # https://grevix.online
 
 User-agent: *
