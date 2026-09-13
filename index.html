@@ -347,17 +347,21 @@
       }
 
       if ('geolocation' in navigator) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-            coordsEl.innerHTML = formatCoordinates(lat, lng);
-          },
-          () => {
-            tryIPGeolocationFallback();
-          },
-          { timeout: 5000, enableHighAccuracy: false }
-        );
+        try {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const lat = position.coords.latitude;
+              const lng = position.coords.longitude;
+              coordsEl.innerHTML = formatCoordinates(lat, lng);
+            },
+            () => {
+              tryIPGeolocationFallback();
+            },
+            { timeout: 5000, enableHighAccuracy: false }
+          );
+        } catch (e) {
+          tryIPGeolocationFallback();
+        }
       } else {
         tryIPGeolocationFallback();
       }

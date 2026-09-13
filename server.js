@@ -97,7 +97,7 @@ function requireAdminKey(req, res, next) {
   }
   const providedKey = req.headers['x-admin-key'] || req.query.admin_key;
   if (!providedKey || providedKey !== ADMIN_API_KEY) {
-    console.warn([SECURITY] Unauthorized admin API access attempt from  to );
+    console.warn('[SECURITY] Unauthorized admin API access attempt from ' + (req.ip || 'unknown') + ' to ' + (req.originalUrl || req.url));
     return res.status(403).json({ success: false, message: 'Forbidden: Invalid or missing admin key.' });
   }
   next();
@@ -354,7 +354,7 @@ app.post('/api/newsletter/subscribe', async (req, res) => {
 });
 
 // Newsletter API: Get Subscriber Count & List (Local Secured Access)
-app.get('/api/newsletter/subscribers', requireAdminKey,, async (req, res) => {
+app.get('/api/newsletter/subscribers', requireAdminKey, async (req, res) => {
   try {
     const subscribers = await getAllSubscribers();
     return res.json({ success: true, count: subscribers.length, subscribers });
@@ -364,7 +364,7 @@ app.get('/api/newsletter/subscribers', requireAdminKey,, async (req, res) => {
 });
 
 // Newsletter API: Manual Trigger for Daily 07:00 AM IST Email Digest
-app.post('/api/newsletter/send-digest', requireAdminKey,, async (req, res) => {
+app.post('/api/newsletter/send-digest', requireAdminKey, async (req, res) => {
   try {
     const result = await sendDailyDigestEmails();
     return res.json(result);
@@ -428,7 +428,7 @@ app.get('/api/blog/articles/:slug', (req, res) => {
 });
 
 // Blog API: Admin / Manual Trigger for Daily Fetch Pipeline
-app.post('/api/blog/fetch', requireAdminKey,, async (req, res) => {
+app.post('/api/blog/fetch', requireAdminKey, async (req, res) => {
   try {
     console.log(`[API /api/blog/fetch] Manual trigger started at ${new Date().toISOString()}`);
     const result = await runDailyPipeline();
@@ -439,7 +439,7 @@ app.post('/api/blog/fetch', requireAdminKey,, async (req, res) => {
   }
 });
 
-app.get('/api/blog/fetch', requireAdminKey,, async (req, res) => {
+app.get('/api/blog/fetch', requireAdminKey, async (req, res) => {
   try {
     console.log(`[API /api/blog/fetch] Manual trigger started at ${new Date().toISOString()}`);
     const result = await runDailyPipeline();
@@ -451,7 +451,7 @@ app.get('/api/blog/fetch', requireAdminKey,, async (req, res) => {
 });
 
 // Blog API: Admin Pipeline Status
-app.get('/api/blog/admin/status', requireAdminKey,, (req, res) => {
+app.get('/api/blog/admin/status', requireAdminKey, (req, res) => {
   const state = loadState();
   const articles = loadArticles();
   return res.json({

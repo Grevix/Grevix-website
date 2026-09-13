@@ -298,7 +298,8 @@
       }
 
       if ('geolocation' in navigator) {
-        navigator.geolocation.getCurrentPosition(
+        try {
+          navigator.geolocation.getCurrentPosition(
           (position) => {
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
@@ -309,6 +310,9 @@
           },
           { timeout: 5000, enableHighAccuracy: false }
         );
+        } catch(e) {
+          tryIPGeolocationFallback();
+        }
       } else {
         tryIPGeolocationFallback();
       }
