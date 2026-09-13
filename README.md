@@ -24,7 +24,7 @@
 - **HTTP Shielding Middleware:** Returns strict `404 Not Found` responses to any public attempt to inspect `.xlsx`, `.env`, `private_data/`, `server.js`, or configuration files over HTTP.
 
 ### 🎯 3. Flagship Events & Competitions
-- **Grevix Aivora (October 2, 2026):** Flagship AI/ML Quiz competition offering top podium achievers direct membership opportunities in the GREVIX core engineering team, social media recognition, and official certificates.
+- **Grevix AfterCode (October 11–12, 2026):** Flagship 24-hour online solo hackathon hosted on Unstop. Features 3 dynamic 8-hour phases with unexpected Challenge Cards testing real-time problem solving, AI engineering, and software delivery.
 
 ### 👥 4. Executive Leadership & Core Team
 - **Leadership Roster:** Features Founder **Aaryan Rawat**, Co-Founder **Apoorv Negi**, President **Baibhab Gusain**, and Core Members **Alok Singh**, **Happy Singh**, and **Pragya Semwal**.
@@ -61,7 +61,7 @@ website/
 ├── index.html               # Main Community Landing Page
 ├── home.html                # Telemetry Hero & Portal Page
 ├── about.html               # Mission, Vision & Leadership Roster
-├── events.html              # Flagship Events & Grevix Aivora Showcase
+├── events.html              # Flagship Events & Grevix AfterCode Showcase
 ├── projects.html            # Open Source Systems & Project Hub
 ├── community.html           # Team Directory & Member Onboarding Form
 ├── privacy.html            # 60-Guideline Comprehensive Privacy Policy
