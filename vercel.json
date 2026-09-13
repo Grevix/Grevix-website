@@ -48,6 +48,20 @@
       ]
     },
     {
+      "source": "/aa6c370ba2980138be46d1f8e3c19a80.txt",
+      "headers": [
+        { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    },
+    {
+      "source": "/manifest.json",
+      "headers": [
+        { "key": "Content-Type", "value": "application/manifest+json; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    },
+    {
       "source": "/assets/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=2592000, immutable" }
@@ -78,11 +92,13 @@
     }
   ],
   "rewrites": [
-    { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
-    { "source": "/robots.txt", "destination": "/robots.txt" },
-    { "source": "/favicon.ico", "destination": "/favicon.ico" },
-    { "source": "/favicon.jpg", "destination": "/favicon.jpg" },
-    { "source": "/favicon.svg", "destination": "/favicon.svg" },
+    { "source": "/sitemap.xml", "destination": "/public/sitemap.xml" },
+    { "source": "/robots.txt", "destination": "/public/robots.txt" },
+    { "source": "/manifest.json", "destination": "/public/manifest.json" },
+    { "source": "/aa6c370ba2980138be46d1f8e3c19a80.txt", "destination": "/public/aa6c370ba2980138be46d1f8e3c19a80.txt" },
+    { "source": "/favicon.ico", "destination": "/public/favicon.ico" },
+    { "source": "/favicon.jpg", "destination": "/public/favicon.jpg" },
+    { "source": "/favicon.svg", "destination": "/public/favicon.svg" },
     { "source": "/api/:path*", "destination": "/api/index" },
     { "source": "/about", "destination": "/about.html" },
     { "source": "/projects", "destination": "/projects.html" },
