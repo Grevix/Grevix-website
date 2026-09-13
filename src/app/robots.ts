@@ -22,6 +22,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/private_data/'],
       },
     ],
-    sitemap: 'https://grevix.online/sitemap.xml',
+    sitemap: 'https://www.grevix.online/sitemap.xml',
   }
 }

@@ -1,5 +1,5 @@
 # Grevix Official Robots.txt
-# https://grevix.online
+# https://www.grevix.online
 
 User-agent: *
 Allow: /
@@ -17,4 +17,4 @@ Disallow: /api/
 Disallow: /private_data/
 
 # Sitemap location
-Sitemap: https://grevix.online/sitemap.xml
+Sitemap: https://www.grevix.online/sitemap.xml

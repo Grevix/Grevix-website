@@ -118,49 +118,49 @@ app.use((req, res, next) => {
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
                             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <url>
-    <loc>https://grevix.online/</loc>
+    <loc>https://www.grevix.online/</loc>
     <lastmod>2026-09-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://grevix.online/about</loc>
+    <loc>https://www.grevix.online/about</loc>
     <lastmod>2026-09-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://grevix.online/projects</loc>
+    <loc>https://www.grevix.online/projects</loc>
     <lastmod>2026-09-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://grevix.online/events</loc>
+    <loc>https://www.grevix.online/events</loc>
     <lastmod>2026-09-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://grevix.online/community</loc>
+    <loc>https://www.grevix.online/community</loc>
     <lastmod>2026-09-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://grevix.online/blog</loc>
+    <loc>https://www.grevix.online/blog</loc>
     <lastmod>2026-09-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://grevix.online/privacy</loc>
+    <loc>https://www.grevix.online/privacy</loc>
     <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://grevix.online/terms</loc>
+    <loc>https://www.grevix.online/terms</loc>
     <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -172,7 +172,7 @@ app.use((req, res, next) => {
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=86400');
     return res.status(200).send(`# Grevix Official Robots.txt
-# https://grevix.online
+# https://www.grevix.online
 
 User-agent: *
 Allow: /
@@ -193,7 +193,7 @@ Disallow: /api/
 Disallow: /private_data/
 
 # Sitemap location
-Sitemap: https://grevix.online/sitemap.xml
+Sitemap: https://www.grevix.online/sitemap.xml
 `);
   }
 
@@ -219,49 +219,49 @@ app.get('/sitemap.xml', (req, res) => {
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
                             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <url>
-    <loc>https://grevix.online/</loc>
+    <loc>https://www.grevix.online/</loc>
     <lastmod>2026-09-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://grevix.online/about</loc>
+    <loc>https://www.grevix.online/about</loc>
     <lastmod>2026-09-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://grevix.online/projects</loc>
+    <loc>https://www.grevix.online/projects</loc>
     <lastmod>2026-09-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://grevix.online/events</loc>
+    <loc>https://www.grevix.online/events</loc>
     <lastmod>2026-09-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://grevix.online/community</loc>
+    <loc>https://www.grevix.online/community</loc>
     <lastmod>2026-09-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://grevix.online/blog</loc>
+    <loc>https://www.grevix.online/blog</loc>
     <lastmod>2026-09-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://grevix.online/privacy</loc>
+    <loc>https://www.grevix.online/privacy</loc>
     <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://grevix.online/terms</loc>
+    <loc>https://www.grevix.online/terms</loc>
     <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -272,7 +272,7 @@ app.get('/sitemap.xml', (req, res) => {
 app.get('/robots.txt', (req, res) => {
   res.setHeader('Content-Type', 'text/plain; charset=utf-8');
   return res.status(200).send(`# Grevix Official Robots.txt
-# https://grevix.online
+# https://www.grevix.online
 
 User-agent: *
 Allow: /
@@ -293,7 +293,7 @@ Disallow: /api/
 Disallow: /private_data/
 
 # Sitemap location
-Sitemap: https://grevix.online/sitemap.xml
+Sitemap: https://www.grevix.online/sitemap.xml
 `);
 });
 
