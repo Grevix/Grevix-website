@@ -156,10 +156,70 @@ async function getAllJoinApplications() {
   return data || [];
 }
 
+/**
+ * Save an ambassador code registration to Supabase table: ambassadors
+ */
+async function saveAmbassador({ code, name, email, ip }) {
+  const sb = getSupabaseAdmin();
+  try {
+    const { data, error } = await sb.from('ambassadors').insert([{
+      code: code.trim().toUpperCase(),
+      name: name.trim(),
+      email: email.trim().toLowerCase(),
+      ip: ip || null
+    }]).select();
+
+    if (error) {
+      console.error('[Supabase] saveAmbassador error:', error.message);
+      return { success: false, error: error.message };
+    }
+    return { success: true, data };
+  } catch (err) {
+    console.error('[Supabase] saveAmbassador exception:', err.message);
+    return { success: false, error: err.message };
+  }
+}
+
+/**
+ * Check if ambassador email is already in Supabase
+ */
+async function getAmbassadorByEmail(email) {
+  const sb = getSupabaseAdmin();
+  try {
+    const { data, error } = await sb
+      .from('ambassadors')
+      .select('*')
+      .eq('email', email.trim().toLowerCase())
+      .maybeSingle();
+
+    if (error) return null;
+    return data;
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
+ * Get all registered ambassadors from Supabase (admin only)
+ */
+async function getAllAmbassadorsFromSupabase() {
+  const sb = getSupabaseAdmin();
+  const { data, error } = await sb
+    .from('ambassadors')
+    .select('*')
+    .order('id', { ascending: true });
+
+  if (error) throw new Error(error.message);
+  return data || [];
+}
+
 module.exports = {
   saveJoinApplication,
   uploadProofScreenshot,
   saveProofSubmission,
   getAllProofSubmissions,
-  getAllJoinApplications
+  getAllJoinApplications,
+  saveAmbassador,
+  getAmbassadorByEmail,
+  getAllAmbassadorsFromSupabase
 };

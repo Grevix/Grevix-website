@@ -222,7 +222,7 @@ app.use(express.static(__dirname, {
 const { loadArticles, runDailyPipeline, loadState } = require('./services/blogPipeline');
 const { addSubscriber, getAllSubscribers, sendDailyDigestEmails } = require('./services/newsletterService');
 const { getOrGenerateCode, getAllAmbassadors, getSqlDumpContent } = require('./services/ambassadorDb');
-const { saveJoinApplication, uploadProofScreenshot, saveProofSubmission, getAllProofSubmissions, getAllJoinApplications } = require('./services/supabaseService');
+const { saveJoinApplication, uploadProofScreenshot, saveProofSubmission, getAllProofSubmissions, getAllJoinApplications, saveAmbassador, getAllAmbassadorsFromSupabase } = require('./services/supabaseService');
 
 // Route handlers for search engines and SEO crawlers
 app.get('/sitemap.xml', (req, res) => {
@@ -800,6 +800,9 @@ app.post('/api/ambassador/generate-code', async (req, res) => {
     const ip = req.ip || req.headers['x-forwarded-for'] || '127.0.0.1';
     const result = await getOrGenerateCode(name.trim(), email.trim(), ip);
 
+    // Save to Supabase (so ambassadors generated on Vercel persist indefinitely)
+    saveAmbassador({ code: result.code, name: result.name, email: email.trim(), ip }).catch(() => {});
+
     const message = result.alreadyRegistered
       ? `Welcome back! Your ambassador code is ${result.code}. Share Grevix with your peers, friends and network.`
       : `🎉 Your unique ambassador code is ${result.code}. Share Grevix with your peers, friends and network.`;
@@ -818,9 +821,26 @@ app.post('/api/ambassador/generate-code', async (req, res) => {
 });
 
 // Admin Only: Get all registered ambassadors (GET /api/admin/ambassadors)
-app.get('/api/admin/ambassadors', requireAdminKey, (req, res) => {
+app.get('/api/admin/ambassadors', requireAdminKey, async (req, res) => {
   try {
-    const ambassadors = getAllAmbassadors();
+    const localAmbassadors = getAllAmbassadors();
+    let supabaseAmbassadors = [];
+    try {
+      supabaseAmbassadors = await getAllAmbassadorsFromSupabase();
+    } catch (e) {}
+
+    // Merge by email
+    const map = new Map();
+    for (const a of localAmbassadors) {
+      map.set(a.email.toLowerCase(), a);
+    }
+    for (const a of supabaseAmbassadors) {
+      if (!map.has(a.email.toLowerCase())) {
+        map.set(a.email.toLowerCase(), a);
+      }
+    }
+    const ambassadors = Array.from(map.values());
+
     const format = req.query.format;
     if (format === 'sql') {
       const sqlContent = getSqlDumpContent();
