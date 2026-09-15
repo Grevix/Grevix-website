@@ -24,6 +24,10 @@ app.use((req, res, next) => {
   if (
     reqPath.endsWith('.xlsx') ||
     reqPath.endsWith('.xls') ||
+    reqPath.endsWith('.sqlite') ||
+    reqPath.endsWith('.sqlite3') ||
+    reqPath.endsWith('.db') ||
+    reqPath.endsWith('.sql') ||
     reqPath.endsWith('.env') ||
     reqPath.endsWith('.log') ||
     reqPath.endsWith('.json') ||
@@ -217,6 +221,7 @@ app.use(express.static(__dirname, {
 
 const { loadArticles, runDailyPipeline, loadState } = require('./services/blogPipeline');
 const { addSubscriber, getAllSubscribers, sendDailyDigestEmails } = require('./services/newsletterService');
+const { getOrGenerateCode, getAllAmbassadors, getSqlDumpContent } = require('./services/ambassadorDb');
 
 // Route handlers for search engines and SEO crawlers
 app.get('/sitemap.xml', (req, res) => {
@@ -766,6 +771,58 @@ app.post('/api/join-application', async (req, res) => {
       success: false,
       message: 'Internal server error while recording application.'
     });
+  }
+});
+
+// Ambassador API: Generate Unique Code (POST /api/ambassador/generate-code)
+app.post('/api/ambassador/generate-code', async (req, res) => {
+  try {
+    const { name, email } = req.body;
+
+    if (!name || String(name).trim().length < 2) {
+      return res.status(400).json({ success: false, message: 'Please enter your full name (minimum 2 characters).' });
+    }
+    if (!email || String(email).trim().length < 5) {
+      return res.status(400).json({ success: false, message: 'Please enter a valid Gmail or email address.' });
+    }
+
+    const ip = req.ip || req.headers['x-forwarded-for'] || '127.0.0.1';
+    const result = await getOrGenerateCode(name.trim(), email.trim(), ip);
+
+    const message = result.alreadyRegistered
+      ? `Welcome back! Your ambassador code is ${result.code}. Share it to climb the leaderboard!`
+      : `🎉 Congratulations! Your unique ambassador code is ${result.code}. Share it with your peers!`;
+
+    return res.status(200).json({
+      success: true,
+      code: result.code,
+      name: result.name,
+      alreadyRegistered: result.alreadyRegistered,
+      message
+    });
+  } catch (err) {
+    console.error('[Ambassador Code Error]:', err.message);
+    return res.status(400).json({ success: false, message: err.message || 'Failed to generate ambassador code.' });
+  }
+});
+
+// Admin Only: Get all registered ambassadors (GET /api/admin/ambassadors)
+app.get('/api/admin/ambassadors', requireAdminKey, (req, res) => {
+  try {
+    const ambassadors = getAllAmbassadors();
+    const format = req.query.format;
+    if (format === 'sql') {
+      const sqlContent = getSqlDumpContent();
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      return res.status(200).send(sqlContent);
+    }
+    return res.status(200).json({
+      success: true,
+      count: ambassadors.length,
+      ambassadors
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to retrieve ambassador data.' });
   }
 });
 

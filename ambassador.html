@@ -782,6 +782,134 @@
       color: #64748b;
     }
 
+    /* Modal Form Inputs */
+    .modal-input-group {
+      margin-bottom: 14px;
+    }
+    .modal-label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #64748b;
+      letter-spacing: 0.08em;
+      margin-bottom: 5px;
+    }
+    .modal-input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 14px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: #0f172a;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 3px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .modal-input:focus {
+      border-color: #0f172a;
+      box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.06);
+      background: #ffffff;
+    }
+    .modal-input::placeholder {
+      color: #94a3b8;
+    }
+    .modal-error-msg {
+      font-family: var(--font-mono);
+      font-size: 0.73rem;
+      color: #dc2626;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 3px;
+      padding: 8px 12px;
+      margin-bottom: 8px;
+    }
+    .modal-back-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: #64748b;
+      cursor: pointer;
+      padding: 10px;
+      margin-top: 6px;
+      text-align: center;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+    .modal-back-btn:hover { color: #0f172a; }
+
+    /* Generated Code Card */
+    .generated-code-card {
+      position: relative;
+      background: #0a0d14;
+      border-radius: 3px;
+      padding: 24px 20px 20px;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    .generated-code-corners {
+      position: absolute;
+      inset: 6px;
+      pointer-events: none;
+    }
+    .gcb-tl, .gcb-tr, .gcb-bl, .gcb-br {
+      position: absolute;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.25);
+      line-height: 1;
+    }
+    .gcb-tl { top: 0; left: 0; }
+    .gcb-tr { top: 0; right: 0; }
+    .gcb-bl { bottom: 0; left: 0; }
+    .gcb-br { bottom: 0; right: 0; }
+    .gcb-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+    }
+    .gcb-code {
+      font-family: var(--font-mono);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.12em;
+      line-height: 1;
+      margin-bottom: 14px;
+      word-break: break-all;
+    }
+    .gcb-copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 18px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 3px;
+      color: #ffffff;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .gcb-copy-btn:hover {
+      background: rgba(255,255,255,0.2);
+      border-color: rgba(255,255,255,0.4);
+    }
+    .gcb-copy-btn.copied {
+      background: rgba(16,185,129,0.2);
+      border-color: rgba(16,185,129,0.5);
+      color: #6ee7b7;
+    }
+
     /* Responsive */
     @media (max-width: 960px) {
       .ambassador-hero-grid {
@@ -1175,19 +1303,84 @@
   <div class="amb-modal-backdrop" id="codeModal">
     <div class="amb-modal-box">
       <button class="modal-close-btn" id="btnCloseModal" aria-label="Close modal">&times;</button>
-      <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-blue); letter-spacing: 0.08em; margin-bottom: 8px;">// JOIN THE MOVEMENT</div>
-      <h3 style="font-family: var(--font-display); font-size: 1.5rem; margin: 0 0 12px 0; color: #0f172a;">GET YOUR AMBASSADOR CODE</h3>
-      <p style="font-family: var(--font-mono); font-size: 0.8rem; color: #64748b; line-height: 1.6; margin-bottom: 20px;">
-        To receive your personalized ambassador code, join our community on Discord or reach out directly to our team with your student/developer profile.
-      </p>
-      <div style="display: flex; flex-direction: column; gap: 10px;">
-        <a href="https://discord.gg/HMFaCYeYa" target="_blank" rel="noopener noreferrer" class="btn-get-code" style="justify-content: center;">
-          JOIN DISCORD &amp; REQUEST CODE &#8599;
-        </a>
-        <a href="mailto:contact@grevix.online?subject=Ambassador%20Code%20Request" class="btn-learn-more" style="justify-content: center;">
-          EMAIL TEAM (contact@grevix.online) &#8599;
-        </a>
+
+      <!-- Form State -->
+      <div id="modalFormState">
+        <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent-blue); letter-spacing: 0.1em; margin-bottom: 8px;">// JOIN THE MOVEMENT</div>
+        <h3 style="font-family: var(--font-display); font-size: 1.4rem; margin: 0 0 8px 0; color: #0f172a; letter-spacing: -0.02em;">GET YOUR AMBASSADOR CODE</h3>
+        <p style="font-family: var(--font-mono); font-size: 0.77rem; color: #64748b; line-height: 1.6; margin-bottom: 22px;">
+          Enter your details below. Your unique referral code will be generated instantly and stored securely.
+        </p>
+
+        <div class="modal-input-group">
+          <label class="modal-label" for="ambNameInput">FULL NAME</label>
+          <input
+            type="text"
+            id="ambNameInput"
+            class="modal-input"
+            placeholder="e.g. Aryan Sharma"
+            autocomplete="name"
+            maxlength="80"
+          >
+        </div>
+
+        <div class="modal-input-group">
+          <label class="modal-label" for="ambEmailInput">GMAIL / EMAIL ID</label>
+          <input
+            type="email"
+            id="ambEmailInput"
+            class="modal-input"
+            placeholder="e.g. yourname@gmail.com"
+            autocomplete="email"
+            maxlength="120"
+          >
+        </div>
+
+        <div id="modalFormError" class="modal-error-msg" style="display: none;"></div>
+
+        <button type="button" id="btnGenerateCode" class="btn-get-code" style="width: 100%; justify-content: center; margin-top: 8px;">
+          <span id="btnGenerateCodeText">GENERATE UNIQUE CODE &rarr;</span>
+        </button>
+
+        <p style="font-family: var(--font-mono); font-size: 0.68rem; color: #94a3b8; text-align: center; margin-top: 12px; line-height: 1.5;">
+          Already registered? Enter the same email to retrieve your existing code.
+        </p>
       </div>
+
+      <!-- Code Revealed State (hidden initially) -->
+      <div id="modalCodeState" style="display: none;">
+        <div style="font-family: var(--font-mono); font-size: 0.7rem; color: #10b981; letter-spacing: 0.1em; margin-bottom: 8px;">// CODE GENERATED ✓</div>
+        <h3 style="font-family: var(--font-display); font-size: 1.25rem; margin: 0 0 6px 0; color: #0f172a; letter-spacing: -0.02em;">YOUR AMBASSADOR CODE</h3>
+        <p id="modalCodeWelcome" style="font-family: var(--font-mono); font-size: 0.77rem; color: #64748b; margin-bottom: 20px; line-height: 1.5;"></p>
+
+        <!-- Code Badge -->
+        <div class="generated-code-card">
+          <div class="generated-code-corners">
+            <span class="gcb-tl">┌</span>
+            <span class="gcb-tr">┐</span>
+            <span class="gcb-bl">└</span>
+            <span class="gcb-br">┘</span>
+          </div>
+          <div class="gcb-label">// YOUR UNIQUE REFERRAL CODE</div>
+          <div id="generatedCodeValue" class="gcb-code">GRVX001</div>
+          <button type="button" id="btnCopyCode" class="gcb-copy-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <span id="copyBtnText">COPY CODE</span>
+          </button>
+        </div>
+
+        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #64748b; margin: 16px 0; line-height: 1.6; padding: 12px; background: #f8fafc; border-left: 2px solid #e2e8f0;">
+          Share this code with fellow students. When they register for Grevix events using your link, your registration count goes up and your rank climbs the leaderboard.
+        </div>
+
+        <button type="button" id="btnGoToProof" class="btn-learn-more" style="width: 100%; justify-content: center;">
+          SUBMIT PROOF NOW &rarr;
+        </button>
+        <button type="button" id="btnGetAnotherCode" class="modal-back-btn">
+          &larr; Use a different email
+        </button>
+      </div>
+
     </div>
   </div>
 
@@ -1238,20 +1431,166 @@
       const codeModal = document.getElementById('codeModal');
       const btnOpenGetCode = document.getElementById('btnOpenGetCode');
       const btnCloseModal = document.getElementById('btnCloseModal');
+      const modalFormState = document.getElementById('modalFormState');
+      const modalCodeState = document.getElementById('modalCodeState');
+      const ambNameInput = document.getElementById('ambNameInput');
+      const ambEmailInput = document.getElementById('ambEmailInput');
+      const modalFormError = document.getElementById('modalFormError');
+      const btnGenerateCode = document.getElementById('btnGenerateCode');
+      const btnGenerateCodeText = document.getElementById('btnGenerateCodeText');
+      const generatedCodeValue = document.getElementById('generatedCodeValue');
+      const modalCodeWelcome = document.getElementById('modalCodeWelcome');
+      const btnCopyCode = document.getElementById('btnCopyCode');
+      const copyBtnText = document.getElementById('copyBtnText');
+      const btnGoToProof = document.getElementById('btnGoToProof');
+      const btnGetAnotherCode = document.getElementById('btnGetAnotherCode');
+
+      function openModal() {
+        if (codeModal) codeModal.style.display = 'flex';
+      }
+
+      function closeModal() {
+        if (codeModal) codeModal.style.display = 'none';
+      }
+
+      function showFormState() {
+        if (modalFormState) modalFormState.style.display = 'block';
+        if (modalCodeState) modalCodeState.style.display = 'none';
+        if (modalFormError) { modalFormError.style.display = 'none'; modalFormError.textContent = ''; }
+      }
+
+      function showCodeState(code, message) {
+        if (modalFormState) modalFormState.style.display = 'none';
+        if (modalCodeState) modalCodeState.style.display = 'block';
+        if (generatedCodeValue) generatedCodeValue.textContent = code;
+        if (modalCodeWelcome) modalCodeWelcome.textContent = message;
+        if (copyBtnText) copyBtnText.textContent = 'COPY CODE';
+        if (btnCopyCode) btnCopyCode.classList.remove('copied');
+      }
+
+      function showFormError(msg) {
+        if (modalFormError) {
+          modalFormError.textContent = msg;
+          modalFormError.style.display = 'block';
+        }
+      }
 
       if (btnOpenGetCode && codeModal) {
         btnOpenGetCode.addEventListener('click', () => {
-          codeModal.style.display = 'flex';
+          showFormState();
+          openModal();
         });
       }
       if (btnCloseModal && codeModal) {
-        btnCloseModal.addEventListener('click', () => {
-          codeModal.style.display = 'none';
-        });
+        btnCloseModal.addEventListener('click', closeModal);
       }
       if (codeModal) {
         codeModal.addEventListener('click', (e) => {
-          if (e.target === codeModal) codeModal.style.display = 'none';
+          if (e.target === codeModal) closeModal();
+        });
+      }
+      if (btnGetAnotherCode) {
+        btnGetAnotherCode.addEventListener('click', showFormState);
+      }
+
+      // Generate Code Submit
+      if (btnGenerateCode) {
+        btnGenerateCode.addEventListener('click', async () => {
+          const name = ambNameInput ? ambNameInput.value.trim() : '';
+          const email = ambEmailInput ? ambEmailInput.value.trim() : '';
+
+          if (modalFormError) { modalFormError.style.display = 'none'; modalFormError.textContent = ''; }
+
+          if (!name || name.length < 2) {
+            showFormError('Please enter your full name (minimum 2 characters).');
+            if (ambNameInput) ambNameInput.focus();
+            return;
+          }
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!email || !emailRegex.test(email)) {
+            showFormError('Please enter a valid Gmail or email address.');
+            if (ambEmailInput) ambEmailInput.focus();
+            return;
+          }
+
+          btnGenerateCode.disabled = true;
+          if (btnGenerateCodeText) btnGenerateCodeText.textContent = 'GENERATING...';
+
+          try {
+            const res = await fetch('/api/ambassador/generate-code', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ name, email })
+            });
+            const data = await res.json();
+
+            if (data.success && data.code) {
+              showCodeState(data.code, data.message);
+            } else {
+              showFormError(data.message || 'Something went wrong. Please try again.');
+            }
+          } catch (err) {
+            showFormError('Network error. Please check your connection and try again.');
+          } finally {
+            btnGenerateCode.disabled = false;
+            if (btnGenerateCodeText) btnGenerateCodeText.textContent = 'GENERATE UNIQUE CODE →';
+          }
+        });
+      }
+
+      // Also allow Enter key submission
+      [ambNameInput, ambEmailInput].forEach(input => {
+        if (input) {
+          input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && btnGenerateCode) btnGenerateCode.click();
+          });
+        }
+      });
+
+      // Copy Code Button
+      if (btnCopyCode) {
+        btnCopyCode.addEventListener('click', () => {
+          const code = generatedCodeValue ? generatedCodeValue.textContent.trim() : '';
+          if (!code) return;
+          navigator.clipboard.writeText(code).then(() => {
+            if (copyBtnText) copyBtnText.textContent = 'COPIED! ✓';
+            btnCopyCode.classList.add('copied');
+            setTimeout(() => {
+              if (copyBtnText) copyBtnText.textContent = 'COPY CODE';
+              btnCopyCode.classList.remove('copied');
+            }, 2500);
+          }).catch(() => {
+            // Fallback for older browsers
+            const el = document.createElement('textarea');
+            el.value = code;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            if (copyBtnText) copyBtnText.textContent = 'COPIED! ✓';
+            btnCopyCode.classList.add('copied');
+            setTimeout(() => {
+              if (copyBtnText) copyBtnText.textContent = 'COPY CODE';
+              btnCopyCode.classList.remove('copied');
+            }, 2500);
+          });
+        });
+      }
+
+      // "Submit Proof Now" — close modal and auto-fill code into proof form
+      if (btnGoToProof) {
+        btnGoToProof.addEventListener('click', () => {
+          const code = generatedCodeValue ? generatedCodeValue.textContent.trim() : '';
+          closeModal();
+          const ambCodeField = document.getElementById('ambCode');
+          if (ambCodeField && code) {
+            ambCodeField.value = code;
+          }
+          // Scroll to proof section
+          const proofSection = document.getElementById('proofForm');
+          if (proofSection) {
+            proofSection.closest('section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
         });
       }
 
