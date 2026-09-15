@@ -105,6 +105,7 @@
     { "source": "/events", "destination": "/events.html" },
     { "source": "/community", "destination": "/community.html" },
     { "source": "/blog", "destination": "/blog.html" },
+    { "source": "/ambassador", "destination": "/ambassador.html" },
     { "source": "/privacy", "destination": "/privacy.html" },
     { "source": "/terms", "destination": "/terms.html" },
     { "source": "/", "destination": "/index.html" }

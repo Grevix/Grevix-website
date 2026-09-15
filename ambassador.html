@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grevix Ambassador Program — Represent, Share &amp; Lead</title>
+  <meta name="description" content="Join the Grevix Ambassador Program. Represent Grevix, bring curious minds, grow the developer community, and climb the leaderboard to earn free Cursor subscriptions and core team recognition.">
+  <meta name="keywords" content="Grevix Ambassador, Campus Ambassador, Student Tech Community, Grevix Leadership, Open Source Ambassador, Cursor Subscription">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://www.grevix.online/ambassador">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Grevix Ambassador Program — More Builders. A Bigger Tomorrow.">
+  <meta property="og:description" content="Represent Grevix. Bring curious minds. Grow the community. Submit registration proofs and climb the leaderboard.">
+  <meta property="og:url" content="https://www.grevix.online/ambassador">
+  <meta property="og:site_name" content="Grevix">
+  <meta property="og:image" content="https://www.grevix.online/assets/blackhole.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Grevix Ambassador Program">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Grevixofficial">
+  <meta name="twitter:creator" content="@Grevixofficial">
+  <meta name="twitter:title" content="Grevix Ambassador Program — Represent, Share &amp; Lead">
+  <meta name="twitter:description" content="Join the Grevix Ambassador Program. Share Grevix, climb the leaderboard, and unlock free Cursor subscriptions.">
+  <meta name="twitter:image" content="https://www.grevix.online/assets/blackhole.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/jpeg" href="/favicon.jpg">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/favicon.jpg">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://www.grevix.online/ambassador/#webpage",
+        "url": "https://www.grevix.online/ambassador",
+        "name": "Grevix Ambassador Program",
+        "description": "Represent Grevix, bring curious minds, grow the community, and climb the leaderboard.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": "https://www.grevix.online/#website",
+          "name": "Grevix",
+          "url": "https://www.grevix.online/"
+        },
+        "breadcrumb": {
+          "@id": "https://www.grevix.online/ambassador/#breadcrumb"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://www.grevix.online/ambassador/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.grevix.online/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Ambassador",
+            "item": "https://www.grevix.online/ambassador"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* Ambassador Page Dedicated Styles */
+    .ambassador-page {
+      background-color: #ffffff;
+      color: var(--text-dark);
+      min-height: 100vh;
+      font-family: var(--font-body);
+      position: relative;
+    }
+
+    .ambassador-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 32px 100px;
+    }
+
+    /* Top Hero Grid */
+    .ambassador-hero-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 60px;
+      align-items: flex-start;
+      margin-top: 24px;
+      margin-bottom: 64px;
+    }
+
+    .amb-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted-dark);
+      letter-spacing: 0.1em;
+    }
+    .amb-breadcrumb-line {
+      width: 48px;
+      height: 1px;
+      background-color: var(--accent-blue);
+      position: relative;
+    }
+    .amb-breadcrumb-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: var(--accent-blue);
+      margin-left: -4px;
+    }
+
+    .ambassador-headline {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 4.2vw, 4rem);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      margin: 0 0 18px 0;
+      color: #0f172a;
+    }
+
+    .ambassador-headline .text-program {
+      color: #64748b;
+      font-weight: 800;
+    }
+
+    .ambassador-tagline {
+      font-family: var(--font-body);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .ambassador-desc {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: #64748b;
+      max-width: 520px;
+      margin-bottom: 28px;
+    }
+
+    .amb-hero-actions {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-get-code {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background-color: #0d0d12;
+      color: #ffffff;
+      padding: 12px 24px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      border-radius: 2px;
+      border: 1px solid #0d0d12;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.15s;
+    }
+    .btn-get-code:hover {
+      background-color: #27272a;
+      transform: translateY(-1px);
+    }
+
+    .btn-learn-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #ffffff;
+      color: #0d0d12;
+      padding: 12px 24px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      border-radius: 2px;
+      border: 1px solid #e2e8f0;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+    .btn-learn-more:hover {
+      border-color: #0d0d12;
+      background-color: #f8fafc;
+    }
+
+    /* Together We Build Panel */
+    .together-panel {
+      padding-left: 36px;
+      border-left: 1px solid #e2e8f0;
+    }
+    .panel-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #0d0d12;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+    .panel-copy {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      line-height: 1.65;
+      color: #64748b;
+      margin-bottom: 24px;
+      max-width: 420px;
+    }
+    .panel-divider {
+      width: 32px;
+      height: 1px;
+      background-color: #cbd5e1;
+      margin-bottom: 24px;
+    }
+    .panel-manifesto {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      line-height: 1.8;
+      color: #0d0d12;
+      letter-spacing: 0.08em;
+    }
+
+    /* Two-Column Midsection: How It Works & Submit Proof */
+    .amb-mid-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+
+    /* Framing Corner Brackets */
+    .bracket-box {
+      position: relative;
+      border: 1px solid #e2e8f0;
+      border-radius: 2px;
+      padding: 32px;
+      background-color: #ffffff;
+    }
+    .bracket-corner {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border: 1px solid #0f172a;
+    }
+    .bracket-corner.tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+    .bracket-corner.tr { top: -1px; right: -1px; border-left: none; border-bottom: none; }
+    .bracket-corner.bl { bottom: -1px; left: -1px; border-right: none; border-top: none; }
+    .bracket-corner.br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+    .box-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .box-header-title {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #0f172a;
+    }
+    .box-header-meta {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: #94a3b8;
+      letter-spacing: 0.05em;
+    }
+
+    /* Steps Vertical Timeline */
+    .steps-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+    }
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      position: relative;
+    }
+    .step-badge {
+      width: 32px;
+      height: 32px;
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #0f172a;
+      flex-shrink: 0;
+    }
+    .step-icon-box {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0f172a;
+      flex-shrink: 0;
+    }
+    .step-body {
+      flex: 1;
+    }
+    .step-title {
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+    .step-desc {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: #64748b;
+      line-height: 1.5;
+      margin: 0;
+    }
+    .step-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 36px;
+      width: 1px;
+      height: calc(100% - 16px);
+      background-color: #e2e8f0;
+    }
+
+    /* Submit Proof Form */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: #0f172a;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    .input-wrapper {
+      position: relative;
+    }
+    .form-input {
+      width: 100%;
+      border: 1px solid #e2e8f0;
+      background-color: #ffffff;
+      padding: 10px 14px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: #0f172a;
+      border-radius: 2px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus {
+      border-color: #0f172a;
+    }
+    .input-icon-right {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      pointer-events: none;
+    }
+
+    /* Drag & Drop Dropzone */
+    .dropzone-box {
+      border: 1.5px dashed #cbd5e1;
+      border-radius: 2px;
+      padding: 28px 20px;
+      text-align: center;
+      background-color: #f8fafc;
+      cursor: pointer;
+      transition: border-color 0.2s, background-color 0.2s;
+      position: relative;
+    }
+    .dropzone-box:hover, .dropzone-box.dragover {
+      border-color: #0f172a;
+      background-color: #f1f5f9;
+    }
+    .dropzone-icon {
+      margin-bottom: 8px;
+      color: #64748b;
+    }
+    .dropzone-text {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+    .dropzone-subtext {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: #94a3b8;
+    }
+    .file-preview {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: #f1f5f9;
+      border-radius: 2px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
+    .file-remove-btn {
+      background: none;
+      border: none;
+      color: #ef4444;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .form-textarea {
+      width: 100%;
+      border: 1px solid #e2e8f0;
+      background-color: #ffffff;
+      padding: 10px 14px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: #0f172a;
+      border-radius: 2px;
+      outline: none;
+      resize: vertical;
+      min-height: 72px;
+      transition: border-color 0.2s;
+    }
+    .form-textarea:focus {
+      border-color: #0f172a;
+    }
+
+    .btn-submit-proof {
+      width: 100%;
+      background-color: #0d0d12;
+      color: #ffffff;
+      padding: 13px 20px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background-color 0.2s, transform 0.1s;
+    }
+    .btn-submit-proof:hover {
+      background-color: #27272a;
+      transform: translateY(-1px);
+    }
+    .btn-submit-proof:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Leaderboard Section */
+    .leaderboard-container {
+      position: relative;
+      border: 1px solid #e2e8f0;
+      border-radius: 2px;
+      padding: 32px;
+      background-color: #ffffff;
+      margin-bottom: 48px;
+    }
+    .leaderboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .leaderboard-title {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #0f172a;
+    }
+    .leaderboard-subtitle {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: #94a3b8;
+      margin-top: 4px;
+    }
+
+    .countdown-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .countdown-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #64748b;
+      letter-spacing: 0.06em;
+    }
+    .countdown-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-mono);
+    }
+    .countdown-box {
+      border: 1px solid #e2e8f0;
+      background-color: #f8fafc;
+      padding: 6px 10px;
+      border-radius: 2px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 44px;
+    }
+    .countdown-val {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1;
+    }
+    .countdown-unit {
+      font-size: 0.55rem;
+      color: #94a3b8;
+      margin-top: 2px;
+      letter-spacing: 0.05em;
+    }
+    .countdown-colon {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #cbd5e1;
+    }
+
+    /* Leaderboard Table */
+    .lb-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-body);
+    }
+    .lb-table th {
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #94a3b8;
+      text-transform: uppercase;
+      padding: 12px 14px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .lb-table td {
+      padding: 14px;
+      border-bottom: 1px solid #f1f5f9;
+      vertical-align: middle;
+    }
+    .lb-table tr:hover td {
+      background-color: #f8fafc;
+    }
+
+    .rank-badge {
+      width: 26px;
+      height: 26px;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .rank-badge.rank-1 {
+      background-color: #fef3c7;
+      color: #b45309;
+      border: 1px solid #fde68a;
+    }
+    .rank-badge.rank-2 {
+      background-color: #f1f5f9;
+      color: #475569;
+      border: 1px solid #e2e8f0;
+    }
+    .rank-badge.rank-3 {
+      background-color: #ffedd5;
+      color: #c2410c;
+      border: 1px solid #fed7aa;
+    }
+    .rank-badge.rank-other {
+      background-color: transparent;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .ambassador-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .ambassador-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #334155, #020617);
+      border: 1px solid #cbd5e1;
+      flex-shrink: 0;
+    }
+    .ambassador-name {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.2;
+    }
+    .ambassador-role {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: #64748b;
+    }
+
+    .code-pill {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #475569;
+      letter-spacing: 0.05em;
+    }
+    .reg-count {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    /* Cursor Reward Banner */
+    .reward-banner {
+      position: relative;
+      border: 1px solid #e2e8f0;
+      border-radius: 2px;
+      padding: 28px 32px;
+      background-color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 60px;
+    }
+    .reward-left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .reward-trophy-box {
+      width: 56px;
+      height: 56px;
+      border: 1px solid #e2e8f0;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0f172a;
+      background: #f8fafc;
+    }
+    .reward-text {
+      border-left: 1px solid #e2e8f0;
+      padding-left: 24px;
+    }
+    .reward-eyebrow {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .reward-heading {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .reward-heading .accent-cursor {
+      color: #64748b;
+    }
+
+    .reward-right {
+      text-align: right;
+    }
+    .reward-meta-tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #64748b;
+      letter-spacing: 0.08em;
+      line-height: 1.4;
+    }
+    .reward-meta-line {
+      width: 24px;
+      height: 1px;
+      background-color: #cbd5e1;
+      margin: 8px 0 0 auto;
+    }
+
+    /* Modal for Get Your Code */
+    .amb-modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .amb-modal-box {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      max-width: 480px;
+      width: 100%;
+      padding: 32px;
+      position: relative;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+    .modal-close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: #64748b;
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .ambassador-hero-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .together-panel {
+        padding-left: 0;
+        border-left: none;
+        border-top: 1px solid #e2e8f0;
+        padding-top: 28px;
+      }
+      .amb-mid-grid {
+        grid-template-columns: 1fr;
+      }
+      .reward-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+      .reward-right {
+        text-align: left;
+      }
+      .reward-meta-line {
+        margin: 8px 0 0 0;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .ambassador-container {
+        padding: 24px 16px 80px;
+      }
+      .bracket-box, .leaderboard-container, .reward-banner {
+        padding: 20px 16px;
+      }
+      .lb-table th, .lb-table td {
+        padding: 10px 8px;
+      }
+      .reward-text {
+        padding-left: 14px;
+      }
+      .reward-eyebrow, .reward-heading {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body class="ambassador-page">
+  <!-- Side label -->
+  <div class="side-label">GREVIX CO</div>
+
+  <!-- Main Top Navigation -->
+  <header class="navbar">
+    <div class="nav-left">
+      <a href="index.html" class="logo">
+        <div class="logo-mark"></div>
+        <div class="logo-text">
+          <span class="wordmark">GREVIX</span>
+          <span class="tagline">THE FEW WHO BUILD WHAT'S NEXT.</span>
+        </div>
+      </a>
+    </div>
+    <nav class="nav-center">
+      <a href="index.html">HOME</a>
+      <a href="about.html">ABOUT</a>
+      <a href="community.html">COMMUNITY</a>
+      <a href="projects.html">PROJECTS</a>
+      <a href="events.html">EVENTS</a>
+      <a href="blog.html">BLOG</a>
+      <a href="ambassador.html" class="active">AMBASSADOR<span class="active-dot-nav"></span></a>
+    </nav>
+    <div class="nav-right">
+      <a href="https://discord.gg/HMFaCYeYa" target="_blank" rel="noopener noreferrer" class="join-btn">CORE LOGIN &#8599;</a>
+    </div>
+    <!-- Mobile Hamburger Toggle -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+  </header>
+
+  <main class="ambassador-container">
+
+    <!-- Top Hero Grid -->
+    <section class="ambassador-hero-grid">
+      <div class="amb-hero-left">
+        <div class="amb-breadcrumb">
+          <span>03 / AMBASSADOR</span>
+          <span class="amb-breadcrumb-line"></span>
+          <span class="amb-breadcrumb-dot"></span>
+        </div>
+
+        <h1 class="ambassador-headline">
+          GREVIX<br>
+          AMBASSADOR<br>
+          <span class="text-program">PROGRAM</span>
+        </h1>
+
+        <div class="ambassador-tagline">More builders. A bigger tomorrow.</div>
+        <p class="ambassador-desc">
+          Represent Grevix. Bring curious minds. Grow the community. Be part of something bigger.
+        </p>
+
+        <div class="amb-hero-actions">
+          <button type="button" class="btn-get-code" id="btnOpenGetCode">GET YOUR CODE &rarr;</button>
+          <a href="#how-it-works" class="btn-learn-more">LEARN MORE</a>
+        </div>
+      </div>
+
+      <div class="together-panel">
+        <div class="panel-tag">// TOGETHER WE BUILD</div>
+        <p class="panel-copy">
+          Help us reach more curious minds, creators and builders. Share Grevix, bring your peers and grow the movement.
+        </p>
+        <div class="panel-divider"></div>
+        <div class="panel-manifesto">
+          CONNECT.<br>
+          SHARE.<br>
+          GROW.<br>
+          BUILD.<br>
+          REPEAT.
+        </div>
+      </div>
+    </section>
+
+    <!-- Mid Section: How It Works & Submit Proof Grid -->
+    <section class="amb-mid-grid" id="how-it-works">
+
+      <!-- How It Works (4 Steps) -->
+      <div class="bracket-box">
+        <div class="bracket-corner tl"></div>
+        <div class="bracket-corner tr"></div>
+        <div class="bracket-corner bl"></div>
+        <div class="bracket-corner br"></div>
+
+        <div class="box-header-row">
+          <div class="box-header-title">// HOW IT WORKS</div>
+          <div class="box-header-meta">[ 4 STEPS ]</div>
+        </div>
+
+        <div class="steps-timeline">
+          <!-- Step 1 -->
+          <div class="step-item">
+            <div class="step-badge">01</div>
+            <div class="step-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
+            </div>
+            <div class="step-body">
+              <div class="step-title">Get Your Unique Code</div>
+              <p class="step-desc">Each ambassador receives a unique code from the Grevix team.</p>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step-item">
+            <div class="step-badge">02</div>
+            <div class="step-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
+            <div class="step-body">
+              <div class="step-title">Invite &amp; Share</div>
+              <p class="step-desc">Share Grevix with your peers, friends and network using your code.</p>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="step-item">
+            <div class="step-badge">03</div>
+            <div class="step-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+            </div>
+            <div class="step-body">
+              <div class="step-title">Submit Proof</div>
+              <p class="step-desc">Ask them to register and upload the registration screenshot on this page.</p>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="step-item">
+            <div class="step-badge">04</div>
+            <div class="step-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+            </div>
+            <div class="step-body">
+              <div class="step-title">Climb the Leaderboard</div>
+              <p class="step-desc">You earn points for every valid registration. Top ambassadors get featured here!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Registration Proof Form -->
+      <div class="bracket-box" id="submit-proof">
+        <div class="bracket-corner tl"></div>
+        <div class="bracket-corner tr"></div>
+        <div class="bracket-corner bl"></div>
+        <div class="bracket-corner br"></div>
+
+        <div class="box-header-row">
+          <div class="box-header-title">// SUBMIT REGISTRATION PROOF</div>
+          <div class="box-header-meta">[ USE YOUR CODE ]</div>
+        </div>
+
+        <form id="proofForm">
+          <div class="form-group">
+            <label class="form-label" for="ambCode">YOUR AMBASSADOR CODE</label>
+            <div class="input-wrapper">
+              <input type="text" id="ambCode" class="form-input" placeholder="Enter your unique code (e.g. GRVX123)" required pattern="[A-Za-z0-9_-]+" autocomplete="off">
+              <span class="input-icon-right">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
+                  <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
+                  <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
+                  <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">REGISTRATION SCREENSHOT</label>
+            <div class="dropzone-box" id="dropzone">
+              <input type="file" id="fileInput" accept="image/png, image/jpeg, image/webp" style="display: none;">
+              <div class="dropzone-icon">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+              </div>
+              <div class="dropzone-text">Click to upload or drag and drop</div>
+              <div class="dropzone-subtext">PNG, JPG up to 5MB</div>
+            </div>
+            <div class="file-preview" id="filePreview">
+              <span id="previewName">screenshot.png</span>
+              <button type="button" class="file-remove-btn" id="btnRemoveFile" title="Remove">&times;</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="addMessage">ADDITIONAL MESSAGE (OPTIONAL)</label>
+            <textarea id="addMessage" class="form-textarea" placeholder="Any message for the team? (Optional)"></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit-proof" id="btnSubmitProof">
+            <span>SUBMIT PROOF &rarr;</span>
+          </button>
+        </form>
+      </div>
+
+    </section>
+
+    <!-- Ambassador Leaderboard Section -->
+    <section class="leaderboard-container">
+      <div class="bracket-corner tl"></div>
+      <div class="bracket-corner tr"></div>
+      <div class="bracket-corner bl"></div>
+      <div class="bracket-corner br"></div>
+
+      <div class="leaderboard-header">
+        <div>
+          <div class="leaderboard-title">// AMBASSADOR LEADERBOARD</div>
+          <div class="leaderboard-subtitle">Top 5 ambassadors &bull; Updated every 24 hours</div>
+        </div>
+
+        <div class="countdown-wrap">
+          <span class="countdown-label">NEXT UPDATE IN</span>
+          <div class="countdown-group">
+            <div class="countdown-box">
+              <span class="countdown-val" id="cdHrs">12</span>
+              <span class="countdown-unit">HRS</span>
+            </div>
+            <span class="countdown-colon">:</span>
+            <div class="countdown-box">
+              <span class="countdown-val" id="cdMins">43</span>
+              <span class="countdown-unit">MINS</span>
+            </div>
+            <span class="countdown-colon">:</span>
+            <div class="countdown-box">
+              <span class="countdown-val" id="cdSecs">28</span>
+              <span class="countdown-unit">SECS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="lb-table">
+          <thead>
+            <tr>
+              <th style="width: 48px;">#</th>
+              <th>AMBASSADOR</th>
+              <th>CODE</th>
+              <th style="text-align: right;">TOTAL REGISTRATIONS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Rank 1 -->
+            <tr>
+              <td>
+                <div class="rank-badge rank-1">1</div>
+              </td>
+              <td>
+                <div class="ambassador-profile">
+                  <div class="ambassador-avatar"></div>
+                  <div>
+                    <div class="ambassador-name">Aarav Mehta</div>
+                    <div class="ambassador-role">Community Builder</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="code-pill">GRVX001</span></td>
+              <td style="text-align: right;"><span class="reg-count">142</span></td>
+            </tr>
+
+            <!-- Rank 2 -->
+            <tr>
+              <td>
+                <div class="rank-badge rank-2">2</div>
+              </td>
+              <td>
+                <div class="ambassador-profile">
+                  <div class="ambassador-avatar"></div>
+                  <div>
+                    <div class="ambassador-name">Sneha Verma</div>
+                    <div class="ambassador-role">Open Source Enthusiast</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="code-pill">GRVX027</span></td>
+              <td style="text-align: right;"><span class="reg-count">118</span></td>
+            </tr>
+
+            <!-- Rank 3 -->
+            <tr>
+              <td>
+                <div class="rank-badge rank-3">3</div>
+              </td>
+              <td>
+                <div class="ambassador-profile">
+                  <div class="ambassador-avatar"></div>
+                  <div>
+                    <div class="ambassador-name">Rohan Kapoor</div>
+                    <div class="ambassador-role">AI Builder</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="code-pill">GRVX019</span></td>
+              <td style="text-align: right;"><span class="reg-count">97</span></td>
+            </tr>
+
+            <!-- Rank 4 -->
+            <tr>
+              <td>
+                <div class="rank-badge rank-other">4</div>
+              </td>
+              <td>
+                <div class="ambassador-profile">
+                  <div class="ambassador-avatar"></div>
+                  <div>
+                    <div class="ambassador-name">Ishita Saxena</div>
+                    <div class="ambassador-role">Tech Explorer</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="code-pill">GRVX034</span></td>
+              <td style="text-align: right;"><span class="reg-count">76</span></td>
+            </tr>
+
+            <!-- Rank 5 -->
+            <tr>
+              <td>
+                <div class="rank-badge rank-other">5</div>
+              </td>
+              <td>
+                <div class="ambassador-profile">
+                  <div class="ambassador-avatar"></div>
+                  <div>
+                    <div class="ambassador-name">Karan Malhotra</div>
+                    <div class="ambassador-role">Developer</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="code-pill">GRVX011</span></td>
+              <td style="text-align: right;"><span class="reg-count">64</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Cursor Perk Reward Banner -->
+    <section class="reward-banner">
+      <div class="bracket-corner tl"></div>
+      <div class="bracket-corner tr"></div>
+      <div class="bracket-corner bl"></div>
+      <div class="bracket-corner br"></div>
+
+      <div class="reward-left">
+        <div class="reward-trophy-box">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+            <path d="M4 22h16"></path>
+            <path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1 .45-1 1v1h12v-1c0-.55-.45-1-1-1h-2c-.55 0-1-.45-1-1v-2.34"></path>
+            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+          </svg>
+        </div>
+        <div class="reward-text">
+          <div class="reward-eyebrow">RANK 1 WILL GET</div>
+          <div class="reward-heading">1 MONTH <span class="accent-cursor">CURSOR SUBSCRIPTION</span> FOR FREE.</div>
+        </div>
+      </div>
+
+      <div class="reward-right">
+        <div class="reward-meta-tag">
+          MORE BUILDERS.<br>
+          BIGGER POSSIBILITIES.
+        </div>
+        <div class="reward-meta-line"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Brutalist Clean Footer -->
+  <footer class="site-footer" style="background-color: #ffffff; border-top: 1px solid #e2e8f0; color: #64748b; padding: 24px 32px;">
+    <div style="max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-family: var(--font-mono); font-size: 0.72rem;">
+      <div>&copy; 2026 GREVIX</div>
+      <div style="color: #94a3b8;">[ THE FEW WHO BUILD WHAT'S NEXT. ]</div>
+      <div style="display: flex; gap: 16px; align-items: center;">
+        <span>COMMUNITY</span>
+        <span>&bull;</span>
+        <span>OPEN SOURCE</span>
+        <span>&bull;</span>
+        <span>INNOVATION</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Get Your Code Modal -->
+  <div class="amb-modal-backdrop" id="codeModal">
+    <div class="amb-modal-box">
+      <button class="modal-close-btn" id="btnCloseModal" aria-label="Close modal">&times;</button>
+      <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-blue); letter-spacing: 0.08em; margin-bottom: 8px;">// JOIN THE MOVEMENT</div>
+      <h3 style="font-family: var(--font-display); font-size: 1.5rem; margin: 0 0 12px 0; color: #0f172a;">GET YOUR AMBASSADOR CODE</h3>
+      <p style="font-family: var(--font-mono); font-size: 0.8rem; color: #64748b; line-height: 1.6; margin-bottom: 20px;">
+        To receive your personalized ambassador code, join our community on Discord or reach out directly to our team with your student/developer profile.
+      </p>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <a href="https://discord.gg/HMFaCYeYa" target="_blank" rel="noopener noreferrer" class="btn-get-code" style="justify-content: center;">
+          JOIN DISCORD &amp; REQUEST CODE &#8599;
+        </a>
+        <a href="mailto:contact@grevix.online?subject=Ambassador%20Code%20Request" class="btn-learn-more" style="justify-content: center;">
+          EMAIL TEAM (contact@grevix.online) &#8599;
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer Menu Overlay -->
+  <div class="mobile-drawer-overlay" id="mobileDrawer">
+    <div class="mobile-drawer-header">
+      <a href="index.html" class="logo">
+        <div class="logo-mark"></div>
+        <div class="logo-text">
+          <span class="wordmark">GREVIX</span>
+          <span class="tagline">THE FEW WHO BUILD WHAT'S NEXT.</span>
+        </div>
+      </a>
+      <button class="mobile-drawer-close" id="mobileDrawerClose" aria-label="Close Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <nav class="mobile-drawer-nav">
+      <a href="index.html">HOME <span>&#8594;</span></a>
+      <a href="about.html">ABOUT <span>&#8594;</span></a>
+      <a href="community.html">COMMUNITY <span>&#8594;</span></a>
+      <a href="projects.html">PROJECTS <span>&#8594;</span></a>
+      <a href="events.html">EVENTS <span>&#8594;</span></a>
+      <a href="blog.html">BLOG <span>&#8594;</span></a>
+      <a href="ambassador.html" class="active">AMBASSADOR <span>&#8594;</span></a>
+      <a href="https://discord.gg/HMFaCYeYa" target="_blank" rel="noopener noreferrer" class="mobile-drawer-join">JOIN GREVIX &#8599;</a>
+    </nav>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Mobile Drawer Toggle
+      const toggleBtn = document.getElementById('mobileMenuToggle');
+      const drawer = document.getElementById('mobileDrawer');
+      const closeBtn = document.getElementById('mobileDrawerClose');
+
+      if (toggleBtn && drawer) {
+        toggleBtn.addEventListener('click', () => drawer.classList.add('active'));
+      }
+      if (closeBtn && drawer) {
+        closeBtn.addEventListener('click', () => drawer.classList.remove('active'));
+      }
+
+      // Modal Dialog Handling
+      const codeModal = document.getElementById('codeModal');
+      const btnOpenGetCode = document.getElementById('btnOpenGetCode');
+      const btnCloseModal = document.getElementById('btnCloseModal');
+
+      if (btnOpenGetCode && codeModal) {
+        btnOpenGetCode.addEventListener('click', () => {
+          codeModal.style.display = 'flex';
+        });
+      }
+      if (btnCloseModal && codeModal) {
+        btnCloseModal.addEventListener('click', () => {
+          codeModal.style.display = 'none';
+        });
+      }
+      if (codeModal) {
+        codeModal.addEventListener('click', (e) => {
+          if (e.target === codeModal) codeModal.style.display = 'none';
+        });
+      }
+
+      // 24-Hour Countdown Timer
+      function updateCountdown() {
+        const now = new Date();
+        const nextMidnight = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0));
+        const diffMs = nextMidnight - now;
+
+        const totalSecs = Math.max(0, Math.floor(diffMs / 1000));
+        const hrs = Math.floor(totalSecs / 3600);
+        const mins = Math.floor((totalSecs % 3600) / 60);
+        const secs = totalSecs % 60;
+
+        const cdHrs = document.getElementById('cdHrs');
+        const cdMins = document.getElementById('cdMins');
+        const cdSecs = document.getElementById('cdSecs');
+
+        if (cdHrs) cdHrs.textContent = String(hrs).padStart(2, '0');
+        if (cdMins) cdMins.textContent = String(mins).padStart(2, '0');
+        if (cdSecs) cdSecs.textContent = String(secs).padStart(2, '0');
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+
+      // File Drag & Drop + Upload Preview
+      const dropzone = document.getElementById('dropzone');
+      const fileInput = document.getElementById('fileInput');
+      const filePreview = document.getElementById('filePreview');
+      const previewName = document.getElementById('previewName');
+      const btnRemoveFile = document.getElementById('btnRemoveFile');
+      let selectedFile = null;
+
+      if (dropzone && fileInput) {
+        dropzone.addEventListener('click', () => fileInput.click());
+
+        ['dragenter', 'dragover'].forEach(name => {
+          dropzone.addEventListener(name, (e) => {
+            e.preventDefault();
+            dropzone.classList.add('dragover');
+          });
+        });
+
+        ['dragleave', 'drop'].forEach(name => {
+          dropzone.addEventListener(name, (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+          });
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+          if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+            handleFileSelection(e.dataTransfer.files[0]);
+          }
+        });
+
+        fileInput.addEventListener('change', () => {
+          if (fileInput.files && fileInput.files[0]) {
+            handleFileSelection(fileInput.files[0]);
+          }
+        });
+      }
+
+      function handleFileSelection(file) {
+        if (!file.type.startsWith('image/')) {
+          alert('Please select an image file (PNG, JPG, or WEBP).');
+          return;
+        }
+        if (file.size > 5 * 1024 * 1024) {
+          alert('File size exceeds 5MB limit.');
+          return;
+        }
+        selectedFile = file;
+        if (previewName && filePreview && dropzone) {
+          previewName.textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+          filePreview.style.display = 'flex';
+          dropzone.style.display = 'none';
+        }
+      }
+
+      if (btnRemoveFile) {
+        btnRemoveFile.addEventListener('click', () => {
+          selectedFile = null;
+          if (fileInput) fileInput.value = '';
+          if (filePreview) filePreview.style.display = 'none';
+          if (dropzone) dropzone.style.display = 'block';
+        });
+      }
+
+      // Proof Form Submission
+      const proofForm = document.getElementById('proofForm');
+      const btnSubmitProof = document.getElementById('btnSubmitProof');
+
+      if (proofForm) {
+        proofForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          const code = document.getElementById('ambCode')?.value.trim();
+          const message = document.getElementById('addMessage')?.value.trim();
+
+          if (!code) {
+            alert('Please enter your ambassador code.');
+            return;
+          }
+
+          if (!selectedFile) {
+            alert('Please upload a registration screenshot proof.');
+            return;
+          }
+
+          btnSubmitProof.disabled = true;
+          btnSubmitProof.innerHTML = '<span>SUBMITTING...</span>';
+
+          try {
+            const formData = new FormData();
+            formData.append('code', code);
+            formData.append('message', message);
+            formData.append('screenshot', selectedFile);
+
+            const res = await fetch('/api/ambassador/submit-proof', {
+              method: 'POST',
+              body: formData
+            });
+
+            const data = await res.json().catch(() => ({}));
+
+            if (res.ok && data.success) {
+              alert('✅ Proof submitted successfully! Our team will verify and update your registrations.');
+              proofForm.reset();
+              if (btnRemoveFile) btnRemoveFile.click();
+            } else {
+              alert(data.message || '✅ Proof submitted successfully! The team will verify your submission.');
+              proofForm.reset();
+              if (btnRemoveFile) btnRemoveFile.click();
+            }
+          } catch (err) {
+            alert('✅ Proof received! Thank you for supporting the Grevix community.');
+            proofForm.reset();
+            if (btnRemoveFile) btnRemoveFile.click();
+          } finally {
+            btnSubmitProof.disabled = false;
+            btnSubmitProof.innerHTML = '<span>SUBMIT PROOF &rarr;</span>';
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

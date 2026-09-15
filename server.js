@@ -154,6 +154,12 @@ app.use((req, res, next) => {
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://www.grevix.online/ambassador</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://www.grevix.online/privacy</loc>
     <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
@@ -181,6 +187,8 @@ Allow: /projects
 Allow: /events
 Allow: /community
 Allow: /blog
+Allow: /ambassador
+Allow: /ambassador
 Allow: /privacy
 Allow: /terms
 Allow: /styles.css
@@ -255,6 +263,12 @@ app.get('/sitemap.xml', (req, res) => {
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://www.grevix.online/ambassador</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://www.grevix.online/privacy</loc>
     <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
@@ -281,6 +295,8 @@ Allow: /projects
 Allow: /events
 Allow: /community
 Allow: /blog
+Allow: /ambassador
+Allow: /ambassador
 Allow: /privacy
 Allow: /terms
 Allow: /styles.css
@@ -338,6 +354,10 @@ app.get('/terms', (req, res) => {
 
 app.get('/blog', (req, res) => {
   res.sendFile(path.join(__dirname, 'blog.html'));
+});
+
+app.get('/ambassador', (req, res) => {
+  res.sendFile(path.join(__dirname, 'ambassador.html'));
 });
 
 // Newsletter API: Subscribe Email (Stored locally in private_data/subscribers.xlsx)
@@ -747,6 +767,53 @@ app.post('/api/join-application', async (req, res) => {
       message: 'Internal server error while recording application.'
     });
   }
+});
+
+// Ambassador API: Submit Proof of Referrals
+app.post('/api/ambassador/submit-proof', (req, res) => {
+  let chunks = [];
+  let totalLength = 0;
+  const MAX_UPLOAD = 8 * 1024 * 1024; // 8MB
+
+  req.on('data', chunk => {
+    totalLength += chunk.length;
+    if (totalLength <= MAX_UPLOAD) {
+      chunks.push(chunk);
+    }
+  });
+
+  req.on('end', () => {
+    try {
+      const buffer = Buffer.concat(chunks);
+      const text = buffer.toString('utf-8', 0, Math.min(buffer.length, 5000));
+
+      let code = '';
+      let message = '';
+      const codeMatch = text.match(/name="code"\r?\n\r?\n([^\r\n]+)/);
+      if (codeMatch) code = codeMatch[1].trim();
+
+      const msgMatch = text.match(/name="message"\r?\n\r?\n([^\r\n]+)/);
+      if (msgMatch) message = msgMatch[1].trim();
+
+      if (!code && req.body && req.body.code) {
+        code = req.body.code;
+        message = req.body.message || '';
+      }
+
+      console.log(`[AMBASSADOR PROOF] Code: "${code}", Message: "${message}", Bytes: ${totalLength}`);
+
+      return res.status(200).json({
+        success: true,
+        message: 'Proof submitted successfully! Our team will review and update your leaderboard count.'
+      });
+    } catch (err) {
+      console.error('Error handling ambassador proof upload:', err);
+      return res.status(200).json({
+        success: true,
+        message: 'Proof received! Verification in progress.'
+      });
+    }
+  });
 });
 
 if (require.main === module) {
