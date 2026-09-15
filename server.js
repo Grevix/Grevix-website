@@ -222,6 +222,7 @@ app.use(express.static(__dirname, {
 const { loadArticles, runDailyPipeline, loadState } = require('./services/blogPipeline');
 const { addSubscriber, getAllSubscribers, sendDailyDigestEmails } = require('./services/newsletterService');
 const { getOrGenerateCode, getAllAmbassadors, getSqlDumpContent } = require('./services/ambassadorDb');
+const { saveJoinApplication, uploadProofScreenshot, saveProofSubmission, getAllProofSubmissions, getAllJoinApplications } = require('./services/supabaseService');
 
 // Route handlers for search engines and SEO crawlers
 app.get('/sitemap.xml', (req, res) => {
@@ -715,6 +716,16 @@ app.post('/api/join-application', async (req, res) => {
       });
     }
 
+    // Save to Supabase (primary secure storage — admin-only via service role)
+    const ip = req.ip || req.headers['x-forwarded-for'] || '127.0.0.1';
+    const sbResult = await saveJoinApplication({ email: cleanEmail, github: cleanGithub, interest: cleanInterest, ip });
+    if (!sbResult.success && sbResult.isDuplicate) {
+      const dupeMsg = sbResult.field === 'github'
+        ? 'This GitHub profile URL has already submitted an application.'
+        : 'This email address has already submitted an application.';
+      return res.status(400).json({ success: false, message: dupeMsg });
+    }
+
     // Calculate S.No for new row
     const dataRowCount = worksheet.rowCount > 1 ? worksheet.rowCount : 1;
     const sNo = dataRowCount;
@@ -790,8 +801,8 @@ app.post('/api/ambassador/generate-code', async (req, res) => {
     const result = await getOrGenerateCode(name.trim(), email.trim(), ip);
 
     const message = result.alreadyRegistered
-      ? `Welcome back! Your ambassador code is ${result.code}. Share it to climb the leaderboard!`
-      : `🎉 Congratulations! Your unique ambassador code is ${result.code}. Share it with your peers!`;
+      ? `Welcome back! Your ambassador code is ${result.code}. Share Grevix with your peers, friends and network.`
+      : `🎉 Your unique ambassador code is ${result.code}. Share Grevix with your peers, friends and network.`;
 
     return res.status(200).json({
       success: true,
@@ -826,7 +837,27 @@ app.get('/api/admin/ambassadors', requireAdminKey, (req, res) => {
   }
 });
 
-// Ambassador API: Submit Proof of Referrals
+// Admin Only: Get all proof submissions from Supabase (GET /api/admin/proof-submissions)
+app.get('/api/admin/proof-submissions', requireAdminKey, async (req, res) => {
+  try {
+    const submissions = await getAllProofSubmissions();
+    return res.status(200).json({ success: true, count: submissions.length, submissions });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to retrieve proof submissions.' });
+  }
+});
+
+// Admin Only: Get all join applications from Supabase (GET /api/admin/join-applications)
+app.get('/api/admin/join-applications', requireAdminKey, async (req, res) => {
+  try {
+    const applications = await getAllJoinApplications();
+    return res.status(200).json({ success: true, count: applications.length, applications });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to retrieve join applications.' });
+  }
+});
+
+// Ambassador API: Submit Proof of Referrals (stores images in Supabase Storage)
 app.post('/api/ambassador/submit-proof', (req, res) => {
   let chunks = [];
   let totalLength = 0;
@@ -839,17 +870,18 @@ app.post('/api/ambassador/submit-proof', (req, res) => {
     }
   });
 
-  req.on('end', () => {
+  req.on('end', async () => {
     try {
       const buffer = Buffer.concat(chunks);
-      const text = buffer.toString('utf-8', 0, Math.min(buffer.length, 5000));
 
+      // Extract multipart fields from raw body
+      const bodyText = buffer.toString('utf-8', 0, Math.min(buffer.length, 8000));
       let code = '';
       let message = '';
-      const codeMatch = text.match(/name="code"\r?\n\r?\n([^\r\n]+)/);
-      if (codeMatch) code = codeMatch[1].trim();
 
-      const msgMatch = text.match(/name="message"\r?\n\r?\n([^\r\n]+)/);
+      const codeMatch = bodyText.match(/name="code"\r?\n\r?\n([^\r\n]+)/);
+      if (codeMatch) code = codeMatch[1].trim();
+      const msgMatch = bodyText.match(/name="message"\r?\n\r?\n([^\r\n]+)/);
       if (msgMatch) message = msgMatch[1].trim();
 
       if (!code && req.body && req.body.code) {
@@ -857,21 +889,84 @@ app.post('/api/ambassador/submit-proof', (req, res) => {
         message = req.body.message || '';
       }
 
-      console.log(`[AMBASSADOR PROOF] Code: "${code}", Message: "${message}", Bytes: ${totalLength}`);
+      const ip = req.ip || req.headers['x-forwarded-for'] || '127.0.0.1';
+      const contentType = req.headers['content-type'] || '';
 
-      return res.status(200).json({
+      // Extract image file from multipart body
+      let screenshotPath = null;
+      let uploadSuccess = false;
+
+      if (contentType.includes('multipart/form-data')) {
+        const boundaryMatch = contentType.match(/boundary=([^;]+)/);
+        if (boundaryMatch) {
+          const boundary = boundaryMatch[1].trim();
+          const boundaryBuf = Buffer.from('--' + boundary);
+
+          // Split buffer by boundary to find file part
+          let searchStart = 0;
+          let parts = [];
+          while (true) {
+            let idx = buffer.indexOf(boundaryBuf, searchStart);
+            if (idx === -1) break;
+            parts.push(idx);
+            searchStart = idx + 1;
+          }
+
+          for (let i = 0; i < parts.length - 1; i++) {
+            const partStart = parts[i] + boundaryBuf.length;
+            const partEnd = parts[i + 1];
+            const part = buffer.slice(partStart, partEnd);
+            const headerEnd = part.indexOf(Buffer.from('\r\n\r\n'));
+            if (headerEnd === -1) continue;
+            const headerStr = part.slice(0, headerEnd).toString('utf-8');
+            if (!headerStr.includes('name="screenshot"') && !headerStr.includes('filename=')) continue;
+
+            const fileData = part.slice(headerEnd + 4, part.length - 2); // trim \r\n
+            if (fileData.length === 0) continue;
+
+            // Detect mime type from content-type header
+            const ctMatch = headerStr.match(/Content-Type:\s*([^\r\n]+)/i);
+            const fileMime = ctMatch ? ctMatch[1].trim() : 'image/png';
+
+            // Extract filename
+            const fnMatch = headerStr.match(/filename="([^"]+)"/);
+            const filename = fnMatch ? fnMatch[1] : `screenshot_${Date.now()}.png`;
+
+            if (code && fileData.length > 100) {
+              const uploadResult = await uploadProofScreenshot(fileData, code, filename, fileMime);
+              if (uploadResult.success) {
+                screenshotPath = uploadResult.path;
+                uploadSuccess = true;
+                console.log(`[Ambassador Proof] Image uploaded to Supabase: ${screenshotPath}`);
+              } else {
+                console.warn('[Ambassador Proof] Supabase upload failed:', uploadResult.error);
+              }
+            }
+            break;
+          }
+        }
+      }
+
+      // Save submission metadata to Supabase table
+      await saveProofSubmission({ ambassadorCode: code, screenshotPath, message, ip });
+
+      console.log(`[AMBASSADOR PROOF] Code: "${code}", Bytes: ${totalLength}, Uploaded: ${uploadSuccess}`);
+
+      return res.json({
         success: true,
-        message: 'Proof submitted successfully! Our team will review and update your leaderboard count.'
+        message: 'Proof submitted successfully! Our team will verify and update your registrations within 24 hours.'
       });
     } catch (err) {
-      console.error('Error handling ambassador proof upload:', err);
-      return res.status(200).json({
-        success: true,
-        message: 'Proof received! Verification in progress.'
-      });
+      console.error('[Ambassador Proof Error]:', err.message);
+      return res.json({ success: true, message: 'Proof received. Thank you for supporting Grevix!' });
     }
   });
+
+  req.on('error', () => {
+    return res.status(500).json({ success: false, message: 'Upload failed. Please try again.' });
+  });
 });
+
 
 if (require.main === module) {
   app.listen(PORT, () => {

@@ -1082,7 +1082,7 @@
             </div>
             <div class="step-body">
               <div class="step-title">Invite &amp; Share</div>
-              <p class="step-desc">Share Grevix with your peers, friends and network using your code.</p>
+              <p class="step-desc">Share Grevix with your peers, friends and network.</p>
             </div>
           </div>
 
@@ -1191,7 +1191,7 @@
       <div class="leaderboard-header">
         <div>
           <div class="leaderboard-title">// AMBASSADOR LEADERBOARD</div>
-          <div class="leaderboard-subtitle">Top 5 ambassadors &bull; Updated every 24 hours</div>
+          <div class="leaderboard-subtitle">Top 5 ambassadors &bull; Updated daily at 12:00 AM IST</div>
         </div>
 
         <div class="countdown-wrap">
@@ -1592,12 +1592,25 @@
         });
       }
 
-      // 24-Hour Countdown Timer
+      // 24-Hour Countdown Timer — counts to 12:00 AM IST (UTC+5:30 = 18:30 UTC prev day)
       function updateCountdown() {
         const now = new Date();
-        const nextMidnight = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0));
-        const diffMs = nextMidnight - now;
+        const IST_OFFSET_MS = 5.5 * 60 * 60 * 1000; // +5:30 = 19800000ms
 
+        // Current time in IST as a Date object
+        const nowIST = new Date(now.getTime() + IST_OFFSET_MS);
+
+        // Next midnight IST = next 00:00:00 in IST
+        const nextMidnightIST = new Date(Date.UTC(
+          nowIST.getUTCFullYear(),
+          nowIST.getUTCMonth(),
+          nowIST.getUTCDate() + 1,
+          0, 0, 0
+        ));
+        // Convert back to UTC: subtract IST offset
+        const nextMidnightUTC = new Date(nextMidnightIST.getTime() - IST_OFFSET_MS);
+
+        const diffMs = nextMidnightUTC - now;
         const totalSecs = Math.max(0, Math.floor(diffMs / 1000));
         const hrs = Math.floor(totalSecs / 3600);
         const mins = Math.floor((totalSecs % 3600) / 60);
