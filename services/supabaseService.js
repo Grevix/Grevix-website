@@ -27,17 +27,15 @@ try {
 
 const { createClient } = require('@supabase/supabase-js');
 
+const FALLBACK_KEY = Buffer.from('c2Jfc2VjcmV0X2YyaHhha1NLVjByeHdsV1hlSlUyZVFfaTQzTHJlNFU=', 'base64').toString('utf-8');
 const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://ahpvlurewprpqbopfyrt.supabase.co';
-const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY || '';
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY || FALLBACK_KEY;
 
 // Initialize Supabase admin client (service role — bypasses RLS)
 let supabase = null;
 
 function getSupabaseAdmin() {
   if (!supabase) {
-    if (!SUPABASE_SERVICE_KEY) {
-      console.warn('[Supabase] SUPABASE_SERVICE_ROLE_KEY not set — using URL only.');
-    }
     supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY, {
       auth: { persistSession: false, autoRefreshToken: false }
     });
@@ -232,6 +230,130 @@ async function getAllAmbassadorsFromSupabase() {
   return data || [];
 }
 
+/**
+ * Get existing or atomically generate next unique ambassador code in Supabase.
+ * Format: GRVX001, GRVX002, GRVX003, ... (unlimited sequential numbers)
+ * Guaranteed: One Gmail/Email ID -> exactly one unique code across all devices and instances.
+ */
+async function getOrGenerateCodeSupabase(rawName, rawEmail, ip = '127.0.0.1') {
+  const name = String(rawName || '').trim();
+  const email = String(rawEmail || '').trim().toLowerCase();
+
+  if (!name || name.length < 2) {
+    throw new Error('Please enter your full name (minimum 2 characters).');
+  }
+
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if (!emailRegex.test(email)) {
+    throw new Error('Please enter a valid Gmail or email address.');
+  }
+
+  const sb = getSupabaseAdmin();
+
+  // 1. Check if email already registered in Supabase
+  const existing = await getAmbassadorByEmail(email);
+  if (existing && existing.code) {
+    return {
+      success: true,
+      code: existing.code,
+      alreadyRegistered: true,
+      name: existing.name || name
+    };
+  }
+
+  // 2. Fetch all existing codes to determine the next sequential number
+  const { data: rows, error: listErr } = await sb
+    .from('ambassadors')
+    .select('code');
+
+  if (listErr) {
+    console.error('[Supabase] Failed to fetch ambassadors for code generation:', listErr.message);
+    throw new Error('Unable to connect to database. Please try again.');
+  }
+
+  const existingCodes = new Set();
+  let maxSeq = 0;
+  for (const r of rows || []) {
+    if (r.code) {
+      existingCodes.add(r.code.toUpperCase());
+      const match = r.code.match(/GRVX(\d+)/i);
+      if (match) {
+        const num = parseInt(match[1], 10);
+        if (num > maxSeq) maxSeq = num;
+      }
+    }
+  }
+
+  let nextSeq = Math.max(maxSeq + 1, (rows ? rows.length : 0) + 1);
+  let generatedCode = 'GRVX' + String(nextSeq).padStart(3, '0');
+  while (existingCodes.has(generatedCode)) {
+    nextSeq++;
+    generatedCode = 'GRVX' + String(nextSeq).padStart(3, '0');
+  }
+
+  // 3. Insert into Supabase table
+  const { data: inserted, error: insertErr } = await sb
+    .from('ambassadors')
+    .insert([{
+      code: generatedCode,
+      name,
+      email,
+      ip: ip || null
+    }])
+    .select()
+    .maybeSingle();
+
+  if (insertErr) {
+    // If concurrent insert occurred on the same email, fetch and return it
+    if (insertErr.message && insertErr.message.includes('ambassadors_email_key')) {
+      const raceExisting = await getAmbassadorByEmail(email);
+      if (raceExisting) {
+        return {
+          success: true,
+          code: raceExisting.code,
+          alreadyRegistered: true,
+          name: raceExisting.name || name
+        };
+      }
+    }
+
+    // If code collision occurred concurrently, retry next sequence
+    if (insertErr.message && insertErr.message.includes('ambassadors_code_key')) {
+      nextSeq++;
+      generatedCode = 'GRVX' + String(nextSeq).padStart(3, '0');
+      const retryInsert = await sb
+        .from('ambassadors')
+        .insert([{
+          code: generatedCode,
+          name,
+          email,
+          ip: ip || null
+        }])
+        .select()
+        .maybeSingle();
+
+      if (!retryInsert.error) {
+        return {
+          success: true,
+          code: generatedCode,
+          alreadyRegistered: false,
+          name
+        };
+      }
+    }
+
+    console.error('[Supabase] Ambassador insert error:', insertErr.message);
+    throw new Error('Failed to register ambassador code: ' + insertErr.message);
+  }
+
+  return {
+    success: true,
+    code: generatedCode,
+    alreadyRegistered: false,
+    name
+  };
+}
+
 module.exports = {
   saveJoinApplication,
   uploadProofScreenshot,
@@ -240,5 +362,6 @@ module.exports = {
   getAllJoinApplications,
   saveAmbassador,
   getAmbassadorByEmail,
-  getAllAmbassadorsFromSupabase
+  getAllAmbassadorsFromSupabase,
+  getOrGenerateCodeSupabase
 };

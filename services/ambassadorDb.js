@@ -161,6 +161,28 @@ async function getOrGenerateCode(rawName, rawEmail, ip = '127.0.0.1') {
     timeStyle: 'medium'
   });
 
+  // 1. Primary Source of Truth: Supabase
+  // Guaranteed persistence across serverless Vercel cold starts, multiple devices, and tabs.
+  try {
+    const { getOrGenerateCodeSupabase } = require('./supabaseService');
+    const sbResult = await getOrGenerateCodeSupabase(name, email, ip);
+    if (sbResult && sbResult.code) {
+      // Sync to local SQLite / Excel if available (local backup)
+      if (useSqlite && db) {
+        try {
+          const insertStmt = db.prepare(`
+            INSERT OR IGNORE INTO ambassadors (code, name, email, created_at, ip)
+            VALUES (?, ?, ?, ?, ?)
+          `);
+          insertStmt.run(sbResult.code, name, email, nowIst, ip);
+        } catch (e) {}
+      }
+      return sbResult;
+    }
+  } catch (sbErr) {
+    console.error('[AmbassadorDB] Supabase generation error, falling back to local storage:', sbErr.message);
+  }
+
   if (useSqlite && db) {
     // 1. Check if email already registered
     const findStmt = db.prepare('SELECT * FROM ambassadors WHERE email = ?');
