@@ -13,14 +13,47 @@
     '/community',
     '/blog',
     '/ambassador',
+    '/aftercode',
     '/index.html',
     '/about.html',
     '/projects.html',
     '/events.html',
     '/community.html',
     '/blog.html',
-    '/ambassador.html'
+    '/ambassador.html',
+    '/aftercode.html'
   ];
+
+  // Ensure AFTERCODE link is present in desktop and mobile navbars across all Grevix pages
+  function ensureAftercodeNavLink() {
+    try {
+      const navContainer = document.querySelector('.nav-center, .home-nav-center .nav-group-dark');
+      if (navContainer && !navContainer.querySelector('a[href*="aftercode"]')) {
+        const a = document.createElement('a');
+        a.href = 'aftercode.html';
+        a.textContent = 'AFTERCODE';
+        navContainer.appendChild(a);
+      }
+      const mobileNav = document.querySelector('.mobile-drawer-nav');
+      if (mobileNav && !mobileNav.querySelector('a[href*="aftercode"]')) {
+        const a = document.createElement('a');
+        a.href = 'aftercode.html';
+        a.innerHTML = 'AFTERCODE <span>&#8594;</span>';
+        const joinBtn = mobileNav.querySelector('.mobile-drawer-join');
+        if (joinBtn) {
+          mobileNav.insertBefore(a, joinBtn);
+        } else {
+          mobileNav.appendChild(a);
+        }
+      }
+    } catch (e) {}
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', ensureAftercodeNavLink);
+  } else {
+    ensureAftercodeNavLink();
+  }
 
   // 1. Inject Speculation Rules API if supported (Chrome, Edge, Opera, Samsung Internet)
   try {
@@ -58,16 +91,17 @@
   // Preload top nav links immediately when idle
   if ('requestIdleCallback' in window) {
     window.requestIdleCallback(() => {
-      internalPages.slice(0, 7).forEach(prefetchUrl);
+      internalPages.slice(0, 8).forEach(prefetchUrl);
     });
   } else {
     setTimeout(() => {
-      internalPages.slice(0, 7).forEach(prefetchUrl);
+      internalPages.slice(0, 8).forEach(prefetchUrl);
     }, 1200);
   }
 
   // Prefetch when user touches or hovers a link
   function onInteraction(e) {
+    if (!e || !e.target || typeof e.target.closest !== 'function') return;
     const anchor = e.target.closest('a');
     if (!anchor) return;
     const href = anchor.getAttribute('href');
