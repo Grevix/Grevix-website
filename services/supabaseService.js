@@ -354,7 +354,117 @@ async function getOrGenerateCodeSupabase(rawName, rawEmail, ip = '127.0.0.1') {
   };
 }
 
+// ─────────────────────────────────────────────
+// AFTERCODE 2026 VOTES — private backend vote storage in Supabase
+// Table: aftercode_votes (id, registration_id, voter_email, voter_name, repo_id, repo_name, ip, user_agent, created_at)
+// ─────────────────────────────────────────────
+
+async function saveAftercodeVoteToSupabase({
+  registrationId,
+  voterEmail,
+  voterName,
+  repoId,
+  repoName,
+  ip,
+  userAgent,
+  createdAt
+}) {
+  const sb = getSupabaseAdmin();
+  try {
+    const { data, error } = await sb
+      .from('aftercode_votes')
+      .insert([
+        {
+          registration_id: String(registrationId || '').trim().toUpperCase(),
+          voter_email: String(voterEmail || '').trim().toLowerCase(),
+          voter_name: String(voterName || '').trim(),
+          repo_id: String(repoId || '').trim(),
+          repo_name: String(repoName || '').trim(),
+          ip: ip || null,
+          user_agent: userAgent ? String(userAgent).slice(0, 255) : null,
+          created_at: createdAt || new Date().toISOString()
+        }
+      ])
+      .select()
+      .maybeSingle();
+
+    if (error) {
+      if (error.code === '23505') {
+        return { success: false, isDuplicate: true, error: error.message };
+      }
+      return { success: false, isDuplicate: false, error: error.message };
+    }
+
+    return { success: true, isDuplicate: false, data };
+  } catch (err) {
+    return { success: false, isDuplicate: false, error: err.message };
+  }
+}
+
+async function getAftercodeVoteFromSupabase(email, registrationId) {
+  const sb = getSupabaseAdmin();
+  const cleanEmail = String(email || '').trim().toLowerCase();
+  const cleanRegId = String(registrationId || '').trim().toUpperCase();
+
+  try {
+    let query = sb
+      .from('aftercode_votes')
+      .select('id, registration_id, voter_email, voter_name, repo_id, repo_name, created_at')
+      .limit(1);
+
+    if (cleanEmail && cleanRegId) {
+      query = query.or(`voter_email.eq.${cleanEmail},registration_id.eq.${cleanRegId}`);
+    } else if (cleanEmail) {
+      query = query.eq('voter_email', cleanEmail);
+    } else if (cleanRegId) {
+      query = query.eq('registration_id', cleanRegId);
+    } else {
+      return null;
+    }
+
+    const { data, error } = await query.maybeSingle();
+    if (error || !data) return null;
+
+    return {
+      id: data.id,
+      registrationId: data.registration_id,
+      voterEmail: data.voter_email,
+      voterName: data.voter_name,
+      repoId: data.repo_id,
+      repoName: data.repo_name,
+      createdAt: data.created_at
+    };
+  } catch (e) {
+    return null;
+  }
+}
+
+async function getAllAftercodeVotesFromSupabase() {
+  const sb = getSupabaseAdmin();
+  try {
+    const { data, error } = await sb
+      .from('aftercode_votes')
+      .select('id, registration_id, voter_email, voter_name, repo_id, repo_name, created_at, ip')
+      .order('created_at', { ascending: true });
+
+    if (error || !Array.isArray(data)) return [];
+    return data.map(row => ({
+      id: row.id,
+      registrationId: row.registration_id,
+      voterEmail: row.voter_email,
+      voterName: row.voter_name,
+      repoId: row.repo_id,
+      repoName: row.repo_name,
+      createdAt: row.created_at,
+      ip: row.ip || null
+    }));
+  } catch (e) {
+    return [];
+  }
+}
+
 module.exports = {
+  getSupabaseAdmin,
   saveJoinApplication,
   uploadProofScreenshot,
   saveProofSubmission,
@@ -363,5 +473,8 @@ module.exports = {
   saveAmbassador,
   getAmbassadorByEmail,
   getAllAmbassadorsFromSupabase,
-  getOrGenerateCodeSupabase
+  getOrGenerateCodeSupabase,
+  saveAftercodeVoteToSupabase,
+  getAftercodeVoteFromSupabase,
+  getAllAftercodeVotesFromSupabase
 };

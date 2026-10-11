@@ -74,7 +74,7 @@
       ]
     },
     {
-      "source": "/(about|projects|events|community|blog|ambassador|privacy|terms|home|index)?",
+      "source": "/(about|projects|events|community|blog|ambassador|aftercode|privacy|terms|home|index)?",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=0, s-maxage=86400, stale-while-revalidate=86400" }
       ]
@@ -96,13 +96,18 @@
         { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://www.grevix.online https://api.grevix.online https://get.geojs.io https://ipapi.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://www.grevix.online"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://www.grevix.online https://api.grevix.online https://get.geojs.io https://ipapi.co https://*.supabase.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://www.grevix.online"
         },
         { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" },
         { "key": "Cross-Origin-Resource-Policy", "value": "same-origin" }
       ]
     }
   ],
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "private_data/**"
+    }
+  },
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "/public/sitemap.xml" },
     { "source": "/robots.txt", "destination": "/public/robots.txt" },
@@ -118,6 +123,7 @@
     { "source": "/community", "destination": "/community.html" },
     { "source": "/blog", "destination": "/blog.html" },
     { "source": "/ambassador", "destination": "/ambassador.html" },
+    { "source": "/aftercode", "destination": "/aftercode.html" },
     { "source": "/privacy", "destination": "/privacy.html" },
     { "source": "/terms", "destination": "/terms.html" },
     { "source": "/", "destination": "/index.html" }

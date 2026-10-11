@@ -24,6 +24,7 @@ app.use((req, res, next) => {
   if (
     reqPath.endsWith('.xlsx') ||
     reqPath.endsWith('.xls') ||
+    reqPath.endsWith('.csv') ||
     reqPath.endsWith('.sqlite') ||
     reqPath.endsWith('.sqlite3') ||
     reqPath.endsWith('.db') ||
@@ -48,19 +49,23 @@ app.use((req, res, next) => {
 app.use(express.json({ limit: '50kb' }));
 app.use(express.urlencoded({ extended: true, limit: '50kb' }));
 
-// Rate Limiter for High Traffic Spikes & DDoS Protection
+// Rate Limiter for High Traffic Spikes (500+ concurrent users on shared campus NAT) & DDoS Protection
 const rateLimitMap = new Map();
 const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
-const MAX_REQUESTS_PER_WINDOW = 120; // 120 requests per minute per IP
+const MAX_REQUESTS_PER_WINDOW = 2500; // Supports 500+ concurrent users even behind a shared campus Wi-Fi NAT
 
 function apiRateLimiter(req, res, next) {
-  const ip = req.ip || req.headers['x-forwarded-for'] || req.socket.remoteAddress || '127.0.0.1';
+  const rawIp = req.headers['x-forwarded-for'] || req.ip || req.socket?.remoteAddress || '127.0.0.1';
+  const ip = String(rawIp).split(',')[0].trim();
+  const cookieHeader = req.headers.cookie || '';
+  const sessionMatch = cookieHeader.match(/grevix_aftercode_session=([^;]+)/);
+  const bucketKey = sessionMatch ? `sess:${sessionMatch[1].slice(0, 48)}` : `ip:${ip}`;
   const now = Date.now();
 
-  let clientData = rateLimitMap.get(ip);
+  let clientData = rateLimitMap.get(bucketKey);
   if (!clientData || now - clientData.startTime > RATE_LIMIT_WINDOW_MS) {
     clientData = { count: 1, startTime: now };
-    rateLimitMap.set(ip, clientData);
+    rateLimitMap.set(bucketKey, clientData);
   } else {
     clientData.count++;
   }
@@ -364,6 +369,248 @@ app.get('/blog', (req, res) => {
 
 app.get('/ambassador', (req, res) => {
   res.sendFile(path.join(__dirname, 'ambassador.html'));
+});
+
+app.get('/aftercode', (req, res) => {
+  res.sendFile(path.join(__dirname, 'aftercode.html'));
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AfterCode 2026 Voting & Unstop Eligibility API Routes
+// ─────────────────────────────────────────────────────────────────────────────
+const {
+  COOKIE_NAME: AFTERCODE_COOKIE_NAME,
+  SESSION_MAX_AGE_SEC: AFTERCODE_SESSION_MAX_AGE,
+  getVotingWindowConfig,
+  findEligibleParticipant,
+  getRepositoriesWithVotes,
+  getEventStats,
+  castVoteAtomically,
+  createSignedSessionToken,
+  resolveVoterSessionFromRequest,
+  getSupabaseAdmin: getAftercodeSupabaseAdmin,
+  getAuthInfrastructureInfo,
+  getAllRecordedVotes,
+  getAdminVoteSummary
+} = require('./services/aftercodeService');
+
+function setAftercodeSessionCookie(res, token) {
+  const isProd = Boolean(process.env.VERCEL || process.env.NODE_ENV === 'production');
+  const cookieParts = [
+    `${AFTERCODE_COOKIE_NAME}=${encodeURIComponent(token)}`,
+    'Path=/',
+    'HttpOnly',
+    'SameSite=Lax',
+    `Max-Age=${AFTERCODE_SESSION_MAX_AGE}`
+  ];
+  if (isProd) cookieParts.push('Secure');
+  res.setHeader('Set-Cookie', cookieParts.join('; '));
+}
+
+function clearAftercodeSessionCookie(res) {
+  res.setHeader(
+    'Set-Cookie',
+    `${AFTERCODE_COOKIE_NAME}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0`
+  );
+}
+
+// GET /api/aftercode/state — Hydrate repositories, persisted votes, voting window & user eligibility
+app.get('/api/aftercode/state', async (req, res) => {
+  try {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+    const session = await resolveVoterSessionFromRequest(req);
+    const repositories = getRepositoriesWithVotes();
+    const stats = getEventStats();
+    const votingWindow = getVotingWindowConfig();
+    const authConfig = getAuthInfrastructureInfo();
+
+    return res.status(200).json({
+      success: true,
+      stats,
+      votingWindow,
+      session,
+      repositories,
+      authConfig: {
+        googleOAuthConfigured: authConfig.googleOAuthConfigured,
+        supabaseUrl: authConfig.googleOAuthConfigured ? authConfig.supabaseUrl : null,
+        supabaseAnonKey: authConfig.googleOAuthConfigured ? authConfig.supabaseAnonKey : null
+      }
+    });
+  } catch (err) {
+    console.error('[API /api/aftercode/state] Error:', err.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to load AfterCode voting state.'
+    });
+  }
+});
+
+// POST /api/aftercode/auth/login — Sign in via Supabase OAuth token or Unstop Registered Email
+app.post('/api/aftercode/auth/login', async (req, res) => {
+  try {
+    const { email, registrationId, name, accessToken } = req.body || {};
+
+    let resolvedEmail = null;
+    let resolvedName = null;
+    let resolvedRegId = registrationId ? String(registrationId).trim().toUpperCase() : null;
+    let authMethod = 'unstop_email';
+
+    // Option A: Verify Supabase Google OAuth / Auth JWT on the server if provided
+    if (accessToken && typeof accessToken === 'string') {
+      const sb = getAftercodeSupabaseAdmin();
+      const { data, error } = await sb.auth.getUser(accessToken.trim());
+      if (error || !data || !data.user || !data.user.email) {
+        return res.status(401).json({
+          success: false,
+          code: 'INVALID_OAUTH_TOKEN',
+          message: 'Invalid or expired Google/Supabase authentication token.'
+        });
+      }
+      resolvedEmail = data.user.email.trim().toLowerCase();
+      resolvedName =
+        data.user.user_metadata?.full_name ||
+        data.user.user_metadata?.name ||
+        resolvedEmail.split('@')[0];
+      authMethod = 'google_oauth';
+    } else {
+      // Option B: Verify Unstop Registered Email on the server
+      const cleanEmail = String(email || '').trim().toLowerCase();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!cleanEmail || !emailRegex.test(cleanEmail)) {
+        return res.status(400).json({
+          success: false,
+          code: 'INVALID_EMAIL',
+          message: 'Please enter a valid email address used for your Unstop registration.'
+        });
+      }
+      resolvedEmail = cleanEmail;
+      resolvedName = String(name || '').trim() || cleanEmail.split('@')[0];
+    }
+
+    // Validate the signed-in email against the official Unstop CSV on the server
+    const csvCheck = findEligibleParticipant(resolvedEmail, resolvedRegId);
+    const finalName = csvCheck.participant ? csvCheck.participant.name : resolvedName;
+    const finalRegId = csvCheck.participant ? csvCheck.participant.registrationId : resolvedRegId;
+
+    // Issue signed HttpOnly session cookie so signed-in status persists across page loads
+    const token = createSignedSessionToken({
+      email: resolvedEmail,
+      name: finalName,
+      registrationId: finalRegId,
+      authMethod
+    });
+    setAftercodeSessionCookie(res, token);
+
+    // Resolve complete session state (including any existing persisted vote)
+    req.headers.cookie = `${AFTERCODE_COOKIE_NAME}=${encodeURIComponent(token)}`;
+    const session = await resolveVoterSessionFromRequest(req);
+
+    return res.status(200).json({
+      success: true,
+      session,
+      message: session.eligible
+        ? `Signed in as ${session.user.name} (Verified with Unstop — ID: ${session.user.registrationId}).`
+        : `Signed in as ${session.user.email}, but this account is not eligible to vote: ${session.eligibilityReason}`
+    });
+  } catch (err) {
+    console.error('[API /api/aftercode/auth/login] Error:', err.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Authentication service encountered an error. Please try again.'
+    });
+  }
+});
+
+// POST /api/aftercode/auth/logout — Clear Voter Session
+app.post('/api/aftercode/auth/logout', (req, res) => {
+  clearAftercodeSessionCookie(res);
+  return res.status(200).json({
+    success: true,
+    message: 'Signed out of AfterCode voting session.'
+  });
+});
+
+// POST /api/aftercode/vote — Atomic Server-Validated Vote Submission
+app.post('/api/aftercode/vote', async (req, res) => {
+  try {
+    // 1. Verify authenticated session on the server (never trust raw client flags)
+    const session = await resolveVoterSessionFromRequest(req);
+    if (!session.authenticated || !session.user || !session.user.email) {
+      return res.status(401).json({
+        success: false,
+        code: 'UNAUTHENTICATED',
+        message: 'Rule #1: Please sign in with your Unstop registered account before voting.'
+      });
+    }
+
+    if (!session.eligible) {
+      return res.status(403).json({
+        success: false,
+        code: 'INELIGIBLE_PARTICIPANT',
+        message:
+          session.eligibilityReason ||
+          'Rule #1: Your signed-in email is not in the official Unstop AfterCode 2026 participant list.'
+      });
+    }
+
+    const { repoId } = req.body || {};
+    if (!repoId || typeof repoId !== 'string') {
+      return res.status(400).json({
+        success: false,
+        code: 'MISSING_REPO_ID',
+        message: 'Please select a valid repository to vote for.'
+      });
+    }
+
+    const ip = req.ip || req.headers['x-forwarded-for'] || '127.0.0.1';
+    const userAgent = req.headers['user-agent'] || '';
+
+    // 2. Execute atomic vote check & persistence (window, self-vote, 1-vote UNIQUE constraint)
+    const result = await castVoteAtomically({
+      email: session.user.email,
+      registrationId: session.user.registrationId,
+      repoId,
+      ip,
+      userAgent
+    });
+
+    const updatedSession = await resolveVoterSessionFromRequest(req);
+    const repositories = getRepositoriesWithVotes();
+
+    return res.status(result.status || 200).json({
+      success: result.success,
+      code: result.code,
+      message: result.message,
+      vote: result.vote || null,
+      session: updatedSession,
+      repositories
+    });
+  } catch (err) {
+    console.error('[API /api/aftercode/vote] Error:', err.message);
+    return res.status(500).json({
+      success: false,
+      code: 'SERVER_ERROR',
+      message: 'An unexpected server error occurred. Your vote was not consumed.'
+    });
+  }
+});
+
+// Admin Only: Audit Recorded AfterCode Votes & Private Leaderboard (Supabase + SQLite)
+app.get('/api/admin/aftercode/votes', requireAdminKey, async (req, res) => {
+  try {
+    const summary = await getAdminVoteSummary();
+    return res.status(200).json({
+      success: true,
+      count: summary.totalVotesCast,
+      votes: summary.votes,
+      leaderboard: summary.leaderboard
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to retrieve AfterCode votes.'
+    });
+  }
 });
 
 // Newsletter API: Subscribe Email (Stored locally in private_data/subscribers.xlsx)
@@ -987,6 +1234,15 @@ app.post('/api/ambassador/submit-proof', (req, res) => {
   });
 });
 
+
+// Global Crash Protection: Keep server running smoothly under any unexpected runtime error
+process.on('uncaughtException', err => {
+  console.error('[Server Crash Guard] Uncaught Exception:', err?.message || err);
+});
+
+process.on('unhandledRejection', reason => {
+  console.error('[Server Crash Guard] Unhandled Rejection:', reason?.message || reason);
+});
 
 if (require.main === module) {
   app.listen(PORT, () => {
