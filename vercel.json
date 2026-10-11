@@ -4,7 +4,11 @@
   "buildCommand": "echo 'Static build ready'",
   "installCommand": "npm install",
   "outputDirectory": ".",
-  "cleanUrls": true,
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "private_data/**"
+    }
+  },
   "crons": [
     {
       "path": "/api/cron/daily-digest",
@@ -118,6 +122,7 @@
     { "source": "/community", "destination": "/community.html" },
     { "source": "/blog", "destination": "/blog.html" },
     { "source": "/ambassador", "destination": "/ambassador.html" },
+    { "source": "/aftercode", "destination": "/aftercode.html" },
     { "source": "/privacy", "destination": "/privacy.html" },
     { "source": "/terms", "destination": "/terms.html" },
     { "source": "/", "destination": "/index.html" }
