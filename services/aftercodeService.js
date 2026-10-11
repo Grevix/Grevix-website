@@ -30,13 +30,16 @@ function getSupabaseAdmin() {
     const supabaseUrl =
       process.env.SUPABASE_URL ||
       process.env.NEXT_PUBLIC_SUPABASE_URL ||
-      'https://ahpvlurewprpqbopfyrt.supabase.co';
-    const fallbackKey = Buffer.from(
-      'c2Jfc2VjcmV0X2YyaHhha1NLVjByeHdsV1hlSlUyZVFfaTQzTHJlNFU=',
-      'base64'
-    ).toString('utf-8');
+      '';
     const supabaseServiceKey =
-      process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY || fallbackKey;
+      process.env.SUPABASE_SERVICE_ROLE_KEY ||
+      process.env.SUPABASE_SECRET_KEY ||
+      process.env.SUPABASE_PUBLISHABLE_KEY ||
+      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+      '';
+    if (!supabaseUrl || !supabaseServiceKey) {
+      return null;
+    }
     supabaseAdminInstance = createClient(supabaseUrl, supabaseServiceKey, {
       auth: { persistSession: false, autoRefreshToken: false }
     });
@@ -365,6 +368,10 @@ function loadSeedRepositoriesFromDisk() {
   } catch (err) {
     console.error('[AfterCode] Failed to read repository seed file:', err.message);
   }
+  try {
+    const bundled = require('../private_data/aftercode_repositories.json');
+    if (Array.isArray(bundled)) return bundled;
+  } catch (e) {}
   return [];
 }
 
@@ -1351,7 +1358,11 @@ function getAuthInfrastructureInfo() {
     process.env.NEXT_PUBLIC_SUPABASE_URL ||
     'https://ahpvlurewprpqbopfyrt.supabase.co';
   const supabaseAnonKey =
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || null;
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    process.env.SUPABASE_ANON_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+    process.env.SUPABASE_PUBLISHABLE_KEY ||
+    null;
 
   return {
     supabaseUrl,

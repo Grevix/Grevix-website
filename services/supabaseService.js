@@ -27,15 +27,19 @@ try {
 
 const { createClient } = require('@supabase/supabase-js');
 
-const FALLBACK_KEY = Buffer.from('c2Jfc2VjcmV0X2YyaHhha1NLVjByeHdsV1hlSlUyZVFfaTQzTHJlNFU=', 'base64').toString('utf-8');
-const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://ahpvlurewprpqbopfyrt.supabase.co';
-const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY || FALLBACK_KEY;
+const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const SUPABASE_SERVICE_KEY =
+  process.env.SUPABASE_SERVICE_ROLE_KEY ||
+  process.env.SUPABASE_SECRET_KEY ||
+  process.env.SUPABASE_PUBLISHABLE_KEY ||
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+  '';
 
 // Initialize Supabase admin client (service role — bypasses RLS)
 let supabase = null;
 
 function getSupabaseAdmin() {
-  if (!supabase) {
+  if (!supabase && SUPABASE_URL && SUPABASE_SERVICE_KEY) {
     supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY, {
       auth: { persistSession: false, autoRefreshToken: false }
     });
