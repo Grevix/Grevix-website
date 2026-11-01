@@ -12,7 +12,6 @@
     '/events',
     '/community',
     '/blog',
-    '/ambassador',
     '/aftercode',
     '/index.html',
     '/about.html',
@@ -20,7 +19,6 @@
     '/events.html',
     '/community.html',
     '/blog.html',
-    '/ambassador.html',
     '/aftercode.html'
   ];
 

@@ -23,6 +23,7 @@ export function Navbar({ theme = 'light' }: NavbarProps) {
     { href: '/projects', label: 'PROJECTS' },
     { href: '/events', label: 'EVENTS' },
     { href: '/blog', label: 'BLOG' },
+    { href: '/aftercode', label: 'AFTERCODE' },
   ];
 
   return (

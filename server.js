@@ -180,8 +180,8 @@ app.use((req, res, next) => {
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.grevix.online/ambassador</loc>
-    <lastmod>2026-09-15</lastmod>
+    <loc>https://www.grevix.online/aftercode</loc>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
@@ -213,8 +213,7 @@ Allow: /projects
 Allow: /events
 Allow: /community
 Allow: /blog
-Allow: /ambassador
-Allow: /ambassador
+Allow: /aftercode
 Allow: /privacy
 Allow: /terms
 Allow: /styles.css
@@ -291,8 +290,8 @@ app.get('/sitemap.xml', (req, res) => {
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.grevix.online/ambassador</loc>
-    <lastmod>2026-09-15</lastmod>
+    <loc>https://www.grevix.online/aftercode</loc>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
@@ -323,8 +322,7 @@ Allow: /projects
 Allow: /events
 Allow: /community
 Allow: /blog
-Allow: /ambassador
-Allow: /ambassador
+Allow: /aftercode
 Allow: /privacy
 Allow: /terms
 Allow: /styles.css
@@ -385,7 +383,11 @@ app.get('/blog', (req, res) => {
 });
 
 app.get('/ambassador', (req, res) => {
-  res.sendFile(path.join(__dirname, 'ambassador.html'));
+  res.redirect(301, '/aftercode');
+});
+
+app.get('/ambassador.html', (req, res) => {
+  res.redirect(301, '/aftercode');
 });
 
 app.get('/aftercode', (req, res) => {

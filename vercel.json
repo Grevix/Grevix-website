@@ -74,7 +74,7 @@
       ]
     },
     {
-      "source": "/(about|projects|events|community|blog|ambassador|privacy|terms|home|index)?",
+      "source": "/(about|projects|events|community|blog|aftercode|privacy|terms|home|index)?",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=0, s-maxage=86400, stale-while-revalidate=86400" }
       ]
@@ -103,6 +103,15 @@
       ]
     }
   ],
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "private_data/**"
+    }
+  },
+  "redirects": [
+    { "source": "/ambassador", "destination": "/aftercode", "permanent": true },
+    { "source": "/ambassador.html", "destination": "/aftercode", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "/public/sitemap.xml" },
     { "source": "/robots.txt", "destination": "/public/robots.txt" },
@@ -117,7 +126,7 @@
     { "source": "/events", "destination": "/events.html" },
     { "source": "/community", "destination": "/community.html" },
     { "source": "/blog", "destination": "/blog.html" },
-    { "source": "/ambassador", "destination": "/ambassador.html" },
+    { "source": "/aftercode", "destination": "/aftercode.html" },
     { "source": "/privacy", "destination": "/privacy.html" },
     { "source": "/terms", "destination": "/terms.html" },
     { "source": "/", "destination": "/index.html" }
