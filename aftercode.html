@@ -155,6 +155,7 @@
       display: flex;
       flex-direction: column;
       position: relative;
+      height: 100%;
       min-width: 0;
       box-sizing: border-box;
       transition: border-color 0.2s ease, transform 0.2s ease;
@@ -215,7 +216,38 @@
       letter-spacing: -0.01em;
       line-height: 1.25;
       word-break: break-word;
-      margin: 0;
+      margin: 0 0 16px;
+    }
+
+    .podium-reward-wrap {
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .podium-reward-label {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      color: var(--text-muted-light);
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .podium-reward-val {
+      font-family: var(--font-mono);
+      font-size: clamp(0.78rem, 0.92vw, 0.85rem);
+      font-weight: 600;
+      color: #94A3B8;
+      line-height: 1.45;
+      letter-spacing: 0.01em;
+      word-break: break-word;
+    }
+
+    .podium-reward-val.highlight {
+      color: #38BDF8;
+      font-weight: 700;
     }
 
     /* Runner-ups Section */
@@ -471,7 +503,7 @@
         <div class="section-eyebrow">FINAL RESULTS</div>
         <h2 class="results-heading">TOP 3 WINNERS</h2>
 
-                        <div class="winners-podium">
+                                <div class="winners-podium">
           <!-- Rank 1: First Place -->
           <article class="podium-card first-place">
             <div class="podium-top">
@@ -479,6 +511,10 @@
               <span class="podium-standing">FIRST PLACE</span>
             </div>
             <h3 class="podium-name">Prateek Singh</h3>
+            <div class="podium-reward-wrap">
+              <div class="podium-reward-label">REWARD</div>
+              <div class="podium-reward-val highlight">₹10,000 Cash + 3-Mo Cursor Subscription + Core Team Induction</div>
+            </div>
           </article>
 
           <!-- Rank 2: Second Place -->
@@ -488,6 +524,10 @@
               <span class="podium-standing">SECOND PLACE</span>
             </div>
             <h3 class="podium-name">Akash Kumar</h3>
+            <div class="podium-reward-wrap">
+              <div class="podium-reward-label">REWARD</div>
+              <div class="podium-reward-val">Official Winner Certificate + Grevix Core Induction</div>
+            </div>
           </article>
 
           <!-- Rank 3: Third Place -->
@@ -497,6 +537,10 @@
               <span class="podium-standing">THIRD PLACE</span>
             </div>
             <h3 class="podium-name">Jay Jadhao</h3>
+            <div class="podium-reward-wrap">
+              <div class="podium-reward-label">REWARD</div>
+              <div class="podium-reward-val">Official Winner Certificate + Grevix Core Induction</div>
+            </div>
           </article>
         </div>
       </section>
