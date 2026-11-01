@@ -151,11 +151,10 @@
       background: #0E111A;
       border: 1px solid rgba(255, 255, 255, 0.09);
       border-radius: 6px;
-      padding: 28px 24px;
+      padding: 24px 24px 28px;
       display: flex;
       flex-direction: column;
       position: relative;
-      height: 100%;
       min-width: 0;
       box-sizing: border-box;
       transition: border-color 0.2s ease, transform 0.2s ease;
@@ -185,14 +184,14 @@
       display: flex;
       align-items: baseline;
       justify-content: space-between;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       padding-bottom: 14px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .podium-rank {
       font-family: var(--font-mono);
-      font-size: clamp(1.75rem, 2.4vw, 2rem);
+      font-size: clamp(1.75rem, 2.4vw, 2.2rem);
       font-weight: 800;
       color: var(--text-light);
       line-height: 1;
@@ -210,48 +209,13 @@
 
     .podium-name {
       font-family: var(--font-display);
-      font-size: clamp(1.15rem, 1.5vw, 1.35rem);
+      font-size: clamp(1.2rem, 1.8vw, 1.5rem);
       font-weight: 700;
       color: var(--text-light);
-      margin-bottom: 6px;
       letter-spacing: -0.01em;
       line-height: 1.25;
       word-break: break-word;
-    }
-
-    .podium-email {
-      font-family: var(--font-mono);
-      font-size: clamp(0.72rem, 0.9vw, 0.78rem);
-      color: var(--text-muted-light);
-      margin-bottom: 24px;
-      line-height: 1.4;
-      word-break: break-word;
-      overflow-wrap: anywhere;
-    }
-
-    .podium-project-wrap {
-      margin-top: auto;
-      padding-top: 16px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .podium-project-label {
-      font-family: var(--font-mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.1em;
-      color: var(--text-muted-light);
-      text-transform: uppercase;
-      margin-bottom: 5px;
-    }
-
-    .podium-project-name {
-      font-family: var(--font-mono);
-      font-size: clamp(0.92rem, 1.15vw, 1.05rem);
-      font-weight: 700;
-      color: #38BDF8;
-      letter-spacing: 0.01em;
-      line-height: 1.35;
-      word-break: break-word;
+      margin: 0;
     }
 
     /* Runner-ups Section */
@@ -263,17 +227,16 @@
     .runner-ups-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
+      gap: 12px;
     }
 
     .runner-up-card {
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.07);
       border-radius: 4px;
-      padding: 16px 20px;
+      padding: 14px 20px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
       gap: 16px;
       min-width: 0;
       box-sizing: border-box;
@@ -283,14 +246,6 @@
     .runner-up-card:hover {
       border-color: rgba(255, 255, 255, 0.16);
       background: rgba(255, 255, 255, 0.035);
-    }
-
-    .runner-up-left {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      min-width: 0;
-      flex: 1;
     }
 
     .runner-up-rank {
@@ -303,11 +258,6 @@
       letter-spacing: 0.05em;
     }
 
-    .runner-up-info {
-      min-width: 0;
-      flex: 1;
-    }
-
     .runner-up-name {
       font-family: var(--font-display);
       font-size: 0.95rem;
@@ -317,35 +267,8 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-    }
-
-    .runner-up-email {
-      font-family: var(--font-mono);
-      font-size: 0.74rem;
-      color: #8092A8;
-      margin-top: 2px;
-      line-height: 1.3;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .runner-up-project {
-      font-family: var(--font-mono);
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: #38BDF8;
-      text-align: right;
-      line-height: 1.3;
-      flex-shrink: 0;
-      max-width: 46%;
-      word-break: break-word;
-      padding-left: 8px;
-    }
-
-    .runner-up-project.unavailable {
-      color: #94A3B8;
-      font-style: italic;
+      flex: 1;
+      min-width: 0;
     }
 
     /* Laptop (1024px – 1199px) */
@@ -357,10 +280,10 @@
         padding: 22px 18px;
       }
       .runner-ups-grid {
-        gap: 12px;
+        gap: 10px;
       }
       .runner-up-card {
-        padding: 14px 16px;
+        padding: 12px 16px;
       }
     }
 
@@ -381,11 +304,11 @@
     @media (max-width: 860px) {
       .winners-podium {
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: 14px;
       }
       .runner-ups-grid {
         grid-template-columns: 1fr;
-        gap: 10px;
+        gap: 8px;
       }
     }
 
@@ -432,44 +355,20 @@
         word-break: break-word;
       }
       .podium-card {
-        padding: 20px 16px;
+        padding: 18px 16px;
       }
       .podium-top {
-        margin-bottom: 16px;
-        padding-bottom: 12px;
-      }
-      .podium-email {
-        margin-bottom: 18px;
+        margin-bottom: 14px;
+        padding-bottom: 10px;
       }
       .runner-up-card {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-        padding: 14px 16px;
-      }
-      .runner-up-left {
-        width: 100%;
-        align-items: flex-start;
+        padding: 12px 14px;
         gap: 12px;
-      }
-      .runner-up-rank {
-        margin-top: 2px;
       }
       .runner-up-name {
         white-space: normal;
         word-break: break-word;
-      }
-      .runner-up-email {
-        white-space: normal;
-        word-break: break-word;
-        overflow-wrap: anywhere;
-      }
-      .runner-up-project {
-        text-align: left;
-        max-width: 100%;
-        padding-left: 38px;
-        font-size: 0.8rem;
-        word-break: break-word;
+        font-size: 0.9rem;
       }
     }
 
@@ -479,10 +378,7 @@
         flex: 1 1 100%;
       }
       .runner-up-card {
-        padding: 12px 14px;
-      }
-      .runner-up-project {
-        padding-left: 36px;
+        padding: 10px 12px;
       }
     }
   </style>
@@ -575,7 +471,7 @@
         <div class="section-eyebrow">FINAL RESULTS</div>
         <h2 class="results-heading">TOP 3 WINNERS</h2>
 
-                <div class="winners-podium">
+                        <div class="winners-podium">
           <!-- Rank 1: First Place -->
           <article class="podium-card first-place">
             <div class="podium-top">
@@ -583,11 +479,6 @@
               <span class="podium-standing">FIRST PLACE</span>
             </div>
             <h3 class="podium-name">Prateek Singh</h3>
-            <p class="podium-email">psp130707@gmail.com</p>
-            <div class="podium-project-wrap">
-              <div class="podium-project-label">PROJECT NAME</div>
-              <div class="podium-project-name">Disaster Management System</div>
-            </div>
           </article>
 
           <!-- Rank 2: Second Place -->
@@ -597,11 +488,6 @@
               <span class="podium-standing">SECOND PLACE</span>
             </div>
             <h3 class="podium-name">Akash Kumar</h3>
-            <p class="podium-email">akashck904@gmail.com</p>
-            <div class="podium-project-wrap">
-              <div class="podium-project-label">PROJECT NAME</div>
-              <div class="podium-project-name">Sentinel</div>
-            </div>
           </article>
 
           <!-- Rank 3: Third Place -->
@@ -611,11 +497,6 @@
               <span class="podium-standing">THIRD PLACE</span>
             </div>
             <h3 class="podium-name">Jay Jadhao</h3>
-            <p class="podium-email">jayyjadhao@gmail.com</p>
-            <div class="podium-project-wrap">
-              <div class="podium-project-label">PROJECT NAME</div>
-              <div class="podium-project-name">PatchPilot</div>
-            </div>
           </article>
         </div>
       </section>
@@ -625,185 +506,95 @@
         <div class="section-eyebrow">FINAL RESULTS</div>
         <h2 class="results-heading">RUNNER-UPS</h2>
 
-                <div class="runner-ups-grid">
+                        <div class="runner-ups-grid">
           <!-- Rank 4 -->
           <div class="runner-up-card">
-            <div class="runner-up-left">
-              <span class="runner-up-rank">04</span>
-              <div class="runner-up-info">
-                <div class="runner-up-name">Pravnitu Shirsath</div>
-                <div class="runner-up-email">pravnitus@gmail.com</div>
-              </div>
-            </div>
-            <div class="runner-up-project">Satyam AI</div>
+            <span class="runner-up-rank">04</span>
+            <span class="runner-up-name">Pravnitu Shirsath</span>
           </div>
 
           <!-- Rank 5 -->
           <div class="runner-up-card">
-            <div class="runner-up-left">
-              <span class="runner-up-rank">05</span>
-              <div class="runner-up-info">
-                <div class="runner-up-name">Hiba Thafer</div>
-                <div class="runner-up-email">shammaryhiba@gmail.com</div>
-              </div>
-            </div>
-            <div class="runner-up-project">Scam Detection Field</div>
+            <span class="runner-up-rank">05</span>
+            <span class="runner-up-name">Hiba Thafer</span>
           </div>
 
           <!-- Rank 6 -->
           <div class="runner-up-card">
-            <div class="runner-up-left">
-              <span class="runner-up-rank">06</span>
-              <div class="runner-up-info">
-                <div class="runner-up-name">Jahnvi Dwivedi</div>
-                <div class="runner-up-email">iamjahnvidwivedi@gmail.com</div>
-              </div>
-            </div>
-            <div class="runner-up-project">NextStep</div>
+            <span class="runner-up-rank">06</span>
+            <span class="runner-up-name">Jahnvi Dwivedi</span>
           </div>
 
           <!-- Rank 7 -->
           <div class="runner-up-card">
-            <div class="runner-up-left">
-              <span class="runner-up-rank">07</span>
-              <div class="runner-up-info">
-                <div class="runner-up-name">Poorvi S Gowda</div>
-                <div class="runner-up-email">poorvisgowda144@gmail.com</div>
-              </div>
-            </div>
-            <div class="runner-up-project">AI-StudyMate</div>
+            <span class="runner-up-rank">07</span>
+            <span class="runner-up-name">Poorvi S Gowda</span>
           </div>
 
           <!-- Rank 8 -->
           <div class="runner-up-card">
-            <div class="runner-up-left">
-              <span class="runner-up-rank">08</span>
-              <div class="runner-up-info">
-                <div class="runner-up-name">Ajay Sharma</div>
-                <div class="runner-up-email">ajay.sharmaofficials09@gmail.com</div>
-              </div>
-            </div>
-            <div class="runner-up-project">NetFlow</div>
+            <span class="runner-up-rank">08</span>
+            <span class="runner-up-name">Ajay Sharma</span>
           </div>
 
           <!-- Rank 9 -->
           <div class="runner-up-card">
-            <div class="runner-up-left">
-              <span class="runner-up-rank">09</span>
-              <div class="runner-up-info">
-                <div class="runner-up-name">Rohan Kumar Rout</div>
-                <div class="runner-up-email">rohanrout648@gmail.com</div>
-              </div>
-            </div>
-            <div class="runner-up-project">AI Desktop</div>
+            <span class="runner-up-rank">09</span>
+            <span class="runner-up-name">Rohan Kumar Rout</span>
           </div>
 
           <!-- Rank 10 -->
           <div class="runner-up-card">
-            <div class="runner-up-left">
-              <span class="runner-up-rank">10</span>
-              <div class="runner-up-info">
-                <div class="runner-up-name">Swati Jain</div>
-                <div class="runner-up-email">swatijain200701@gmail.com</div>
-              </div>
-            </div>
-            <div class="runner-up-project">MediKiosk</div>
+            <span class="runner-up-rank">10</span>
+            <span class="runner-up-name">Swati Jain</span>
           </div>
 
           <!-- Rank 11 -->
           <div class="runner-up-card">
-            <div class="runner-up-left">
-              <span class="runner-up-rank">11</span>
-              <div class="runner-up-info">
-                <div class="runner-up-name">Anshuman Bahekar</div>
-                <div class="runner-up-email">codewithanshuman@gmail.com</div>
-              </div>
-            </div>
-            <div class="runner-up-project">Grounded</div>
+            <span class="runner-up-rank">11</span>
+            <span class="runner-up-name">Anshuman Bahekar</span>
           </div>
 
           <!-- Rank 12 -->
           <div class="runner-up-card">
-            <div class="runner-up-left">
-              <span class="runner-up-rank">12</span>
-              <div class="runner-up-info">
-                <div class="runner-up-name">Shrutika Patil</div>
-                <div class="runner-up-email">patilshrutika1803@gmail.com</div>
-              </div>
-            </div>
-            <div class="runner-up-project">AI Trip Weaver (PACK &amp; GO)</div>
+            <span class="runner-up-rank">12</span>
+            <span class="runner-up-name">Shrutika Patil</span>
           </div>
 
           <!-- Rank 13 -->
           <div class="runner-up-card">
-            <div class="runner-up-left">
-              <span class="runner-up-rank">13</span>
-              <div class="runner-up-info">
-                <div class="runner-up-name">Rupesh Kumar Kesarwani</div>
-                <div class="runner-up-email">rupeshkesarwani8@gmail.com</div>
-              </div>
-            </div>
-            <div class="runner-up-project">DoubtDost</div>
+            <span class="runner-up-rank">13</span>
+            <span class="runner-up-name">Rupesh Kumar Kesarwani</span>
           </div>
 
           <!-- Rank 14 -->
           <div class="runner-up-card">
-            <div class="runner-up-left">
-              <span class="runner-up-rank">14</span>
-              <div class="runner-up-info">
-                <div class="runner-up-name">Vikash Kasaudhan</div>
-                <div class="runner-up-email">vikashkasaudhan95@gmail.com</div>
-              </div>
-            </div>
-            <div class="runner-up-project">RoadAI</div>
+            <span class="runner-up-rank">14</span>
+            <span class="runner-up-name">Vikash Kasaudhan</span>
           </div>
 
           <!-- Rank 15 -->
           <div class="runner-up-card">
-            <div class="runner-up-left">
-              <span class="runner-up-rank">15</span>
-              <div class="runner-up-info">
-                <div class="runner-up-name">Anshika Sharma</div>
-                <div class="runner-up-email">anshikasharmag133@gmail.com</div>
-              </div>
-            </div>
-            <div class="runner-up-project">CognifyX</div>
+            <span class="runner-up-rank">15</span>
+            <span class="runner-up-name">Anshika Sharma</span>
           </div>
 
           <!-- Rank 16 -->
           <div class="runner-up-card">
-            <div class="runner-up-left">
-              <span class="runner-up-rank">16</span>
-              <div class="runner-up-info">
-                <div class="runner-up-name">MOHAMMED SAADUDDIN</div>
-                <div class="runner-up-email">reach.saad@outlook.com</div>
-              </div>
-            </div>
-            <div class="runner-up-project">GhostSlate</div>
+            <span class="runner-up-rank">16</span>
+            <span class="runner-up-name">MOHAMMED SAADUDDIN</span>
           </div>
 
           <!-- Rank 17 -->
           <div class="runner-up-card">
-            <div class="runner-up-left">
-              <span class="runner-up-rank">17</span>
-              <div class="runner-up-info">
-                <div class="runner-up-name">Shantanu Patil</div>
-                <div class="runner-up-email">shantanu.patil2806@gmail.com</div>
-              </div>
-            </div>
-            <div class="runner-up-project unavailable">Project name unavailable</div>
+            <span class="runner-up-rank">17</span>
+            <span class="runner-up-name">Shantanu Patil</span>
           </div>
 
           <!-- Rank 18 -->
           <div class="runner-up-card">
-            <div class="runner-up-left">
-              <span class="runner-up-rank">18</span>
-              <div class="runner-up-info">
-                <div class="runner-up-name">Suyash Shukla</div>
-                <div class="runner-up-email">suyash.shukla911@gmail.com</div>
-              </div>
-            </div>
-            <div class="runner-up-project">India Candle AI</div>
+            <span class="runner-up-rank">18</span>
+            <span class="runner-up-name">Suyash Shukla</span>
           </div>
         </div>
       </section>
